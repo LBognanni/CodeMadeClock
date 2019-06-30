@@ -13,13 +13,13 @@ namespace CodeMade.ScriptedGraphics
 
         protected override void BeforeTransform(Graphics g)
         {
-            var previousSmoothingMode = g.SmoothingMode;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
-
-            using (var brush = new SolidBrush(backgroundColor.ToColor()))
-                g.FillRectangle(brush, g.ClipBounds);
-
-            g.SmoothingMode = previousSmoothingMode;
+            using (var smoothing = new SmoothingOption(g, System.Drawing.Drawing2D.SmoothingMode.Default))
+            {
+                using (var brush = new SolidBrush(backgroundColor.ToColor()))
+                {
+                    g.FillRectangle(brush, g.ClipBounds);
+                }
+            }
         }
     }
 }

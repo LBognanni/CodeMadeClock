@@ -25,13 +25,13 @@ namespace CodeMade.ScriptedGraphics
 
         public void Render(Graphics g)
         {
-            var previousSmoothingMode = g.SmoothingMode;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
-
-            using (var brush = new SolidBrush(Color.ToColor()))
-                g.FillRectangle(brush, Left, Top, Width, Height);
-
-            g.SmoothingMode = previousSmoothingMode;
+            using (var smoothing = new SmoothingOption(g, System.Drawing.Drawing2D.SmoothingMode.Default))
+            {
+                using (var brush = new SolidBrush(Color.ToColor()))
+                {
+                    g.FillRectangle(brush, Left, Top, Width, Height);
+                }
+            }
         }
     }
 }
