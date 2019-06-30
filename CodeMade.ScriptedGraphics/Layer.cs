@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace CodeMade.ScriptedGraphics
@@ -43,7 +42,7 @@ namespace CodeMade.ScriptedGraphics
         protected virtual void ApplyTransform(Graphics g)
         {
             g.TranslateTransform(Offset.X, Offset.Y);
-            g.RotateTransform(TransformRotate);
+            g.RotateTransform(TransformRotate, System.Drawing.Drawing2D.MatrixOrder.Prepend);
         }
 
         protected virtual void BeforeTransform(Graphics g)
