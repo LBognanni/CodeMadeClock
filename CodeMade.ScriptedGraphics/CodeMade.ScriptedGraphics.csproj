@@ -55,6 +55,8 @@
     <Compile Include="Shape.cs" />
     <Compile Include="SmoothingOption.cs" />
     <Compile Include="SolidLayer.cs" />
+    <Compile Include="TextRenderingOption.cs" />
+    <Compile Include="TextShape.cs" />
     <Compile Include="Vertex.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

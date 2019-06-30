@@ -1,4 +1,7 @@
-﻿namespace CodeMade.ScriptedGraphics
+﻿using System;
+using System.Drawing;
+
+namespace CodeMade.ScriptedGraphics
 {
     public class Vertex
     {
@@ -14,5 +17,10 @@
 
         public float X { get; set; }
         public float Y { get; set; }
+
+        internal PointF AsPointF()
+        {
+            return new PointF(X, Y);
+        }
     }
 }
