@@ -13,7 +13,8 @@ namespace CodeMade.ScriptedGraphics
 
         protected override void BeforeTransform(Graphics g)
         {
-            base.BeforeTransform(g);
+            using (var brush = new SolidBrush(backgroundColor.ToColor()))
+                g.FillRectangle(brush, g.ClipBounds);
         }
     }
 }

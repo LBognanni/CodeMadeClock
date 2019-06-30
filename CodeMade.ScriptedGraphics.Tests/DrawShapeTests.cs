@@ -1,13 +1,14 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CodeMade.ScriptedGraphics.Tests
 {
-    class DrawShapeTests
+    class DrawShapeTests : BitmapTesterBase
     {
         protected IEnumerable<Vertex> VertexArrayFromString(string path)
         {
@@ -58,14 +59,13 @@ namespace CodeMade.ScriptedGraphics.Tests
         [Test]
         public void when_drawing_a_rectangle()
         {
-            var shape = new Shape
-            {
-                Vertices = VertexArrayFromString("0,0 10,0, 10,10, 0,10"),
-                Color = "#000"
-            };
+            var shape = new RectangleShape(0, 0, 10, 10, "#000");
 
             var canvas = new Canvas(10, 10, "#fff");
             canvas.Add(shape);
+
+            var img = canvas.Render();
+            Assert.IsTrue(AreBitmapsEqual(LoadLocalBitmap("testimages/black10x10.png"), (Bitmap)img));
         }
     }
 }
