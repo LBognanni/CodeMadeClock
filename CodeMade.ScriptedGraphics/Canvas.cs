@@ -10,13 +10,13 @@ namespace CodeMade.ScriptedGraphics
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public List<LayerBase> Layers { get; set; }
+        public List<Layer> Layers { get; set; }
 
         public Canvas(int width, int height, string backgroundColor)
         {
             Width = width;
             Height = height;
-            Layers = new List<LayerBase>(new LayerBase[] { new SolidLayer(backgroundColor) });
+            Layers = new List<Layer>(new Layer[] { new SolidLayer(backgroundColor) });
         }
 
         public Image Render()

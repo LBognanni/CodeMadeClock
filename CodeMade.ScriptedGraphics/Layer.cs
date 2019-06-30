@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace CodeMade.ScriptedGraphics
 {
-    public abstract class Layer : IShape
+    public class Layer : IShape
     {
         public List<IShape> Shapes { get; }
 

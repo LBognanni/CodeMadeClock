@@ -2,7 +2,7 @@
 
 namespace CodeMade.ScriptedGraphics
 {
-    public class SolidLayer : LayerBase
+    public class SolidLayer : Layer
     {
         private string backgroundColor;
         
@@ -17,7 +17,7 @@ namespace CodeMade.ScriptedGraphics
             {
                 using (var brush = new SolidBrush(backgroundColor.ToColor()))
                 {
-                    g.FillRectangle(brush, g.ClipBounds);
+                    g.FillRectangle(brush, g.VisibleClipBounds);
                 }
             }
         }
