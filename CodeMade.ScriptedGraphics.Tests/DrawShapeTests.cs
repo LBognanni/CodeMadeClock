@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,7 +66,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(shape);
 
             var img = canvas.Render();
-            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/black10x10.png"), (Bitmap)img);
+            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/black10x10.png"), img);
         }
 
         [Test]
@@ -77,7 +78,33 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(shape);
 
             var img = canvas.Render();
-            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/blackcircle.png"), (Bitmap)img);
+            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/blackcircle.png"), img);
+        }
+
+        class PixelPerfectLayer : Layer
+        {
+            protected override void BeforeRenderShapes(Graphics g)
+            {
+                g.SmoothingMode = SmoothingMode.Default;
+            }
+        }
+
+        [Test]
+        public void when_drawing_A_shape()
+        {
+            Canvas canvas = new Canvas(100, 100, "white");
+            canvas.Layers.Add(new PixelPerfectLayer());
+
+            canvas.Add(new Shape
+            {
+                Color = "#000",
+                Vertices = VertexArrayFromString("0,0 10,0, 10,10, 0,10")
+            });
+
+            Canvas controlCanvas = new Canvas(100, 100, "white");
+            controlCanvas.Add(new RectangleShape(0, 0, 10, 10, "#000"));
+
+            AssertBitmapsAreEqual(controlCanvas.Render(), canvas.Render());
         }
     }
 }

@@ -17,7 +17,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Layers.Add(new GaussianBlurLayer(5));
             canvas.Add(new RectangleShape(20, 20, 60, 60, "#000"));
             var img = canvas.Render();
-            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rectblur.png"), (Bitmap)img);
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rectblur.png"), img);
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(new RectangleShape(50, 50, 50, 50, "blue"));
 
             var img = canvas.Render();
-            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rectblur_layers.png"), (Bitmap)img);
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rectblur_layers.png"), img);
         }
 
     }

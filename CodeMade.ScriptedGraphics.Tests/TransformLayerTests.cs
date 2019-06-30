@@ -14,7 +14,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Layers.Last().TransformRotate = 45;
             canvas.Layers.Last().Offset = new Vertex(50, 50);
 
-            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rotate45deg.png"), (Bitmap)canvas.Render());
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rotate45deg.png"), canvas.Render());
         }
     }
 }

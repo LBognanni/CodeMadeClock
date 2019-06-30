@@ -19,7 +19,7 @@ namespace CodeMade.ScriptedGraphics
             Layers = new List<Layer>(new Layer[] { new SolidLayer(backgroundColor) });
         }
 
-        public Image Render()
+        public Bitmap Render()
         {
             Bitmap bmp = new Bitmap(Width, Height);
             using (var g = Graphics.FromImage(bmp))
