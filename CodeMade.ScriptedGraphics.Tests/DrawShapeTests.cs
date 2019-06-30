@@ -65,7 +65,19 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(shape);
 
             var img = canvas.Render();
-            Assert.IsTrue(AreBitmapsEqual(LoadLocalBitmap("testimages/black10x10.png"), (Bitmap)img));
+            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/black10x10.png"), (Bitmap)img);
+        }
+
+        [Test]
+        public void when_drawing_a_circle()
+        {
+            var shape = new CircleShape(99.5f, 99.5f, 99.5f, "#000");
+
+            var canvas = new Canvas(200, 200, "#fff");
+            canvas.Add(shape);
+
+            var img = canvas.Render();
+            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/blackcircle.png"), (Bitmap)img);
         }
     }
 }

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Canvas.cs" />
+    <Compile Include="CircleShape.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="ILayer.cs" />

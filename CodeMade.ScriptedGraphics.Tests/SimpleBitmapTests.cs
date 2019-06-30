@@ -9,7 +9,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             var bmp1 = LoadLocalBitmap(@"testimages\colors.png");
             var bmp2 = LoadLocalBitmap(@"testimages\colors.png");
-            Assert.IsTrue(AreBitmapsEqual(bmp1, bmp2));
+            AssertBitmapsAreEqual(bmp1, bmp2);
         }
 
         [Test]
@@ -17,7 +17,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             var bmp1 = LoadLocalBitmap(@"testimages\colors.png");
             var bmp2 = LoadLocalBitmap(@"testimages\random.png");
-            Assert.IsFalse(AreBitmapsEqual(bmp1, bmp2));
+            AssertBitmapsAreNotEqual(bmp1, bmp2);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             var bmp1 = LoadLocalBitmap(@"testimages\colors.png");
             var bmp2 = LoadLocalBitmap(@"testimages\colors_inv.png");
-            Assert.IsFalse(AreBitmapsEqual(bmp1, bmp2));
+            AssertBitmapsAreNotEqual(bmp1, bmp2);
         }
     }
 }

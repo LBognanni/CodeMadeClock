@@ -9,6 +9,18 @@ namespace CodeMade.ScriptedGraphics
 {
     public class CircleShape : IShape
     {
+        public CircleShape()
+        {
+        }
+
+        public CircleShape(float x, float y, float radius, string color)
+        {
+            X = x;
+            Y = y;
+            Radius = radius;
+            Color = color;
+        }
+
         public float X { get; set; }
         public float Y { get; set; }
         public float Radius { get; set; }

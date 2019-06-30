@@ -24,6 +24,7 @@ namespace CodeMade.ScriptedGraphics
             Bitmap bmp = new Bitmap(Width, Height);
             using (var g = Graphics.FromImage(bmp))
             {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                 foreach(var layer in Layers)
                 {
                     layer.Render(g);
