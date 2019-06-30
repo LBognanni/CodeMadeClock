@@ -4,14 +4,14 @@ using System.Drawing;
 
 namespace CodeMade.ScriptedGraphics
 {
-    public abstract class LayerBase : IShape
+    public abstract class Layer : IShape
     {
         public List<IShape> Shapes { get; }
 
         public float TransformRotate { get; set; }
         public Vertex Offset { get; set; }
 
-        public LayerBase()
+        public Layer()
         {
             Shapes = new List<IShape>();
             TransformRotate = 0;
