@@ -25,7 +25,8 @@ namespace CodeMade.ScriptedGraphics
         {
             using (var brush = new SolidBrush(Color.ToColor()))
             {
-                g.FillEllipse(brush, X - Radius, Y - Radius, X + Radius, Y + Radius);
+                var diameter = Radius * 2;
+                g.FillEllipse(brush, X - Radius, Y - Radius, diameter, diameter);
             }
         }
     }
