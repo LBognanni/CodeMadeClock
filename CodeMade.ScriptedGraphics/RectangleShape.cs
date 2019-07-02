@@ -2,7 +2,7 @@
 
 namespace CodeMade.ScriptedGraphics
 {
-    internal class RectangleShape : IShape
+    public class RectangleShape : IShape
     {
         public int Left { get; set; }
         public int Top { get; set; }

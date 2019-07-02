@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Drawing;
 using System.Linq;
 
 namespace CodeMade.ScriptedGraphics.Tests
@@ -13,6 +12,9 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(new RectangleShape(-25, -25, 50, 50, "#000"));
             canvas.Layers.Last().TransformRotate = 45;
             canvas.Layers.Last().Offset = new Vertex(50, 50);
+
+            canvas.Layers.Add(new Layer());
+            canvas.Add(new RectangleShape(25, 25, 50, 50, "red"));
 
             AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rotate45deg.png"), canvas.Render());
         }
