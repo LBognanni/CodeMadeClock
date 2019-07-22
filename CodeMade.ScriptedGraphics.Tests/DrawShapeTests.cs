@@ -90,6 +90,14 @@ namespace CodeMade.ScriptedGraphics.Tests
         [Test]
         public void when_drawing_A_shape()
         {
+            Bitmap bitmapShape = When_Drawing_A_Shape_Render_A_Rectangle_Shape();
+            Bitmap bitmapRectangle = When_Drawing_A_Shape_Render_A_Rectangle();
+
+            AssertBitmapsAreEqual(bitmapRectangle, bitmapShape);
+        }
+
+        private Bitmap When_Drawing_A_Shape_Render_A_Rectangle_Shape()
+        {
             Canvas canvas = new Canvas(100, 100, "white");
             canvas.Layers.Add(new PixelPerfectLayer());
 
@@ -98,11 +106,16 @@ namespace CodeMade.ScriptedGraphics.Tests
                 Color = "#000",
                 Vertices = VertexArrayFromString("0,0 10,0, 10,10, 0,10")
             });
+            var bitmapShape = canvas.Render();
+            return bitmapShape;
+        }
 
+        private static Bitmap When_Drawing_A_Shape_Render_A_Rectangle()
+        {
             Canvas controlCanvas = new Canvas(100, 100, "white");
             controlCanvas.Add(new RectangleShape(0, 0, 10, 10, "#000"));
-
-            AssertBitmapsAreEqual(controlCanvas.Render(), canvas.Render());
+            var bitmapRectangle = controlCanvas.Render();
+            return bitmapRectangle;
         }
     }
 }
