@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -27,7 +30,7 @@ namespace CodeMade.ScriptedGraphics
             using (var g = Graphics.FromImage(bmp))
             {
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                foreach(var layer in Layers)
+                foreach (var layer in Layers)
                 {
                     layer.Render(g, scaleFactor);
                 }
@@ -38,6 +41,44 @@ namespace CodeMade.ScriptedGraphics
         public void Add(IShape shape)
         {
             Layers.Last().Shapes.Add(shape);
+        }
+
+        public static Canvas Load(string fileName)
+        {
+            return JsonConvert.DeserializeObject<Canvas>(File.ReadAllText(fileName), GetSerializerSettings());
+        }
+
+        public void Save(string fileName)
+        {
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+            File.WriteAllText(fileName, json);
+        }
+
+        private static JsonSerializerSettings GetSerializerSettings()
+        {
+            return new JsonSerializerSettings
+            {
+
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = new KnownTypesBinder()
+            };
+        }
+
+        class KnownTypesBinder : Newtonsoft.Json.Serialization.ISerializationBinder
+        {
+            private static Type[] _types = typeof(Canvas).Assembly.GetTypes();
+
+            public Type BindToType(string assemblyName, string typeName)
+            {
+                return _types.SingleOrDefault(t => t.Name == typeName);
+            }
+
+            public void BindToName(Type serializedType, out string assemblyName, out string typeName)
+            {
+                assemblyName = null;
+                typeName = serializedType.Name;
+            }
         }
     }
 }

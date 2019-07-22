@@ -55,6 +55,7 @@
     <Compile Include="DrawShapeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScaleFactorTests.cs" />
+    <Compile Include="SerializationTests.cs" />
     <Compile Include="ShapeTest.cs" />
     <Compile Include="SimpleBitmapTests.cs" />
     <Compile Include="TextTests.cs" />

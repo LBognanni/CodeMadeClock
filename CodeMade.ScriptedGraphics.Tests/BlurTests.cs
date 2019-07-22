@@ -26,6 +26,7 @@ namespace CodeMade.ScriptedGraphics.Tests
 
             var img = canvas.Render();
             AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rectblur_layers.png"), img);
+
         }
 
     }

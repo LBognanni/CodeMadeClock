@@ -4,18 +4,18 @@ namespace CodeMade.ScriptedGraphics
 {
     public class SolidLayer : Layer
     {
-        private string backgroundColor;
+        public string BackgroundColor { get; set; }
         
         public SolidLayer(string backgroundColor)
         {
-            this.backgroundColor = backgroundColor;
+            this.BackgroundColor = backgroundColor;
         }
 
         protected override void BeforeTransform(Graphics g, float scaleFactor)
         {
             using (var smoothing = new SmoothingOption(g, System.Drawing.Drawing2D.SmoothingMode.Default))
             {
-                using (var brush = new SolidBrush(backgroundColor.ToColor()))
+                using (var brush = new SolidBrush(BackgroundColor.ToColor()))
                 {
                     g.FillRectangle(brush, g.VisibleClipBounds);
                 }

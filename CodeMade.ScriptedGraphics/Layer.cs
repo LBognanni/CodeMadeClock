@@ -10,6 +10,16 @@ namespace CodeMade.ScriptedGraphics
         public float TransformRotate { get; set; }
         public Vertex Offset { get; set; }
 
+        public bool ShouldSerializeTransformRotate()
+        {
+            return TransformRotate != 0;
+        }
+
+        public bool ShouldSerializeOffset()
+        {
+            return Offset.X != 0 || Offset.Y != 0;
+        }
+
         public Layer()
         {
             Shapes = new List<IShape>();

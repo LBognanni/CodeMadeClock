@@ -1,0 +1,57 @@
+{
+  "Width": 100,
+  "Height": 100,
+  "Layers": [
+    {
+      "$type": "SolidLayer",
+      "BackgroundColor": "#fff",
+      "Shapes": [
+        {
+          "$type": "RectangleShape",
+          "Left": 0,
+          "Top": 0,
+          "Width": 50,
+          "Height": 50,
+          "Color": "red"
+        }
+      ]
+    },
+    {
+      "$type": "GaussianBlurLayer",
+      "BlurRadius": 5.0,
+      "Shapes": [
+        {
+          "$type": "RectangleShape",
+          "Left": 20,
+          "Top": 20,
+          "Width": 60,
+          "Height": 60,
+          "Color": "#000"
+        }
+      ]
+    },
+    {
+      "Shapes": [
+        {
+          "$type": "RectangleShape",
+          "Left": 50,
+          "Top": 50,
+          "Width": 50,
+          "Height": 50,
+          "Color": "blue"
+        },
+        {
+          "$type": "TextShape",
+          "Text": "Testing 123",
+          "FontName": "Tahoma",
+          "FontSizePx": 10,
+          "Position": {
+            "X": 10.0,
+            "Y": 50.0
+          },
+          "Color": "#080"
+        }
+      ]
+    }
+  ]
+}
