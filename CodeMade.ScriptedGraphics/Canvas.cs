@@ -18,15 +18,18 @@ namespace CodeMade.ScriptedGraphics
             Layers = new List<Layer>(new Layer[] { new SolidLayer(backgroundColor) });
         }
 
-        public Bitmap Render()
+        public Bitmap Render(float scaleFactor = 1)
         {
-            Bitmap bmp = new Bitmap(Width, Height);
+            int scaleWidth = (int)((float)Width * scaleFactor);
+            int scaleHeight = (int)((float)Height * scaleFactor);
+
+            Bitmap bmp = new Bitmap(scaleWidth, scaleHeight);
             using (var g = Graphics.FromImage(bmp))
             {
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                 foreach(var layer in Layers)
                 {
-                    layer.Render(g);
+                    layer.Render(g, scaleFactor);
                 }
             }
             return bmp;

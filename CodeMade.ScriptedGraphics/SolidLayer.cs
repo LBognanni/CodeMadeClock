@@ -11,7 +11,7 @@ namespace CodeMade.ScriptedGraphics
             this.backgroundColor = backgroundColor;
         }
 
-        protected override void BeforeTransform(Graphics g)
+        protected override void BeforeTransform(Graphics g, float scaleFactor)
         {
             using (var smoothing = new SmoothingOption(g, System.Drawing.Drawing2D.SmoothingMode.Default))
             {

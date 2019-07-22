@@ -23,13 +23,13 @@ namespace CodeMade.ScriptedGraphics
             Color = color;
         }
 
-        public void Render(Graphics g)
+        public void Render(Graphics g, float scaleFactor)
         {
             using (var smoothing = new SmoothingOption(g, System.Drawing.Drawing2D.SmoothingMode.Default))
             {
                 using (var brush = new SolidBrush(Color.ToColor()))
                 {
-                    g.FillRectangle(brush, Left, Top, Width, Height);
+                    g.FillRectangle(brush, Left * scaleFactor, Top * scaleFactor, Width * scaleFactor, Height * scaleFactor);
                 }
             }
         }

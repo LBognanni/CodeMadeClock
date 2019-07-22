@@ -17,56 +17,56 @@ namespace CodeMade.ScriptedGraphics
             Offset = new Vertex(0, 0);
         }
 
-        public virtual void Render(Graphics g)
+        public virtual void Render(Graphics g, float scaleFactor = 1)
         {
-            BeforeTransform(g);
+            BeforeTransform(g, scaleFactor);
 
-            ApplyTransform(g);
+            ApplyTransform(g, scaleFactor);
 
-            BeforeRenderShapes(g);
+            BeforeRenderShapes(g, scaleFactor);
 
-            RenderShapes(g);
+            RenderShapes(g, scaleFactor);
 
-            AfterRenderShapes(g);
+            AfterRenderShapes(g, scaleFactor);
 
-            ResetTransform(g);
+            ResetTransform(g, scaleFactor);
 
-            AfterResetTransform(g);
+            AfterResetTransform(g, scaleFactor);
         }
 
-        protected virtual void ResetTransform(Graphics g)
+        protected virtual void ResetTransform(Graphics g, float scaleFactor)
         {
             g.ResetTransform();
         }
 
-        protected virtual void ApplyTransform(Graphics g)
+        protected virtual void ApplyTransform(Graphics g, float scaleFactor)
         {
             g.TranslateTransform(Offset.X, Offset.Y);
             g.RotateTransform(TransformRotate, System.Drawing.Drawing2D.MatrixOrder.Prepend);
         }
 
-        protected virtual void BeforeTransform(Graphics g)
+        protected virtual void BeforeTransform(Graphics g, float scaleFactor)
         {
 
         }
 
-        protected virtual void AfterRenderShapes(Graphics g)
+        protected virtual void AfterRenderShapes(Graphics g, float scaleFactor)
         {
         }
 
-        protected virtual void RenderShapes(Graphics g)
+        protected virtual void RenderShapes(Graphics g, float scaleFactor)
         {
             foreach(var shape in Shapes)
             {
-                shape.Render(g);
+                shape.Render(g, scaleFactor);
             }
         }
 
-        protected virtual void BeforeRenderShapes(Graphics g)
+        protected virtual void BeforeRenderShapes(Graphics g, float scaleFactor)
         {
         }
 
-        protected virtual void AfterResetTransform(Graphics g)
+        protected virtual void AfterResetTransform(Graphics g, float scaleFactor)
         {
 
         }

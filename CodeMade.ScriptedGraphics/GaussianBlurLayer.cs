@@ -15,13 +15,13 @@ namespace CodeMade.ScriptedGraphics
             BlurRadius = blurRadius;
         }
 
-        public override void Render(Graphics globalGraphics)
+        public override void Render(Graphics globalGraphics, float scaleFactor)
         {
             var img = new Bitmap((int)globalGraphics.VisibleClipBounds.Width, (int)globalGraphics.VisibleClipBounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
             using (var g = Graphics.FromImage(img))
             {
-                RenderShapes(g);
+                RenderShapes(g, scaleFactor);
             }
             SuperfastBlur.GaussianBlur blur = new SuperfastBlur.GaussianBlur(img);
             globalGraphics.DrawImage(blur.Process((int)BlurRadius), new PointF(0, 0));

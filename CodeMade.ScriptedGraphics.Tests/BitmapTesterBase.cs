@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace CodeMade.ScriptedGraphics.Tests
 {
@@ -56,7 +58,32 @@ namespace CodeMade.ScriptedGraphics.Tests
 
         protected Bitmap LoadLocalBitmap(string fileName)
         {
-            return Image.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../", fileName)) as Bitmap;
+            return Image.FromFile(TestPath(fileName)) as Bitmap;
+        }
+
+        protected static string TestPath(string fileName)
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../", fileName);
+        }
+
+        protected IEnumerable<Vertex> VertexArrayFromString(string path)
+        {
+            const string dividers = ", ";
+            var numbers = path.Split(dividers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            Vertex v = null;
+            for (int i = 0; i < numbers.Length; ++i)
+            {
+                if (i % 2 == 0)
+                {
+                    v = new Vertex() { X = float.Parse(numbers[i]) };
+                }
+                else
+                {
+                    v.Y = float.Parse(numbers[i]);
+                    yield return v;
+                }
+            }
         }
     }
 }

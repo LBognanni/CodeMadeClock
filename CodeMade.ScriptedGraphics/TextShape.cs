@@ -19,12 +19,12 @@ namespace CodeMade.ScriptedGraphics
             Color = color;
         }
 
-        public void Render(Graphics g)
+        public void Render(Graphics g, float scaleFactor)
         {
             using(var textOption = new TextRenderingOption(g, System.Drawing.Text.TextRenderingHint.AntiAlias))
-            using (var font = new Font(FontName, FontSizePx, GraphicsUnit.Pixel))
+            using (var font = new Font(FontName, FontSizePx * scaleFactor, GraphicsUnit.Pixel))
             using (var brush = new SolidBrush(Color.ToColor()))
-                g.DrawString(Text, font, brush, Position.AsPointF());
+                g.DrawString(Text, font, brush, Position.AsPointF(scaleFactor));
         }
     }
 }

@@ -17,9 +17,9 @@ namespace CodeMade.ScriptedGraphics
         public float X { get; set; }
         public float Y { get; set; }
 
-        internal PointF AsPointF()
+        internal PointF AsPointF(float scaleFactor)
         {
-            return new PointF(X, Y);
+            return new PointF(X * scaleFactor, Y * scaleFactor);
         }
     }
 }

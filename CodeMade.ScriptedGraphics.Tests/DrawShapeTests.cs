@@ -1,6 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -9,25 +7,6 @@ namespace CodeMade.ScriptedGraphics.Tests
 {
     class DrawShapeTests : BitmapTesterBase
     {
-        protected IEnumerable<Vertex> VertexArrayFromString(string path)
-        {
-            const string dividers = ", ";
-            var numbers = path.Split(dividers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
-
-            Vertex v = null;
-            for (int i = 0; i < numbers.Length; ++i)
-            {
-                if (i % 2 == 0)
-                {
-                    v = new Vertex() { X = float.Parse(numbers[i]) };
-                }
-                else
-                {
-                    v.Y = float.Parse(numbers[i]);
-                    yield return v;
-                }
-            }
-        }
 
         [Test]
         public void When_Parsing_Path_Returns_Correct_Points()
@@ -81,7 +60,7 @@ namespace CodeMade.ScriptedGraphics.Tests
 
         class PixelPerfectLayer : Layer
         {
-            protected override void BeforeRenderShapes(Graphics g)
+            protected override void BeforeRenderShapes(Graphics g, float scaleFactor)
             {
                 g.SmoothingMode = SmoothingMode.Default;
             }
