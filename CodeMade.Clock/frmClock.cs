@@ -19,11 +19,24 @@ namespace CodeMade.Clock
 
         protected override void OnLoad(EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.None;
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             base.OnLoad(e);
             UpdateImage();
+        }
+
+        private const int WM_NC_HITTEST = 0x0084;
+        private const int HT_CAPTION = 0x02;
+        protected override void WndProc(ref Message m)
+        {
+            if(m.Msg == WM_NC_HITTEST)
+            {
+                m.Result = new IntPtr(HT_CAPTION);
+                return;
+            }
+            base.WndProc(ref m);
         }
 
         protected override CreateParams CreateParams
