@@ -1,6 +1,6 @@
 ﻿namespace CodeMade.Clock
 {
-    partial class Form1
+    partial class frmClock
     {
         /// <summary>
         /// Required designer variable.
