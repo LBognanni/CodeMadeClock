@@ -21,7 +21,7 @@ namespace CodeMade.ScriptedGraphics
             Layers = new List<Layer>(new Layer[] { new SolidLayer(backgroundColor) });
         }
 
-        public Bitmap Render(float scaleFactor = 1)
+        public virtual Bitmap Render(float scaleFactor = 1)
         {
             int scaleWidth = (int)((float)Width * scaleFactor);
             int scaleHeight = (int)((float)Height * scaleFactor);

@@ -2,7 +2,7 @@
 
 namespace CodeMade.Clock
 {
-    interface ITimer
+    public interface ITimer
     {
         DateTime GetTime();
     }

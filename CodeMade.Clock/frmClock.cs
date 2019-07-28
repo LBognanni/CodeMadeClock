@@ -19,11 +19,21 @@ namespace CodeMade.Clock
 
         protected override void OnLoad(EventArgs e)
         {
-            this.FormBorderStyle = FormBorderStyle.None;
+            this.ControlBox = false;
+            this.FormBorderStyle = FormBorderStyle.None | FormBorderStyle.FixedSingle;
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             base.OnLoad(e);
+            UpdateImage();
+            Timer timer = new Timer();
+            timer.Tick += Timer_Tick;
+            timer.Interval = 100;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
             UpdateImage();
         }
 
@@ -61,30 +71,36 @@ namespace CodeMade.Clock
             UpdateImage();
         }
 
+        int _lastSecond = -1;
         private void UpdateImage()
         {
-            _secondHand.TransformRotate = _timer.GetTime().Second * 6;
-            WinAPI.SetFormBackground(this, _canvas.Render());
+            var second = _timer.GetTime().Second;
+            if (_lastSecond != second)
+            {
+                _lastSecond = second;
+                _secondHand.TransformRotate = second * 6;
+                WinAPI.SetFormBackground(this, _canvas.Render());
+            }
         }
 
         public frmClock()
         {
             InitializeComponent();
             _timer = new ClockTimer();
-            _canvas = new ClockCanvas(_timer, 255, 255, "#FFF0");
+            var canvas = new Canvas(255, 255, "#FFF0");
+            canvas.Layers.Add(new GaussianBlurLayer(4));
+            canvas.Add(new CircleShape(130, 130, 110, "#0008"));
 
-            _canvas.Layers.Add(new GaussianBlurLayer(4));
-            _canvas.Add(new CircleShape(130, 130, 110, "#0008"));
-
-            _canvas.Layers.Add(new Layer());
-            _canvas.Add(new CircleShape(128, 128, 110, "#e0e0e0"));
+            canvas.Layers.Add(new Layer());
+            canvas.Add(new CircleShape(128, 128, 110, "#e0e0e0"));
 
             _secondHand = new Layer();
             _secondHand.Shapes.Add(new RectangleShape(-5, -50, 10, 55, "#000"));
             _secondHand.Offset = new Vertex(128, 128);
 
-            _canvas.Add(_secondHand);
+            canvas.Add(_secondHand);
 
+            _canvas = new ClockCanvas(_timer, canvas);
             this.TopMost = true;
         }
 
