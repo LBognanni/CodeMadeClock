@@ -57,15 +57,6 @@ namespace CodeMade.Clock
             }
         }
 
-
-        class ClockTimer : ITimer
-        {
-            public DateTime GetTime()
-            {
-                return DateTime.Now;
-            }
-        }
-
         protected override void OnClick(EventArgs e)
         {
             UpdateImage();
@@ -78,7 +69,7 @@ namespace CodeMade.Clock
             if (_lastSecond != second)
             {
                 _lastSecond = second;
-                _secondHand.TransformRotate = second * 6;
+                _secondHand.Rotate = second * 6;
                 WinAPI.SetFormBackground(this, _canvas.Render());
             }
         }
@@ -94,13 +85,14 @@ namespace CodeMade.Clock
             canvas.Layers.Add(new Layer());
             canvas.Add(new CircleShape(128, 128, 110, "#e0e0e0"));
 
-            _secondHand = new Layer();
+            _secondHand = new SecondsLayer();
             _secondHand.Shapes.Add(new RectangleShape(-5, -50, 10, 55, "#000"));
             _secondHand.Offset = new Vertex(128, 128);
 
             canvas.Add(_secondHand);
 
             _canvas = new ClockCanvas(_timer, canvas);
+            canvas.Save("test.json");
             this.TopMost = true;
         }
 

@@ -12,11 +12,21 @@ namespace CodeMade.Clock
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string []args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmClock());
+            if (args.Length > 0)
+            {
+                if (System.IO.File.Exists(args[0]))
+                {
+                    Application.Run(new frmPreview(args[0]));
+                }
+            }
+            else
+            {
+                Application.Run(new frmClock());
+            }
         }
     }
 }

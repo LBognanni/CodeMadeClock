@@ -10,7 +10,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             Canvas canvas = new Canvas(100, 100, "white");
             canvas.Add(new RectangleShape(-25, -25, 50, 50, "#000"));
-            canvas.Layers.Last().TransformRotate = 45;
+            canvas.Layers.Last().Rotate = 45;
             canvas.Layers.Last().Offset = new Vertex(50, 50);
 
             canvas.Layers.Add(new Layer());

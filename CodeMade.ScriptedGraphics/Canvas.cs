@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -45,7 +47,30 @@ namespace CodeMade.ScriptedGraphics
 
         public static Canvas Load(string fileName)
         {
-            return JsonConvert.DeserializeObject<Canvas>(File.ReadAllText(fileName), GetSerializerSettings());
+            string json = "";
+            TryAgain<IOException>(() => json = File.ReadAllText(fileName));
+            return JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings());
+        }
+
+        private static void TryAgain<TException>(Func<string> fn) where TException : Exception
+        {
+            for (int nTries = 1; ; ++nTries)
+            {
+                try
+                {
+                    fn();
+                }
+                catch (TException)
+                {
+                    if (nTries < 5)
+                    {
+                        Thread.Sleep(100);
+                        continue;
+                    }
+                    throw;
+                }
+                break;
+            }
         }
 
         public void Save(string fileName)
@@ -65,19 +90,27 @@ namespace CodeMade.ScriptedGraphics
             };
         }
 
-        class KnownTypesBinder : Newtonsoft.Json.Serialization.ISerializationBinder
+        class KnownTypesBinder : ISerializationBinder
         {
             private static Type[] _types = typeof(Canvas).Assembly.GetTypes();
+            private static DefaultSerializationBinder _binder = new DefaultSerializationBinder();
 
             public Type BindToType(string assemblyName, string typeName)
             {
-                return _types.SingleOrDefault(t => t.Name == typeName);
+                return _types.SingleOrDefault(t => t.Name == typeName) ?? _binder.BindToType(assemblyName, typeName);
             }
 
             public void BindToName(Type serializedType, out string assemblyName, out string typeName)
             {
-                assemblyName = null;
-                typeName = serializedType.Name;
+                if (_types.Any(t => t.FullName == serializedType.FullName))
+                {
+                    assemblyName = null;
+                    typeName = serializedType.Name;
+                }
+                else
+                {
+                    _binder.BindToName(serializedType, out assemblyName, out typeName);
+                }
             }
         }
     }

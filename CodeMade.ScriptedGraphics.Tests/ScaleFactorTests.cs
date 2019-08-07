@@ -46,5 +46,18 @@ namespace CodeMade.ScriptedGraphics.Tests
             Assert.AreEqual(150, img.Height);
             AssertBitmapsAreEqual(LoadLocalBitmap("testimages/triangle150x150.png"), img);
         }
+
+        [Test]
+        public void offset_Should_Scale()
+        {
+            Canvas canvas = new Canvas(20, 20, "white");
+            canvas.Layers.Add(new Layer { Offset = new Vertex(10, 10) });
+            canvas.Add(new RectangleShape(0, 0, 10, 10, "black"));
+
+            Canvas reference = new Canvas(200, 200, "white");
+            reference.Add(new RectangleShape(100, 100, 100, 100, "black"));
+
+            AssertBitmapsAreEqual(reference.Render(), canvas.Render(10));
+        }
     }
 }

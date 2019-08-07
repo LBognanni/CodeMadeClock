@@ -7,12 +7,12 @@ namespace CodeMade.ScriptedGraphics
     {
         public List<IShape> Shapes { get; }
 
-        public float TransformRotate { get; set; }
+        public float Rotate { get; set; }
         public Vertex Offset { get; set; }
 
         public bool ShouldSerializeTransformRotate()
         {
-            return TransformRotate != 0;
+            return Rotate != 0;
         }
 
         public bool ShouldSerializeOffset()
@@ -23,7 +23,7 @@ namespace CodeMade.ScriptedGraphics
         public Layer()
         {
             Shapes = new List<IShape>();
-            TransformRotate = 0;
+            Rotate = 0;
             Offset = new Vertex(0, 0);
         }
 
@@ -51,8 +51,8 @@ namespace CodeMade.ScriptedGraphics
 
         protected virtual void ApplyTransform(Graphics g, float scaleFactor)
         {
-            g.TranslateTransform(Offset.X, Offset.Y);
-            g.RotateTransform(TransformRotate, System.Drawing.Drawing2D.MatrixOrder.Prepend);
+            g.TranslateTransform(Offset.X * scaleFactor, Offset.Y * scaleFactor);
+            g.RotateTransform(Rotate, System.Drawing.Drawing2D.MatrixOrder.Prepend);
         }
 
         protected virtual void BeforeTransform(Graphics g, float scaleFactor)
