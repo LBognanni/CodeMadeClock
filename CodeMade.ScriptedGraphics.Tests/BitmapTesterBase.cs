@@ -24,15 +24,29 @@ namespace CodeMade.ScriptedGraphics.Tests
                     var actualPixel = actual.GetPixel(x, y);
                     if (expectedPixel != actualPixel)
                     {
-                        string filename = System.IO.Path.GetTempFileName();
-                        actual.Save(filename, System.Drawing.Imaging.ImageFormat.Bmp);
-                        System.Diagnostics.Process.Start("mspaint.exe", filename);
+                        DisplayDiagnosticImage(expected, actual);
                         Assert.Fail($"Expected pixel at ({x},{y}) to be {expectedPixel.ToHtml()} but was {actualPixel.ToHtml()}");
                         return;
                     }
                 }
             }
         }
+
+        private static void DisplayDiagnosticImage(Bitmap expected, Bitmap actual)
+        {
+            string filename = System.IO.Path.GetTempFileName();
+            using (Image bmp = new Bitmap(expected.Width * 2, expected.Height))
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.DrawImageUnscaled(expected, 0, 0);
+                    g.DrawImageUnscaled(actual, expected.Width + 1, 0);
+                }
+                bmp.Save(filename, System.Drawing.Imaging.ImageFormat.Bmp);
+            }
+            System.Diagnostics.Process.Start("mspaint.exe", filename);
+        }
+
         public static void AssertBitmapsAreNotEqual(Bitmap expected, Bitmap actual)
         {
             if (expected.Width != actual.Width)

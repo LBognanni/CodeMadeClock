@@ -18,5 +18,31 @@ namespace CodeMade.ScriptedGraphics.Tests
 
             AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\rotate45deg.png"), canvas.Render());
         }
+
+        [Test]
+        public void RepeatRotateLayerTest()
+        {
+            Canvas expected = new Canvas(100, 100, "white");
+            expected.Layers.Add(new Layer { Rotate = 0, Offset = new Vertex(50, 50) });
+            expected.Add(new CircleShape(0, -20, 5, "red"));
+            expected.Layers.Add(new Layer{ Rotate = 30, Offset = new Vertex(50, 50) });
+            expected.Add(new CircleShape(0, -20, 5, "red"));
+            expected.Layers.Add(new Layer { Rotate = 60, Offset = new Vertex(50, 50) });
+            expected.Add(new CircleShape(0, -20, 5, "red"));
+            expected.Layers.Add(new Layer { Rotate = 90, Offset = new Vertex(50, 50) });
+            expected.Add(new CircleShape(0, -20, 5, "red"));
+            expected.Layers.Add(new Layer { Rotate = 120, Offset = new Vertex(50, 50) });
+            expected.Add(new CircleShape(0, -20, 5, "red"));
+            expected.Layers.Add(new Layer { Rotate = 150, Offset = new Vertex(50, 50) });
+            expected.Add(new CircleShape(0, -20, 5, "red"));
+            expected.Layers.Add(new Layer { Rotate = 180, Offset = new Vertex(50, 50) });
+            expected.Add(new CircleShape(0, -20, 5, "red"));
+
+            Canvas actual = new Canvas(100, 100, "white");
+            actual.Layers.Add(new RotateRepeatLayer { RepeatCount = 7, RepeatRotate = 30, Offset = new Vertex(50, 50) });
+            actual.Add(new CircleShape(0, -20, 5, "red"));
+
+            AssertBitmapsAreEqual(expected.Render(), actual.Render());
+        }
     }
 }

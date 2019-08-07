@@ -14,7 +14,8 @@
           "Height": 50,
           "Color": "red"
         }
-      ]
+      ],
+      "Rotate": 0.0
     },
     {
       "$type": "GaussianBlurLayer",
@@ -28,7 +29,8 @@
           "Height": 60,
           "Color": "#000"
         }
-      ]
+      ],
+      "Rotate": 0.0
     },
     {
       "Shapes": [
@@ -51,7 +53,8 @@
           },
           "Color": "#080"
         }
-      ]
+      ],
+      "Rotate": 0.0
     }
   ]
 }
