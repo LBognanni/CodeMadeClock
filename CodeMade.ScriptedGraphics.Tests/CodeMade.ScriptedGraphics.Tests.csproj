@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="BitmapTesterBase.cs" />
     <Compile Include="BlurTests.cs" />
+    <Compile Include="BrushTests.cs" />
     <Compile Include="ColorTests.cs" />
     <Compile Include="DrawShapeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

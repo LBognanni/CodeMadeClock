@@ -1,10 +1,44 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace CodeMade.ScriptedGraphics
 {
     internal static class ColorExtensions
     {
+        public static Brush ParseBrush(this string s, RectangleF rect)
+        {
+            if(s.Contains("-"))
+            {
+                Color color1, color2;
+                float angle;
+
+                string[] parts = s.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                if(parts.Length == 2)
+                {
+                    color1 = parts[0].ToColor();
+                    color2 = parts[1].ToColor();
+                    angle = 0;
+                }
+                else if(parts.Length == 3)
+                {
+                    angle = float.Parse(parts[0]);
+                    color1 = parts[1].ToColor();
+                    color2 = parts[2].ToColor();
+                }
+                else
+                {
+                    throw new FormatException($"'{s}' is not a valid gradient.");
+                }
+
+                return new LinearGradientBrush(rect, color1, color2, angle);
+            }
+            else
+            {
+                return new SolidBrush(s.ToColor());
+            }
+        }
+
         public static Color ToColor(this string s)
         {
             if(s.StartsWith("#"))

@@ -25,11 +25,13 @@ namespace CodeMade.ScriptedGraphics
 
         public void Render(Graphics g, float scaleFactor)
         {
+            RectangleF rect = new RectangleF(Left * scaleFactor, Top * scaleFactor, Width * scaleFactor, Height * scaleFactor);
+
             using (var smoothing = new SmoothingOption(g, System.Drawing.Drawing2D.SmoothingMode.Default))
             {
-                using (var brush = new SolidBrush(Color.ToColor()))
+                using (var brush = Color.ParseBrush(rect))
                 {
-                    g.FillRectangle(brush, Left * scaleFactor, Top * scaleFactor, Width * scaleFactor, Height * scaleFactor);
+                    g.FillRectangle(brush, rect);
                 }
             }
         }

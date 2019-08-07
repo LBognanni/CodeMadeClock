@@ -23,11 +23,12 @@ namespace CodeMade.ScriptedGraphics
 
         public virtual void Render(Graphics g, float scaleFactor = 1)
         {
-            using (var brush = new SolidBrush(Color.ToColor()))
+            var diameter = Radius * 2 * scaleFactor;
+            var left = (X - Radius) * scaleFactor;
+            var top = (Y - Radius) * scaleFactor;
+
+            using (var brush = Color.ParseBrush(new RectangleF(left, top, diameter, diameter)))
             {
-                var diameter = Radius * 2 * scaleFactor;
-                var left = (X - Radius) * scaleFactor;
-                var top = (Y - Radius) * scaleFactor;
                 g.FillEllipse(brush, left, top, diameter, diameter);
             }
         }
