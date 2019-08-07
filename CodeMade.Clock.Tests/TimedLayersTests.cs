@@ -12,7 +12,7 @@ namespace CodeMade.Clock.Tests
             DateTime time = new DateTime(2019, 1, 1, 0, 0, 15);
             var layer = new SecondsLayer();
             layer.Update(time);
-            Assert.AreEqual(90, layer.TransformRotate);
+            Assert.AreEqual(90, layer.Rotate);
         }
 
         [Test]
@@ -21,7 +21,7 @@ namespace CodeMade.Clock.Tests
             DateTime time = new DateTime(2019, 1, 1, 0, 0, 30);
             var layer = new SecondsLayer();
             layer.Update(time);
-            Assert.AreEqual(180, layer.TransformRotate);
+            Assert.AreEqual(180, layer.Rotate);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace CodeMade.Clock.Tests
             DateTime time = new DateTime(2019, 1, 1, 0, 15, 0);
             var layer = new MinutesLayer();
             layer.Update(time);
-            Assert.AreEqual(90, layer.TransformRotate);
+            Assert.AreEqual(90, layer.Rotate);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace CodeMade.Clock.Tests
             DateTime time = new DateTime(2019, 1, 1, 0, 30, 0);
             var layer = new MinutesLayer();
             layer.Update(time);
-            Assert.AreEqual(180, layer.TransformRotate);
+            Assert.AreEqual(180, layer.Rotate);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace CodeMade.Clock.Tests
             DateTime time = new DateTime(2019, 1, 1, 3, 0, 0);
             var layer = new HoursLayer();
             layer.Update(time);
-            Assert.AreEqual(90, layer.TransformRotate);
+            Assert.AreEqual(90, layer.Rotate);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace CodeMade.Clock.Tests
             DateTime time = new DateTime(2019, 1, 1, 6, 0, 0);
             var layer = new HoursLayer();
             layer.Update(time);
-            Assert.AreEqual(180, layer.TransformRotate);
+            Assert.AreEqual(180, layer.Rotate);
         }
 
     }

@@ -12,11 +12,11 @@ namespace CodeMade.Clock
         {
             if (Smooth)
             {
-                TransformRotate = (float)time.Minute * 6.0f + ((float)time.Second / 10.0f);
+                Rotate = (float)time.Minute * 6.0f + ((float)time.Second / 10.0f);
             }
             else
             {
-                TransformRotate = time.Minute * 6;
+                Rotate = time.Minute * 6;
             }
         }
     }

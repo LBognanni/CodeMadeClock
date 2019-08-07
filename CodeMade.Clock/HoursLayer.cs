@@ -8,11 +8,11 @@ namespace CodeMade.Clock
         {
             if (Smooth)
             {
-                TransformRotate = (float)time.Hour * 30.0f + ((float)time.Minute * (30.0f / 60.0f));
+                Rotate = (float)time.Hour * 30.0f + ((float)time.Minute * (30.0f / 60.0f));
             }
             else
             {
-                TransformRotate = time.Hour * 30;
+                Rotate = time.Hour * 30;
             }
         }
     }

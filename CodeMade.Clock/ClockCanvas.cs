@@ -36,10 +36,7 @@ namespace CodeMade.Clock
             var time = _timer.GetTime();
             foreach (var layer in _canvas.Layers)
             {
-                if (layer is TimedLayer timedLayer)
-                {
-                    timedLayer.Update(time);
-                }
+                LayerExtensions.UpdateLayer(layer, time);
             }
         }
 
