@@ -35,14 +35,14 @@ namespace CodeMade.ScriptedGraphics.Tests
         private static void DisplayDiagnosticImage(Bitmap expected, Bitmap actual)
         {
             string filename = System.IO.Path.GetTempFileName();
-            using (Image bmp = new Bitmap(expected.Width * 2, expected.Height))
+            using (Image bmp = new Bitmap(expected.Width * 2 + 1, expected.Height))
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
                     g.DrawImageUnscaled(expected, 0, 0);
                     g.DrawImageUnscaled(actual, expected.Width + 1, 0);
                 }
-                bmp.Save(filename, System.Drawing.Imaging.ImageFormat.Bmp);
+                bmp.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
             }
             System.Diagnostics.Process.Start("mspaint.exe", filename);
         }

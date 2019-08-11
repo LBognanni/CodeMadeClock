@@ -20,7 +20,16 @@ namespace CodeMade.ScriptedGraphics
         {
             Width = width;
             Height = height;
-            Layers = new List<Layer>(new Layer[] { new SolidLayer(backgroundColor) });
+            Layer bgLayer;
+            if (string.IsNullOrEmpty(backgroundColor))
+            {
+                bgLayer = new Layer();
+            }
+            else
+            {
+                bgLayer = new SolidLayer(backgroundColor);
+            }
+            Layers = new List<Layer>(new Layer[] { bgLayer });
         }
 
         public virtual Bitmap Render(float scaleFactor = 1)
