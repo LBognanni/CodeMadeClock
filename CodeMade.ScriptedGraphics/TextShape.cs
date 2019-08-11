@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -21,10 +24,34 @@ namespace CodeMade.ScriptedGraphics
 
         public void Render(Graphics g, float scaleFactor)
         {
-            using(var textOption = new TextRenderingOption(g, System.Drawing.Text.TextRenderingHint.AntiAlias))
-            using (var font = new Font(FontName, FontSizePx * scaleFactor, GraphicsUnit.Pixel))
+            var fontNameList = FontName.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+            bool isBold = FindAndRemove(fontNameList, "Bold");
+            bool isItalic = FindAndRemove(fontNameList, "Italic");
+            FontStyle style = FontStyle.Regular;
+            if (isBold)
+            {
+                style |= FontStyle.Bold;
+            }
+
+            if (isItalic)
+            {
+                style |= FontStyle.Italic;
+            }
+
+            using (var textOption = new TextRenderingOption(g, System.Drawing.Text.TextRenderingHint.AntiAlias))
+            using (var font = new Font(string.Join(" ", fontNameList.ToArray()), FontSizePx * scaleFactor, style, GraphicsUnit.Pixel))
             using (var brush = new SolidBrush(Color.ToColor()))
                 g.DrawString(Text, font, brush, Position.AsPointF(scaleFactor));
+        }
+
+        private bool FindAndRemove(List<string> fontNameList, string find)
+        {
+            var idx = fontNameList.IndexOf(find);
+            if (idx == -1)
+                return false;
+
+            fontNameList.RemoveAt(idx);
+            return true;
         }
     }
 }
