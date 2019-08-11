@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapShape.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="CircleShape.cs" />
     <Compile Include="Color.cs" />

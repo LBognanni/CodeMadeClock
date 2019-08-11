@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapShapeTests.cs" />
     <Compile Include="BitmapTesterBase.cs" />
     <Compile Include="BlurTests.cs" />
     <Compile Include="BrushTests.cs" />

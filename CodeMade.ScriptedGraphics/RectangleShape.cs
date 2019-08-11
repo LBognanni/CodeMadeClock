@@ -23,7 +23,7 @@ namespace CodeMade.ScriptedGraphics
             Color = color;
         }
 
-        public void Render(Graphics g, float scaleFactor)
+        public virtual void Render(Graphics g, float scaleFactor)
         {
             RectangleF rect = new RectangleF(Left * scaleFactor, Top * scaleFactor, Width * scaleFactor, Height * scaleFactor);
 
