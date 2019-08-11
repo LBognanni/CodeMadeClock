@@ -11,7 +11,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         [Test]
         public void When_Parsing_Path_Returns_Correct_Points()
         {
-            var vertices = VertexArrayFromString("1,1 1,2 2,2").ToArray();
+            var vertices = Shape.VertexArrayFromString("1,1 1,2 2,2").ToArray();
             Assert.AreEqual(3, vertices.Length);
             Assert.AreEqual(1, vertices[0].X);
             Assert.AreEqual(1, vertices[0].Y);
@@ -24,7 +24,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         [Test]
         public void When_Parsing_Invalid_Path_Returns_Found_Points()
         {
-            var vertices = VertexArrayFromString("1,1 1,2 2,2 44").ToArray();
+            var vertices = Shape.VertexArrayFromString("1,1 1,2 2,2 44").ToArray();
             Assert.AreEqual(3, vertices.Length);
             Assert.AreEqual(1, vertices[0].X);
             Assert.AreEqual(1, vertices[0].Y);
@@ -83,7 +83,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(new Shape
             {
                 Color = "#000",
-                Vertices = VertexArrayFromString("0,0 10,0, 10,10, 0,10")
+                Vertices = Shape.VertexArrayFromString("0,0 10,0, 10,10, 0,10")
             });
             var bitmapShape = canvas.Render();
             return bitmapShape;

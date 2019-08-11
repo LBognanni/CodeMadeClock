@@ -38,7 +38,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(new Shape
             {
                 Color = "#000",
-                Vertices = VertexArrayFromString("0,0 10,0, 10,10")
+                Vertices = Shape.VertexArrayFromString("0,0 10,0, 10,10")
             });
 
             var img = canvas.Render(15);

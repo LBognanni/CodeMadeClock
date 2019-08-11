@@ -79,25 +79,5 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../", fileName);
         }
-
-        protected IEnumerable<Vertex> VertexArrayFromString(string path)
-        {
-            const string dividers = ", ";
-            var numbers = path.Split(dividers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
-
-            Vertex v = null;
-            for (int i = 0; i < numbers.Length; ++i)
-            {
-                if (i % 2 == 0)
-                {
-                    v = new Vertex() { X = float.Parse(numbers[i]) };
-                }
-                else
-                {
-                    v.Y = float.Parse(numbers[i]);
-                    yield return v;
-                }
-            }
-        }
     }
 }
