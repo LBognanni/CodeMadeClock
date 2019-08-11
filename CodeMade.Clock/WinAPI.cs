@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,6 +12,17 @@ namespace CodeMade.Clock
 {
     public static class WinAPI
     {
+
+        public const int WM_SYSCOMMAND = 0x112;
+        public const int SC_MOVE = 0xF010;
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, uint wMsg, UIntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr ReleaseCapture();
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr GetDC(IntPtr hWnd);
@@ -48,11 +60,7 @@ namespace CodeMade.Clock
 
         internal static CreateParams CreateParams(CreateParams cp)
         {
-            cp.ExStyle = cp.ExStyle | WS_EX_LAYERED;
-            if ((cp.ExStyle & WS_EX_TRANSPARENT) != 0)
-            {
-                cp.ExStyle = cp.ExStyle & WS_EX_TRANSPARENT;
-            }
+            cp.ExStyle = cp.ExStyle | WS_EX_LAYERED;// | WS_EX_TRANSPARENT;
             return cp;
         }
 
@@ -234,8 +242,9 @@ namespace CodeMade.Clock
                 }
                 DeleteDC(memDc);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
             }
         }
     }

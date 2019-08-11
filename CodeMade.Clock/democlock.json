@@ -1,0 +1,352 @@
+{
+  "Width": 101,
+  "Height": 101,
+  "Layers": [
+    {
+      "$type": "GaussianBlurLayer",
+      "BlurRadius": 5.0,
+      "Shapes": [
+        {
+          "$type": "CircleShape",
+          "X": 52,
+          "Y": 52,
+          "Radius": 46,
+          "Height": 46,
+          "Color": "#0008"
+        }
+      ]
+    },
+    {
+      "Shapes": [
+        {
+            "$type": "CircleShape",
+            "X": 49,
+            "Y": 49,
+            "Radius": 48,
+            "Height": 48,
+            "Color": "30-#bbb-#555"
+        },
+        {
+            "$type": "CircleShape",
+            "X": 49,
+            "Y": 49,
+            "Radius": 45,
+            "Height": 45,
+            "Color": "210-#aaa-#555"
+        },
+        {
+            "$type": "CircleShape",
+            "X": 49,
+            "Y": 49,
+            "Radius": 43,
+            "Height": 43,
+            "Color": "30-#eed-#fff"
+        },
+        {
+            "$type": "TextShape",
+            "Text": "codemade.net",
+            "FontName": "Tahoma",
+            "FontSizePx": 6,
+            "Color": "#88a8",
+            "Position":{
+                "X": 30,
+                "Y": 60
+            }
+        }
+      ]
+    },
+    {
+        "$type": "RotateRepeatLayer",
+        "Shapes":[
+            {
+                "$type": "Shape",
+                "Color": "#222a",
+                "Path": "-0.22,-43 0.22,-43 0.22,-40 -0.22,-40"
+            }
+        ],
+        "Offset": {
+            "X": 49,
+            "Y": 49
+        },
+        "RepeatRotate": 6,
+        "RepeatCount": 60
+    },
+    {
+        "$type": "RotateRepeatLayer",
+        "Shapes":[
+            {
+                "$type": "Shape",
+                "Color": "#444",
+                "Path": "-0.4,-43 0.4,-43 0.4,-38 -0.4,-38"
+            }
+        ],
+        "Offset": {
+            "X": 49,
+            "Y": 49
+        },
+        "RepeatRotate": 30,
+        "RepeatCount": 12
+    },
+    {
+        "Shapes":[
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 38,
+                    "Y": 7
+                },
+                "Color": "#444d",
+                "Text": "12",
+                "FontName": "Cambria Bold",
+                "FontSizePx": 14
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 62,
+                    "Y": 12
+                },
+                "Color": "#4448",
+                "Text": "1",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 75,
+                    "Y": 26
+                },
+                "Color": "#4448",
+                "Text": "2",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 78,
+                    "Y": 41
+                },
+                "Color": "#444d",
+                "Text": "3",
+                "FontName": "Cambria Bold",
+                "FontSizePx": 14
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 75,
+                    "Y": 60
+                },
+                "Color": "#4448",
+                "Text": "4",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 62,
+                    "Y": 72
+                },
+                "Color": "#4448",
+                "Text": "5",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 43,
+                    "Y": 73
+                },
+                "Color": "#444d",
+                "Text": "6",
+                "FontName": "Cambria Bold",
+                "FontSizePx": 14
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 27,
+                    "Y": 73
+                },
+                "Color": "#4448",
+                "Text": "7",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 15,
+                    "Y": 60
+                },
+                "Color": "#4448",
+                "Text": "8",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 9,
+                    "Y": 41
+                },
+                "Color": "#444d",
+                "Text": "9",
+                "FontName": "Cambria Bold",
+                "FontSizePx": 14
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 13,
+                    "Y": 26
+                },
+                "Color": "#4448",
+                "Text": "10",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            },
+            {
+                "$type": "TextShape",
+                "Position":{
+                    "X": 25,
+                    "Y": 14
+                },
+                "Color": "#4448",
+                "Text": "11",
+                "FontName": "Cambria",
+                "FontSizePx": 10
+            }
+        ]
+    },
+    {
+        "$type": "Layer",
+        "BlurRadius": 2.0,
+        "Shapes": [
+            {
+                "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+                "Smooth": true,
+                "Offset": {
+                    "X": 50,
+                    "Y": 50
+                },
+                "Shapes": [
+                    {
+                        "$type": "Shape",
+                        "Color": "#3334",
+                        "Path": "-1.25,6 -1.25,-20 1.25,-20 1.25,6"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+        "Smooth": true,
+        "Offset": {
+            "X": 49,
+            "Y": 49
+        },
+        "Shapes": [
+            {
+                "$type": "Shape",
+                "Color": "#444",
+                "Path": "-1.25,6 -1.25,-20 1.25,-20 1.25,6"
+            }
+        ]
+    },
+    {
+        "$type": "Layer",
+        "BlurRadius": 2.0,
+        "Shapes": [
+            {
+                "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+                "Smooth": true,
+                "Offset": {
+                    "X": 50,
+                    "Y": 50
+                },
+                "Shapes": [
+                    {
+                        "$type": "Shape",
+                        "Color": "#3334",
+                        "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+        "Smooth": true,
+        "Offset": {
+            "X": 49,
+            "Y": 49
+        },
+        "Shapes": [
+            {
+                "$type": "Shape",
+                "Color": "#444",
+                "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
+            }
+        ]
+    },
+    {
+        "$type": "Layer",
+        "BlurRadius": 2.0,
+        "Shapes": [
+            {
+                "$type": "Layer",
+                "Offset": {
+                    "X": 50,
+                    "Y": 50
+                },
+                "Shapes": [
+                    {
+                        "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+                        "Shapes": [
+                            {
+                                "$type": "Shape",
+                                "Color": "#0004",
+                                "Path": "-0.4,-40 0.4,-40 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
+                            },
+                            {
+                                "$type": "CircleShape",
+                                "X": 0,
+                                "Y": 0,
+                                "Radius": 2,
+                                "Color": "#0004"
+                            }
+                        ]
+                      }
+                ]
+            }
+        ]
+    },
+    {
+        "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+        "Offset": {
+            "X": 49,
+            "Y": 49
+        },
+        "Shapes": [
+            {
+                "$type": "Shape",
+                "Color": "#f55",
+                "Path": "-0.4,-40 0.4,-40 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
+            },
+            {
+                "$type": "CircleShape",
+                "X": 0,
+                "Y": 0,
+                "Radius": 2,
+                "Color": "#f55"
+            }
+        ]
+    }
+    ]
+}

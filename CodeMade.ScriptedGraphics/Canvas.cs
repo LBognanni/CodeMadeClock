@@ -83,7 +83,6 @@ namespace CodeMade.ScriptedGraphics
         {
             return new JsonSerializerSettings
             {
-
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = new KnownTypesBinder()

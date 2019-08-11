@@ -71,6 +71,9 @@
     <Compile Include="SecondsLayer.cs" />
     <Compile Include="TimedLayer.cs" />
     <Compile Include="WinAPI.cs" />
+    <EmbeddedResource Include="frmClock.resx">
+      <DependentUpon>frmClock.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPreview.resx">
       <DependentUpon>frmPreview.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,6 +88,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.manifest" />
+    <None Include="democlock.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
