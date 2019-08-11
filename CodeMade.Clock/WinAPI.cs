@@ -203,31 +203,30 @@ namespace CodeMade.Clock
 
 
 
-        public static void SetFormBackground(Form form, Image backgroundImage)
+        public static void SetFormBackground(Form form, Bitmap disposableBitmap)
         {
             IntPtr screenDc = GetDC(IntPtr.Zero);
             IntPtr memDc = CreateCompatibleDC(screenDc);
-            IntPtr hBitmap = IntPtr.Zero;
-            IntPtr oldBitmap = IntPtr.Zero;
-
             try
             {
                 //Display-image
-                Bitmap bmp = new Bitmap(backgroundImage);
-                hBitmap = bmp.GetHbitmap(Color.FromArgb(0));
-                oldBitmap = SelectObject(memDc, hBitmap);
+                Bitmap bmp = disposableBitmap;
+                var hBitmap = bmp.GetHbitmap(Color.FromArgb(0));
+                var oldBitmap = SelectObject(memDc, hBitmap);
 
                 //Display-rectangle
-                Size size = bmp.Size;
-                Point pointSource = new Point(0, 0);
-                Point topPos = new Point(form.Left, form.Top);
+                var size = bmp.Size;
+                var pointSource = new Point(0, 0);
+                var topPos = new Point(form.Left, form.Top);
 
                 //Set up blending options
-                BLENDFUNCTION blend = new BLENDFUNCTION();
-                blend.BlendOp = AC_SRC_OVER;
-                blend.BlendFlags = 0;
-                blend.SourceConstantAlpha = 255;
-                blend.AlphaFormat = AC_SRC_ALPHA;
+                var blend = new BLENDFUNCTION
+                {
+                    BlendOp = AC_SRC_OVER,
+                    BlendFlags = 0,
+                    SourceConstantAlpha = 255,
+                    AlphaFormat = AC_SRC_ALPHA
+                };
 
                 UpdateLayeredWindow(form.Handle, screenDc,
                   ref topPos, ref size, memDc, ref pointSource, 0, ref blend, ULW_ALPHA);

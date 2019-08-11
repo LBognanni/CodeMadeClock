@@ -15,6 +15,7 @@ namespace CodeMade.Clock
     public partial class frmClock : Form
     {
         ClockCanvas _canvas;
+        ClockCanvas _renderCanvas;
         ITimer _timer;
 
         protected override void OnLoad(EventArgs e)
@@ -33,6 +34,7 @@ namespace CodeMade.Clock
         }
         protected override void OnResize(EventArgs e)
         {
+            _renderCanvas = null;
             base.OnResize(e);
         }
 
@@ -47,6 +49,10 @@ namespace CodeMade.Clock
             {
                 WinAPI.ReleaseCapture();
                 WinAPI.SendMessage(this.Handle, WinAPI.WM_NCLBUTTONDOWN, new UIntPtr(WinAPI.HTCAPTION), IntPtr.Zero);
+            }
+            else if(e.Button == MouseButtons.Right)
+            {
+                contextMenu.Show(this, e.Location);
             }
         }
 
@@ -65,21 +71,42 @@ namespace CodeMade.Clock
 
         private void UpdateImage()
         {
-            _canvas.Update();
             var szx = (float)this.Size.Width / (float)_canvas.Width;
             var szy = (float)this.Size.Height / (float)_canvas.Height;
-            WinAPI.SetFormBackground(this, _canvas.Render(Math.Min(szx,szy)));
+            var ratio = Math.Min(szx, szy);
+            if (_renderCanvas == null)
+            {
+                _renderCanvas = _renderCanvas = _canvas.OptimizeFor(ratio);
+            }
+            _renderCanvas.Update();
+            WinAPI.SetFormBackground(this, _renderCanvas.Render(ratio));
         }
 
         public frmClock()
         {
             InitializeComponent();
+            this.Text = "CodeMade Clock";
+            this.ShowInTaskbar = false;
+            this.Size = new Size(256, 256);
             _timer = new ClockTimer();
             var canvas = Canvas.Load(@"democlock.json");
             _canvas = new ClockCanvas(_timer, canvas);
-            canvas.Save("test.json");
             this.TopMost = true;
         }
 
+        private void TsmClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void SmallerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Size = new Size((int)(Size.Width * 0.75), (int)(Size.Height * 0.75));
+        }
+
+        private void LargerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Size = new Size((int)(Size.Width * 1.25), (int)(Size.Height * 1.25));
+        }
     }
 }

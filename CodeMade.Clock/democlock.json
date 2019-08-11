@@ -223,27 +223,21 @@
             }
         ]
     },
-    {
-        "$type": "Layer",
-        "BlurRadius": 2.0,
-        "Shapes": [
-            {
-                "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
-                "Smooth": true,
-                "Offset": {
-                    "X": 50,
-                    "Y": 50
-                },
-                "Shapes": [
-                    {
-                        "$type": "Shape",
-                        "Color": "#3334",
-                        "Path": "-1.25,6 -1.25,-20 1.25,-20 1.25,6"
-                    }
-                ]
-            }
-        ]
-    },
+        {
+            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 50,
+                "Y": 50
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#3334",
+                    "Path": "-1.25,6 -1.25,-20 1.25,-20 1.25,6"
+                }
+            ]
+        },
     {
         "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
         "Smooth": true,
@@ -260,23 +254,17 @@
         ]
     },
     {
-        "$type": "Layer",
-        "BlurRadius": 2.0,
+        "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+        "Smooth": true,
+        "Offset": {
+            "X": 50,
+            "Y": 50
+        },
         "Shapes": [
             {
-                "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
-                "Smooth": true,
-                "Offset": {
-                    "X": 50,
-                    "Y": 50
-                },
-                "Shapes": [
-                    {
-                        "$type": "Shape",
-                        "Color": "#3334",
-                        "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
-                    }
-                ]
+                "$type": "Shape",
+                "Color": "#3334",
+                "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
             }
         ]
     },
@@ -296,34 +284,23 @@
         ]
     },
     {
-        "$type": "Layer",
-        "BlurRadius": 2.0,
+        "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+        "Offset": {
+            "X": 50,
+            "Y": 50
+        },
         "Shapes": [
             {
-                "$type": "Layer",
-                "Offset": {
-                    "X": 50,
-                    "Y": 50
-                },
-                "Shapes": [
-                    {
-                        "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
-                        "Shapes": [
-                            {
-                                "$type": "Shape",
-                                "Color": "#0004",
-                                "Path": "-0.4,-40 0.4,-40 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
-                            },
-                            {
-                                "$type": "CircleShape",
-                                "X": 0,
-                                "Y": 0,
-                                "Radius": 2,
-                                "Color": "#0004"
-                            }
-                        ]
-                      }
-                ]
+                "$type": "Shape",
+                "Color": "#0004",
+                "Path": "-0.4,-40 0.4,-40 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
+            },
+            {
+                "$type": "CircleShape",
+                "X": 0,
+                "Y": 0,
+                "Radius": 2,
+                "Color": "#0004"
             }
         ]
     },
