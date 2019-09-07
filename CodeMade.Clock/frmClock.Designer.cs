@@ -84,7 +84,7 @@
             // 
             this.tsmClose.Name = "tsmClose";
             this.tsmClose.Size = new System.Drawing.Size(210, 24);
-            this.tsmClose.Text = "Close";
+            this.tsmClose.Text = "Exit";
             this.tsmClose.Click += new System.EventHandler(this.TsmClose_Click);
             // 
             // il16

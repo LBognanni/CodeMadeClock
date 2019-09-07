@@ -1,0 +1,6 @@
+branches:
+  only:
+    - master
+
+before_build:
+  - nuget restore
