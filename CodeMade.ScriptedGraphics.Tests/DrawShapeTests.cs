@@ -43,7 +43,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(shape);
 
             var img = canvas.Render();
-            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/black10x10.png"), img);
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\black10x10.png"), img);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(shape);
 
             var img = canvas.Render();
-            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/blackcircle.png"), img);
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\blackcircle.png"), img);
         }
 
         class PixelPerfectLayer : Layer

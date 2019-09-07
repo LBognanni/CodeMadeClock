@@ -77,7 +77,7 @@ namespace CodeMade.ScriptedGraphics.Tests
 
         protected static string TestPath(string fileName)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../", fileName);
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\", fileName);
         }
     }
 }
