@@ -30,7 +30,7 @@ namespace CodeMade.ScriptedGraphics
             const string dividers = ", ";
             var numbers = path.Split(dividers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
-            Vertex v = null;
+            Vertex v = new Vertex();
             for (int i = 0; i < numbers.Length; ++i)
             {
                 if (i % 2 == 0)
@@ -44,7 +44,6 @@ namespace CodeMade.ScriptedGraphics
                 }
             }
         }
-
 
         public void Render(Graphics g, float scaleFactor = 1)
         {

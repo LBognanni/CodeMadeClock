@@ -2,12 +2,8 @@
 
 namespace CodeMade.ScriptedGraphics
 {
-    public class Vertex
+    public struct Vertex
     {
-        public Vertex()
-        {
-        }
-
         public Vertex(float x, float y)
         {
             X = x;
@@ -20,6 +16,11 @@ namespace CodeMade.ScriptedGraphics
         internal PointF AsPointF(float scaleFactor)
         {
             return new PointF(X * scaleFactor, Y * scaleFactor);
+        }
+
+        public override string ToString()
+        {
+            return $"{X}, {Y}";
         }
     }
 }

@@ -12,6 +12,7 @@ namespace CodeMade.ScriptedGraphics
         public int FontSizePx { get; set; }
         public Vertex Position { get; set; }
         public string Color { get; set; }
+        public bool Centered { get; set; }
 
         public TextShape(string text, string fontName, int fontSizePx, Vertex position, string color)
         {
@@ -41,7 +42,15 @@ namespace CodeMade.ScriptedGraphics
             using (var textOption = new TextRenderingOption(g, System.Drawing.Text.TextRenderingHint.AntiAlias))
             using (var font = new Font(string.Join(" ", fontNameList.ToArray()), FontSizePx * scaleFactor, style, GraphicsUnit.Pixel))
             using (var brush = new SolidBrush(Color.ToColor()))
-                g.DrawString(Text, font, brush, Position.AsPointF(scaleFactor));
+            {
+                var position = Position.AsPointF(scaleFactor);
+                if(Centered)
+                {
+                    var sz = g.MeasureString(Text, font);
+                    position = position.Minus(sz.Width / 2, sz.Height / 2);
+                }
+                g.DrawString(Text, font, brush, position);
+            }
         }
 
         private bool FindAndRemove(List<string> fontNameList, string find)
