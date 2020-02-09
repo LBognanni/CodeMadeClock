@@ -20,6 +20,7 @@ namespace CodeMade.ScriptedGraphics
                     g.FillRectangle(brush, g.VisibleClipBounds);
                 }
             }
+            base.BeforeTransform(g, scaleFactor);
         }
     }
 }

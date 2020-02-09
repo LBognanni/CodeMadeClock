@@ -21,7 +21,7 @@ namespace CodeMade.ScriptedGraphics
 
             using (var g = Graphics.FromImage(img))
             {
-                RenderShapes(g, scaleFactor);
+                base.Render(g, scaleFactor);
             }
             SuperfastBlur.GaussianBlur blur = new SuperfastBlur.GaussianBlur(img);
             globalGraphics.DrawImage(blur.Process((int)BlurRadius), new PointF(0, 0));

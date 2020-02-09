@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -9,6 +10,8 @@ namespace CodeMade.ScriptedGraphics
 
         public float Rotate { get; set; }
         public Vertex Offset { get; set; }
+
+        private GraphicsContainer originalTransform;
 
         public bool ShouldSerializeTransformRotate()
         {
@@ -57,7 +60,7 @@ namespace CodeMade.ScriptedGraphics
 
         protected virtual void BeforeTransform(Graphics g, float scaleFactor)
         {
-
+            originalTransform = g.BeginContainer();
         }
 
         protected virtual void AfterRenderShapes(Graphics g, float scaleFactor)
@@ -78,7 +81,8 @@ namespace CodeMade.ScriptedGraphics
 
         protected virtual void AfterResetTransform(Graphics g, float scaleFactor)
         {
-
+            if (originalTransform != null)
+                g.EndContainer(originalTransform);
         }
     }
 }
