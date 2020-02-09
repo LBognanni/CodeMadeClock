@@ -17,20 +17,34 @@ namespace CodeMade.Clock
         ClockCanvas _canvas;
         ClockCanvas _renderCanvas;
         ITimer _timer;
+        
+        public frmClock(string fileName)
+        {
+            InitializeComponent();
+            Size = Properties.Settings.Default.Size;
+            Text = "CodeMade Clock";
+            ShowInTaskbar = false;
+            Size = new Size(256, 256);
+            _timer = new ClockTimer();
+            var canvas = Canvas.Load(fileName ?? @"democlock.json");
+            _canvas = new ClockCanvas(_timer, canvas);
+            TopMost = true;
+        }
 
         protected override void OnLoad(EventArgs e)
         {
-            this.ControlBox = false;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            this.SetStyle(ControlStyles.ResizeRedraw, true);
+            ControlBox = false;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
             base.OnLoad(e);
             UpdateImage();
             Timer timer = new Timer();
             timer.Tick += Timer_Tick;
             timer.Interval = 500;
             timer.Start();
+
         }
         protected override void OnResize(EventArgs e)
         {
@@ -48,7 +62,7 @@ namespace CodeMade.Clock
             if(e.Button == MouseButtons.Left)
             {
                 WinAPI.ReleaseCapture();
-                WinAPI.SendMessage(this.Handle, WinAPI.WM_NCLBUTTONDOWN, new UIntPtr(WinAPI.HTCAPTION), IntPtr.Zero);
+                WinAPI.SendMessage(Handle, WinAPI.WM_NCLBUTTONDOWN, new UIntPtr(WinAPI.HTCAPTION), IntPtr.Zero);
             }
             else if(e.Button == MouseButtons.Right)
             {
@@ -71,8 +85,8 @@ namespace CodeMade.Clock
 
         private void UpdateImage()
         {
-            var szx = (float)this.Size.Width / (float)_canvas.Width;
-            var szy = (float)this.Size.Height / (float)_canvas.Height;
+            var szx = (float)Size.Width / (float)_canvas.Width;
+            var szy = (float)Size.Height / (float)_canvas.Height;
             var ratio = Math.Min(szx, szy);
             if (_renderCanvas == null)
             {
@@ -82,31 +96,26 @@ namespace CodeMade.Clock
             WinAPI.SetFormBackground(this, _renderCanvas.Render(ratio));
         }
 
-        public frmClock()
-        {
-            InitializeComponent();
-            this.Text = "CodeMade Clock";
-            this.ShowInTaskbar = false;
-            this.Size = new Size(256, 256);
-            _timer = new ClockTimer();
-            var canvas = Canvas.Load(@"democlock.json");
-            _canvas = new ClockCanvas(_timer, canvas);
-            this.TopMost = true;
-        }
-
         private void TsmClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void SmallerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Size = new Size((int)(Size.Width * 0.75), (int)(Size.Height * 0.75));
+            UpdateSize(0.75);
         }
 
         private void LargerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Size = new Size((int)(Size.Width * 1.25), (int)(Size.Height * 1.25));
+            UpdateSize(1.25);
+        }
+
+        private void UpdateSize(double multiplier)
+        {
+            Size = new Size((int)(Size.Width * multiplier), (int)(Size.Height * multiplier));
+            Properties.Settings.Default.Size = Size;
+            Properties.Settings.Default.Save();
         }
     }
 }
