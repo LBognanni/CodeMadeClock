@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandLine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,15 @@ namespace CodeMade.Clock
 {
     static class Program
     {
+        class Options
+        {
+            [Value(0, Required = false)]
+            public string DisplayFile { get; set; }
+            [Option('p', "preview", Required = false, HelpText ="Run in preview mode showing the specified file")]
+            public string PreviewFile { get; set; }
+        }
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -17,17 +27,22 @@ namespace CodeMade.Clock
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if ((args.Length > 0) && (System.IO.File.Exists(args[0])))
-            {
-
-                Application.Run(new frmClock(args[0]));
-                //Application.Run(new frmPreview(args[0]));
-            }
-
-            else
-            {
-                Application.Run(new frmClock(null));
-            }
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(options =>
+                {
+                    if(!string.IsNullOrEmpty(options.PreviewFile) && System.IO.File.Exists(options.PreviewFile))
+                    {
+                        Application.Run(new frmPreview(options.PreviewFile));
+                    }
+                    else
+                    {
+                        Application.Run(new frmClock(options.DisplayFile));
+                    }
+                })
+                .WithNotParsed(errors =>
+                {
+                    Application.Run(new frmClock(null));
+                });
         }
     }
 }
