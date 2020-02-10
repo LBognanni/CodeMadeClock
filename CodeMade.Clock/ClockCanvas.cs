@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using CodeMade.ScriptedGraphics;
@@ -56,49 +57,62 @@ namespace CodeMade.Clock
             };
             var newCanvas = new Canvas(_canvas.Width, _canvas.Height, "#0000");
 
-            Bitmap bmp = null;
-            Graphics g = null;
+            var layerGroups = GroupLayers(skipLayers);
 
-            foreach(var layer in _canvas.Layers)
+            foreach (var (isSkipLayerGroup, layerList) in layerGroups)
             {
-                if (skipLayers.Contains(layer.GetType()))
+                if(isSkipLayerGroup)
                 {
-                    AddBitmpaToCanvas(newCanvas, ref bmp, ref g);
-
-                    newCanvas.Add(layer);
-                    continue;
+                    newCanvas.Layers.AddRange(layerList);
                 }
-
-                if (bmp == null)
+                else
                 {
-                    bmp = new Bitmap((int)(_canvas.Width * scaleFactor), (int)(_canvas.Height * scaleFactor));
-                    g = Graphics.FromImage(bmp);
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    newCanvas.Layers.Add(MergeLayers(scaleFactor, newCanvas, layerList));
                 }
-                layer.Render(g, scaleFactor);
             }
-            AddBitmpaToCanvas(newCanvas, ref bmp, ref g);
 
             return new ClockCanvas(this._timer, newCanvas);
         }
 
-        private static void AddBitmpaToCanvas(Canvas newCanvas, ref Bitmap bmp, ref Graphics g)
+        private Layer MergeLayers(float scaleFactor, Canvas newCanvas, List<Layer> layerList)
         {
-            if (bmp != null)
+            var bmp = new Bitmap((int)(_canvas.Width * scaleFactor), (int)(_canvas.Height * scaleFactor));
+            using (var g = Graphics.FromImage(bmp))
             {
-                newCanvas.Layers.Add(new Layer());
-                newCanvas.Add(new BitmapShape
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                foreach (var layer in layerList)
                 {
-                    Image = bmp,
-                    Left = 0,
-                    Top = 0,
-                    Width = newCanvas.Width,
-                    Height = newCanvas.Height
-                });
-                g.Dispose();
-                g = null;
-                bmp = null;
+                    layer.Render(g, scaleFactor);
+                }
             }
+
+            var wrap = new Layer();
+            wrap.Shapes.Add(new BitmapShape
+            {
+                FixedImage = bmp,
+                Left = 0,
+                Top = 0,
+                Width = newCanvas.Width,
+                Height = newCanvas.Height
+            });
+            return wrap;
+        }
+
+
+        private List<(bool, List<Layer>)> GroupLayers(Type[] skipLayers)
+        {
+            var layerGroups = new List<(bool, List<Layer>)>();
+            foreach (var layer in _canvas.Layers)
+            {
+                var isSkipLayer = skipLayers.Contains(layer.GetType());
+                if (!layerGroups.Any() || (isSkipLayer != layerGroups.Last().Item1))
+                {
+                    layerGroups.Add((isSkipLayer, new List<Layer>()));
+                }
+                layerGroups.Last().Item2.Add(layer);
+            }
+
+            return layerGroups;
         }
     }
 }

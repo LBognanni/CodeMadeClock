@@ -61,6 +61,7 @@ namespace CodeMade.ScriptedGraphics
         protected virtual void BeforeTransform(Graphics g, float scaleFactor)
         {
             originalTransform = g.BeginContainer();
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
         }
 
         protected virtual void AfterRenderShapes(Graphics g, float scaleFactor)
