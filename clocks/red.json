@@ -1,0 +1,212 @@
+{
+    "Width": 101,
+    "Height": 101,
+    "Layers": [
+        {
+            "$type": "GaussianBlurLayer",
+            "BlurRadius": 5.0,
+            "Shapes": [
+                {
+                    "$type": "DonutShape",
+                    "Position": {
+                        "X": 52,
+                        "Y": 52
+                    },
+                    "Radius": 46,
+                    "InnerRadius": 44,
+                    "Color": "#0008"
+                }
+            ]
+        },
+        {
+            "Shapes": [
+                {
+                    "$type": "DonutShape",
+                    "Position": {
+                        "X": 49,
+                        "Y": 49
+                    },
+                    "Radius": 48,
+                    "InnerRadius": 46,
+                    "Color": "30-#eee-#888"
+                },
+                {
+                    "$type": "CircleShape",
+                    "Position": {
+                        "X": 49,
+                        "Y": 49
+                    },
+                    "Radius": 46,
+                    "Color": "90-#f268-#a048"
+                },
+                {
+                    "$type": "BitmapShape",
+                    "Path": "inner-shadow.png",
+                    "Left": 3,
+                    "Top": 3,
+                    "Width": 92,
+                    "Height": 92
+                },
+                {
+                    "$type": "TextShape",
+                    "Text": "codemade.net",
+                    "FontName": "Tahoma",
+                    "FontSizePx": 5,
+                    "Color": "#fff6",
+                    "Centered": true,
+                    "Position": {
+                        "X": 50,
+                        "Y": 67
+                    }
+                },
+                {
+                    "$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+                    "Numbers": [
+                        3,
+                        6,
+                        9,
+                        12
+                    ],
+                    "Color": "#fffa",
+                    "FontName": "Cambria Bold",
+                    "FontSize": 14,
+                    "Radius": 33,
+                    "Offset": {
+                        "X": 49,
+                        "Y": 49
+                    }
+                }
+            ]
+        },
+        {
+            "$type": "RotateRepeatLayer",
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#fff7",
+                    "Path": "0,-45 1.5,-43 0,-38 -1.5,-43"
+                }
+            ],
+            "Offset": {
+                "X": 49,
+                "Y": 49
+            },
+            "RepeatRotate": 30,
+            "RepeatCount": 12
+        },
+        {
+            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 49,
+                "Y": 49
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#0002",
+                    "Path": "-1.75,6.5 -1.75,-20.5 1.75,-20.5 1.75,6.5"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 49,
+                "Y": 49
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#f8c",
+                    "Path": "-1.25,6 -1.25,-20 1.25,-20 1.25,6"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 49,
+                "Y": 49
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#0002",
+                    "Path": " -1.25,8.5 -1.25,-33.5 1.25,-33.5 1.25,8.5"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 49,
+                "Y": 49
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#fac",
+                    "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+            "Offset": {
+                "X": 49,
+                "Y": 49
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#0004",
+                    "Path": "-0.58,-39.18 0,-39.5 0.58,-39.18 0.58,6.18 0.98,6.18 0.98,10.18 -0.98,10.18 -0.98,6.18 -0.58,6.18"
+                },
+                {
+                    "$type": "CircleShape",
+                    "X": 0,
+                    "Y": 0,
+                    "Radius": 2.5,
+                    "Color": "#0002"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+            "Offset": {
+                "X": 49,
+                "Y": 49
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#fde",
+                    "Path": "-0.4,-39 0,-39.5 0.4,-39 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
+                },
+                {
+                    "$type": "CircleShape",
+                    "X": 0,
+                    "Y": 0,
+                    "Radius": 2,
+                    "Color": "#fde"
+                }
+            ]
+        },
+        {
+            "Shapes": [
+                {
+                    "$type": "BitmapShape",
+                    "Path": "highlight.png",
+                    "Left": 18,
+                    "Top": 4,
+                    "Width": 62,
+                    "Height": 40
+                }
+            ]
+        }
+    ]
+}

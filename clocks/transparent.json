@@ -1,0 +1,283 @@
+{
+    "Width": 95,
+    "Height": 95,
+    "Layers": [
+        {
+            "Shapes": [
+                //{
+                //    "$type": "CircleShape",
+                //    "Color": "#ffff",
+                //    "Position": {
+                //        "X": 47,
+                //        "Y": 47
+                //    },
+                //    "Radius": 47
+                //},
+                {
+                    "$type": "TextShape",
+                    "Text": "codemade.net",
+                    "FontName": "Lucida Console Italic",
+                    "FontSizePx": 6,
+                    "Color": "#88a4",
+                    "Centered": true,
+                    "Position": {
+                        "X": 47,
+                        "Y": 65
+                    }
+                }
+            ]
+        },
+        {
+            "$type": "GaussianBlurLayer",
+            "BlurRadius": 3.0,
+            "Offset": {
+                "X": 1,
+                "Y": 1
+            },
+            "Shapes": [
+                {
+                    "$type": "RotateRepeatLayer",
+                    "Shapes": [
+                        {
+                            "$type": "Shape",
+                            "Color": "#0004",
+                            "Path": "-0.22,-45 0.22,-45 0.22,-42 -0.22,-42"
+                        }
+                    ],
+                    "Offset": {
+                        "X": 47,
+                        "Y": 47
+                    },
+                    "RepeatRotate": 6,
+                    "RepeatCount": 60
+                },
+                {
+                    "$type": "RotateRepeatLayer",
+                    "Shapes": [
+                        {
+                            "$type": "Shape",
+                            "Color": "#0004",
+                            "Path": "-0.4,-45 0.4,-45 0.4,-40 -0.4,-40"
+                        }
+                    ],
+                    "Offset": {
+                        "X": 47,
+                        "Y": 47
+                    },
+                    "RepeatRotate": 30,
+                    "RepeatCount": 12
+                },
+                {
+                    "$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+                    "Numbers": [
+                        1,
+                        2,
+                        4,
+                        5,
+                        7,
+                        8,
+                        10,
+                        11
+                    ],
+                    "Color": "#0008",
+                    "FontName": "Tahoma",
+                    "FontSize": 9,
+                    "Radius": 35,
+                    "Offset": {
+                        "X": 47,
+                        "Y": 47
+                    }
+                },
+                {
+                    "$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+                    "Numbers": [
+                        3,
+                        6,
+                        9,
+                        12
+                    ],
+                    "Color": "#0008",
+                    "FontName": "Tahoma",
+                    "FontSize": 12,
+                    "Radius": 34,
+                    "Offset": {
+                        "X": 47,
+                        "Y": 47
+                    }
+                }
+            ]
+        },
+        {
+            "$type": "RotateRepeatLayer",
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#ddd",
+                    "Path": "-0.22,-45 0.22,-45 0.22,-42 -0.22,-42"
+                }
+            ],
+            "Offset": {
+                "X": 47,
+                "Y": 47
+            },
+            "RepeatRotate": 6,
+            "RepeatCount": 60
+        },
+        {
+            "$type": "RotateRepeatLayer",
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#444",
+                    "Path": "-0.4,-45 0.4,-45 0.4,-40 -0.4,-40"
+                }
+            ],
+            "Offset": {
+                "X": 47,
+                "Y": 47
+            },
+            "RepeatRotate": 30,
+            "RepeatCount": 12
+        },
+        {
+            "$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+            "Numbers": [
+                1,
+                2,
+                4,
+                5,
+                7,
+                8,
+                10,
+                11
+            ],
+            "Color": "#fff",
+            "FontName": "Tahoma",
+            "FontSize": 9,
+            "Radius": 35,
+            "Offset": {
+                "X": 47,
+                "Y": 47
+            }
+        },
+        {
+            "$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+            "Numbers": [
+                3,
+                6,
+                9,
+                12
+            ],
+            "Color": "#fff",
+            "FontName": "Tahoma",
+            "FontSize": 12,
+            "Radius": 34,
+            "Offset": {
+                "X": 47,
+                "Y": 47
+            }
+        },
+        {
+            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 48,
+                "Y": 48
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#3334",
+                    "Path": "-1.25,6 -1.25,-20 1.25,-20 1.25,6"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 47,
+                "Y": 47
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#444",
+                    "Path": "-1.25,6 -1.25,-20 1.25,-20 1.25,6"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 48,
+                "Y": 48
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#3334",
+                    "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+            "Smooth": true,
+            "Offset": {
+                "X": 47,
+                "Y": 47
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#444",
+                    "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+            "Offset": {
+                "X": 48,
+                "Y": 48
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#0004",
+                    "Path": "-0.4,-40 0.4,-40 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
+                },
+                {
+                    "$type": "CircleShape",
+                    "X": 0,
+                    "Y": 0,
+                    "Radius": 2,
+                    "Color": "#0004"
+                }
+            ]
+        },
+        {
+            "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+            "Offset": {
+                "X": 47,
+                "Y": 47
+            },
+            "Shapes": [
+                {
+                    "$type": "Shape",
+                    "Color": "#f55",
+                    "Path": "-0.4,-40 0.4,-40 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
+                },
+                {
+                    "$type": "CircleShape",
+                    "X": 0,
+                    "Y": 0,
+                    "Radius": 2,
+                    "Color": "#f55"
+                }
+            ]
+        }
+    ]
+}
