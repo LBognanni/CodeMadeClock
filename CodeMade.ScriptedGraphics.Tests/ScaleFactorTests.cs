@@ -13,7 +13,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(shape);
 
             var img = canvas.Render(1);
-            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/blackcircle.png"), img);
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\blackcircle.png"), img);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             var img = canvas.Render(2);
             Assert.AreEqual(600, img.Width);
             Assert.AreEqual(400, img.Height);
-            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/circle600x400.png"), img);
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\circle600x400.png"), img);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             var img = canvas.Render(15);
             Assert.AreEqual(150, img.Width);
             Assert.AreEqual(150, img.Height);
-            AssertBitmapsAreEqual(LoadLocalBitmap("testimages/triangle150x150.png"), img);
+            AssertBitmapsAreEqual(LoadLocalBitmap(@"testimages\triangle150x150.png"), img);
         }
 
         [Test]

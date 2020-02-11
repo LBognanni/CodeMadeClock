@@ -1,0 +1,15 @@
+
+image: Visual Studio 2019
+
+branches:
+  only:
+    - master
+
+before_build:
+  - nuget restore
+
+test:
+  assemblies:
+    only:
+      - CodeMade.Clock.Tests\bin\Debug\CodeMade.Clock.Tests.dll
+      - CodeMade.ScriptedGraphics.Tests\bin\Debug\CodeMade.ScriptedGraphics.Tests.dll

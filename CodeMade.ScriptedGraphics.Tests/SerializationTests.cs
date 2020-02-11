@@ -27,14 +27,14 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             var canvas = GetCanvas();
 
-            canvas.Save(TestPath("testimages/test.json"));
+            canvas.Save(TestPath(@"testimages\test.json"));
 
         }
 
         [Test]
         public void Canvas_Should_Deserialize()
         {
-            var loaded = Canvas.Load(TestPath("testimages/test.json"));
+            var loaded = Canvas.Load(TestPath(@"testimages\test.json"));
             var reference = GetCanvas();
             AssertBitmapsAreEqual(reference.Render(), loaded.Render());
         }

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CodeMade.Clock")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A simple desktop clock for Windows")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Loris Bognanni")]
 [assembly: AssemblyProduct("CodeMade.Clock")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright © 2019 Loris Bognanni")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

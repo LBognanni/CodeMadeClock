@@ -8,7 +8,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         [Test]
         public void TestImage()
         {
-            var reference = LoadLocalBitmap("testimages/colors.png");
+            var reference = LoadLocalBitmap(@"testimages\colors.png");
             var canvas = new Canvas(231, 229, "red");
             canvas.Add(new BitmapShape
             {
@@ -16,7 +16,7 @@ namespace CodeMade.ScriptedGraphics.Tests
                 Top = 0,
                 Width = 231,
                 Height = 229,
-                Path = TestPath("testimages/colors.png")
+                Path = TestPath(@"testimages\colors.png")
             });
             AssertBitmapsAreEqual(reference, canvas.Render());
         }
