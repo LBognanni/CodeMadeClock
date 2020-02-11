@@ -72,7 +72,7 @@ namespace CodeMade.ScriptedGraphics.Tests
 
         protected Bitmap LoadLocalBitmap(string fileName)
         {
-            return Image.FromFile(TestPath(fileName)) as Bitmap;
+            return DrawingUtilities.LoadImage(TestPath(fileName)) as Bitmap;
         }
 
         protected static string TestPath(string fileName)
