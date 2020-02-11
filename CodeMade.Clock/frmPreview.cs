@@ -18,6 +18,37 @@ namespace CodeMade.Clock
             InitializeComponent();
             this.AutoScaleMode = AutoScaleMode.Dpi;
             this.pbCanvas.Click += pbCanvas_Click;
+            UpdateFileList();
+        }
+
+        private void UpdateFileList()
+        {
+            cmbFiles.SelectedIndexChanged -= CmbFiles_SelectedIndexChanged;
+            string path = Path.GetDirectoryName(_fileToWatch);
+            cmbFiles.DataSource = Directory.GetFiles(path, "*.json");
+            cmbFiles.Text = _fileToWatch;
+            cmbFiles.SelectedIndexChanged += CmbFiles_SelectedIndexChanged;
+        }
+
+        private void CmbFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _fileToWatch = cmbFiles.SelectedValue.ToString();
+            UpdateWatcherAndImage();
+        }
+
+        private void UpdateWatcherAndImage()
+        {
+            if (_fsw != null)
+            {
+                _fsw.EnableRaisingEvents = false;
+                _fsw.Dispose();
+                _fsw = null;
+            }
+            _fsw = new FileSystemWatcher(Path.GetDirectoryName(_fileToWatch), Path.GetFileName(_fileToWatch));
+            _fsw.Changed += fileToWatch_Changed;
+            _fsw.EnableRaisingEvents = true;
+            UpdateImage(true);
+            UpdateFileList();
         }
 
         private void pbCanvas_Click(object sender, EventArgs e)
@@ -27,10 +58,7 @@ namespace CodeMade.Clock
 
         private void FrmPreview_Load(object sender, EventArgs e)
         {
-            _fsw = new FileSystemWatcher(Path.GetDirectoryName(_fileToWatch), Path.GetFileName(_fileToWatch));
-            _fsw.Changed += fileToWatch_Changed;
-            _fsw.EnableRaisingEvents = true;
-            UpdateImage();
+            UpdateWatcherAndImage();
         }
 
         private void fileToWatch_Changed(object sender, FileSystemEventArgs e)
@@ -50,7 +78,7 @@ namespace CodeMade.Clock
             {
                 if ((_canvas == null) || (alsoLoadCanvas))
                 {
-                        _canvas = Canvas.Load(_fileToWatch);
+                    _canvas = Canvas.Load(_fileToWatch);
                     if(_canvas == null)
                     {
                         return;

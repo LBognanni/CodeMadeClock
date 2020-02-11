@@ -31,6 +31,7 @@
             this.pbCanvas = new System.Windows.Forms.PictureBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.txtLog = new System.Windows.Forms.TextBox();
+            this.cmbFiles = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -44,7 +45,7 @@
             this.pbCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbCanvas.Location = new System.Drawing.Point(0, 0);
             this.pbCanvas.Name = "pbCanvas";
-            this.pbCanvas.Size = new System.Drawing.Size(456, 425);
+            this.pbCanvas.Size = new System.Drawing.Size(456, 410);
             this.pbCanvas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbCanvas.TabIndex = 0;
             this.pbCanvas.TabStop = false;
@@ -52,7 +53,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -63,8 +64,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.txtLog);
-            this.splitContainer1.Size = new System.Drawing.Size(456, 701);
-            this.splitContainer1.SplitterDistance = 425;
+            this.splitContainer1.Size = new System.Drawing.Size(456, 677);
+            this.splitContainer1.SplitterDistance = 410;
             this.splitContainer1.TabIndex = 1;
             // 
             // txtLog
@@ -75,9 +76,19 @@
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(456, 272);
+            this.txtLog.Size = new System.Drawing.Size(456, 263);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "Loading...";
+            // 
+            // cmbFiles
+            // 
+            this.cmbFiles.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiles.FormattingEnabled = true;
+            this.cmbFiles.Location = new System.Drawing.Point(0, 0);
+            this.cmbFiles.Name = "cmbFiles";
+            this.cmbFiles.Size = new System.Drawing.Size(456, 24);
+            this.cmbFiles.TabIndex = 2;
             // 
             // frmPreview
             // 
@@ -85,6 +96,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(456, 701);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.cmbFiles);
             this.Name = "frmPreview";
             this.Text = "Preview";
             this.Load += new System.EventHandler(this.FrmPreview_Load);
@@ -104,5 +116,6 @@
         private System.Windows.Forms.PictureBox pbCanvas;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.ComboBox cmbFiles;
     }
 }
