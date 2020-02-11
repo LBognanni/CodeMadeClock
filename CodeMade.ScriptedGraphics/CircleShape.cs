@@ -25,6 +25,11 @@ namespace CodeMade.ScriptedGraphics
             var left = (Position.X - Radius) * scaleFactor;
             var top = (Position.Y - Radius) * scaleFactor;
 
+            RenderCircle(g, diameter, left, top);
+        }
+
+        protected virtual void RenderCircle(Graphics g, float diameter, float left, float top)
+        {
             using (var brush = Color.ParseBrush(new RectangleF(left, top, diameter, diameter)))
             {
                 g.FillEllipse(brush, left, top, diameter, diameter);

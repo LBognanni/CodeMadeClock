@@ -4,10 +4,10 @@ namespace CodeMade.ScriptedGraphics
 {
     public class RectangleShape : IShape
     {
-        public int Left { get; set; }
-        public int Top { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public float Left { get; set; }
+        public float Top { get; set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
         public string Color { get; set; }
 
         public RectangleShape()

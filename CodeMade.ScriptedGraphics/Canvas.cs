@@ -40,7 +40,6 @@ namespace CodeMade.ScriptedGraphics
             Bitmap bmp = new Bitmap(scaleWidth, scaleHeight);
             using (var g = Graphics.FromImage(bmp))
             {
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                 foreach (var layer in Layers)
                 {
                     layer.Render(g, scaleFactor);
@@ -58,7 +57,34 @@ namespace CodeMade.ScriptedGraphics
         {
             string json = "";
             TryAgain<IOException>(() => json = File.ReadAllText(fileName));
-            return JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings());
+            string baseFolder = Path.GetDirectoryName(fileName);
+            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings());
+            UpdateBitmapPaths(canvas, baseFolder);
+
+            return canvas;
+        }
+
+        private static void UpdateBitmapPaths(Canvas canvas, string baseFolder)
+        {
+            foreach(var layer in canvas.Layers)
+            {
+                UpdateBitmapPaths(layer, baseFolder);
+            }
+        }
+
+        private static void UpdateBitmapPaths(Layer layer, string baseFolder)
+        {
+            foreach(var shape in layer.Shapes)
+            {
+                if(shape is Layer layerShape)
+                {
+                    UpdateBitmapPaths(layerShape, baseFolder);
+                }
+                else if (shape is BitmapShape bmp)
+                {
+                    bmp.Path = Path.Combine(baseFolder, bmp.Path);
+                }
+            }
         }
 
         private static void TryAgain<TException>(Func<string> fn) where TException : Exception

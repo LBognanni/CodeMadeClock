@@ -8,10 +8,10 @@
       "Shapes": [
         {
           "$type": "RectangleShape",
-          "Left": 0,
-          "Top": 0,
-          "Width": 50,
-          "Height": 50,
+          "Left": 0.0,
+          "Top": 0.0,
+          "Width": 50.0,
+          "Height": 50.0,
           "Color": "red"
         }
       ],
@@ -23,10 +23,10 @@
       "Shapes": [
         {
           "$type": "RectangleShape",
-          "Left": 20,
-          "Top": 20,
-          "Width": 60,
-          "Height": 60,
+          "Left": 20.0,
+          "Top": 20.0,
+          "Width": 60.0,
+          "Height": 60.0,
           "Color": "#000"
         }
       ],
@@ -36,10 +36,10 @@
       "Shapes": [
         {
           "$type": "RectangleShape",
-          "Left": 50,
-          "Top": 50,
-          "Width": 50,
-          "Height": 50,
+          "Left": 50.0,
+          "Top": 50.0,
+          "Width": 50.0,
+          "Height": 50.0,
           "Color": "blue"
         },
         {
@@ -51,7 +51,8 @@
             "X": 10.0,
             "Y": 50.0
           },
-          "Color": "#080"
+          "Color": "#080",
+          "Centered": false
         }
       ],
       "Rotate": 0.0

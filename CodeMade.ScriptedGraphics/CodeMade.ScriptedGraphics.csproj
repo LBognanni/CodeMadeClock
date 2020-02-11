@@ -49,7 +49,10 @@
     <Compile Include="Canvas.cs" />
     <Compile Include="CircleShape.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="DeleteCircleShape.cs" />
+    <Compile Include="DonutShape.cs" />
     <Compile Include="DrawingExtensions.cs" />
+    <Compile Include="DrawingUtilities.cs" />
     <Compile Include="GaussianBlur.cs" />
     <Compile Include="GaussianBlurLayer.cs" />
     <Compile Include="Hand.cs" />
