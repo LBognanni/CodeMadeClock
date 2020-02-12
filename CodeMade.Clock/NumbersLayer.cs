@@ -8,6 +8,37 @@ namespace CodeMade.Clock
 {
     public class NumbersLayer : Layer
     {
+        public enum RotateTextMode
+        {
+            None,
+            RotateIn,
+            RotateOut
+        }
+
+        class TextShapeWithRotation : TextShape
+        {
+            public TextShapeWithRotation(string text, string fontName, int fontSizePx, Vertex position, string color) 
+                : base(text, fontName, fontSizePx, position, color)
+            {
+            }
+
+            public float Rotation { get; set; }
+
+            protected override void RenderString(Graphics g, Font font, SolidBrush brush, PointF position, Vertex move)
+            {
+                var container = g.BeginContainer();
+                
+                g.TranslateTransform(position.X, position.Y);
+                g.RotateTransform(Rotation);
+                g.TranslateTransform(-move.X, -move.Y);
+
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                g.DrawString(Text, font, brush, 0, 0);
+                
+                g.EndContainer(container);
+            }
+        }
+
         public int[] Numbers { get; set; }
         public string[] NumbersText { get; set; }
         public bool RotateNumbers { get; set; }
@@ -15,17 +46,18 @@ namespace CodeMade.Clock
         public int FontSize { get; set; }
         public string Color { get; set; }
         public float Radius { get; set; }
+        public RotateTextMode RotateMode { get; set; } = RotateTextMode.None;
 
-        private Lazy<TextShape[]> _textShapes;
+        private Lazy<TextShapeWithRotation[]> _textShapes;
 
         public NumbersLayer()
         {
-            _textShapes = new Lazy<TextShape[]>(TextShapeFactory);
+            _textShapes = new Lazy<TextShapeWithRotation[]>(TextShapeFactory);
         }
 
-        private TextShape[] TextShapeFactory()
+        private TextShapeWithRotation[] TextShapeFactory()
         {
-            List<TextShape> shapes = new List<TextShape>();
+            List<TextShapeWithRotation> shapes = new List<TextShapeWithRotation>();
             const double hourInRad = Math.PI / 6;
             const double offsetInRad = hourInRad * -3;
 
@@ -43,7 +75,14 @@ namespace CodeMade.Clock
                         text = NumbersText[numberIdx];
                     }
 
-                    shapes.Add(new TextShape(text, FontName, FontSize, pos, Color) { Centered = true });
+                    float rotation = RotateMode switch
+                    {
+                        RotateTextMode.RotateIn => hour * 30,
+                        RotateTextMode.RotateOut => 180.0f + (hour * 30) ,
+                        _ => 0
+                    };
+
+                    shapes.Add(new TextShapeWithRotation(text, FontName, FontSize, pos, Color) { Centered = true, Rotation = rotation });
                 }
             }
 

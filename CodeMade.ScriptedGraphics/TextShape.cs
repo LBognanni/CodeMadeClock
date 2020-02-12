@@ -44,13 +44,19 @@ namespace CodeMade.ScriptedGraphics
             using (var brush = new SolidBrush(Color.ToColor()))
             {
                 var position = Position.AsPointF(scaleFactor);
-                if(Centered)
+                Vertex move = new Vertex();
+                if (Centered)
                 {
                     var sz = g.MeasureString(Text, font);
-                    position = position.Minus(sz.Width / 2, sz.Height / 2);
+                    move = new Vertex(sz.Width / 2, sz.Height / 2);
                 }
-                g.DrawString(Text, font, brush, position);
+                RenderString(g, font, brush, position, move);
             }
+        }
+
+        protected virtual void RenderString(Graphics g, Font font, SolidBrush brush, PointF position, Vertex move)
+        {
+            g.DrawString(Text, font, brush, position.X - move.X, Position.Y - move.Y);
         }
 
         private bool FindAndRemove(List<string> fontNameList, string find)
