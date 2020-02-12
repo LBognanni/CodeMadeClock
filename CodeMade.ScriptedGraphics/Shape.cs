@@ -47,8 +47,21 @@ namespace CodeMade.ScriptedGraphics
 
         public void Render(Graphics g, float scaleFactor = 1)
         {
-            using (var brush = new SolidBrush(Color.ToColor()))
-                g.FillPath(brush, new System.Drawing.Drawing2D.GraphicsPath(GetPoints(scaleFactor), GetPointTypes(), System.Drawing.Drawing2D.FillMode.Alternate)); ;
+            var points = GetPoints(scaleFactor);
+            RectangleF rect = GetBounds(points);
+            using (var brush = Color.ParseBrush(rect))
+            {
+                g.FillPath(brush, new System.Drawing.Drawing2D.GraphicsPath(points, GetPointTypes(), FillMode.Alternate));
+            }
+        }
+
+        private RectangleF GetBounds(PointF[] points)
+        {
+            var minX = points.Min(p => p.X);
+            var minY = points.Min(p => p.Y);
+            var maxX = points.Max(p => p.X);
+            var maxY = points.Max(p => p.Y);
+            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
 
         private byte[] GetPointTypes()
