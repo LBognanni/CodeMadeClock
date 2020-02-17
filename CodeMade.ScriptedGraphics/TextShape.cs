@@ -56,7 +56,7 @@ namespace CodeMade.ScriptedGraphics
 
         protected virtual void RenderString(Graphics g, Font font, SolidBrush brush, PointF position, Vertex move)
         {
-            g.DrawString(Text, font, brush, position.X - move.X, Position.Y - move.Y);
+            g.DrawString(Text, font, brush, position.X - move.X, position.Y - move.Y);
         }
 
         private bool FindAndRemove(List<string> fontNameList, string find)
