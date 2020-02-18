@@ -29,6 +29,7 @@ namespace CodeMade.Clock
             var canvas = Canvas.Load(fileName ?? @"democlock.json");
             _canvas = new ClockCanvas(_timer, canvas);
             TopMost = true;
+            tsmClose.Image = il24.Images[0];
         }
 
         protected override void OnLoad(EventArgs e)
