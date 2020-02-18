@@ -46,13 +46,15 @@
           "$type": "TextShape",
           "Text": "Testing 123",
           "FontName": "Tahoma",
-          "FontSizePx": 10,
+          "FontSizePx": 10.0,
           "Position": {
             "X": 10.0,
             "Y": 50.0
           },
           "Color": "#080",
-          "Centered": false
+          "Centered": false,
+          "Font": "Tahoma",
+          "FontSize": 10.0
         }
       ],
       "Rotate": 0.0

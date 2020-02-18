@@ -9,10 +9,13 @@ namespace CodeMade.ScriptedGraphics
     {
         public string Text { get; set; }
         public string FontName { get; set; }
-        public int FontSizePx { get; set; }
+        public float FontSizePx { get; set; }
         public Vertex Position { get; set; }
         public string Color { get; set; }
         public bool Centered { get; set; }
+
+        public string Font { get => FontName; set => FontName = value; }
+        public float FontSize { get => FontSizePx; set => FontSizePx = value; }
 
         public TextShape(string text, string fontName, int fontSizePx, Vertex position, string color)
         {
