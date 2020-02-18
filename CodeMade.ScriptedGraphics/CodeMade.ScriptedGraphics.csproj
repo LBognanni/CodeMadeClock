@@ -57,8 +57,12 @@
     <Compile Include="GaussianBlur.cs" />
     <Compile Include="GaussianBlurLayer.cs" />
     <Compile Include="Hand.cs" />
+    <Compile Include="Serialization\IPathResolver.cs" />
+    <Compile Include="Serialization\KnownTypesBinder.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="IShape.cs" />
+    <Compile Include="Serialization\PathContractResolver.cs" />
+    <Compile Include="Serialization\PathResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleShape.cs" />
     <Compile Include="RotateRepeatLayer.cs" />

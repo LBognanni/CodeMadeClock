@@ -10,7 +10,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             var reference = LoadLocalBitmap(@"testimages\colors.png");
             var canvas = new Canvas(231, 229, "red");
-            canvas.Add(new BitmapShape
+            canvas.Add(new BitmapShape(new PathResolver(TestPath("testimages")))
             {
                 Left = 0,
                 Top = 0,
@@ -19,6 +19,7 @@ namespace CodeMade.ScriptedGraphics.Tests
                 Path = TestPath(@"testimages\colors.png")
             });
             AssertBitmapsAreEqual(reference, canvas.Render());
+
         }
     }
 }

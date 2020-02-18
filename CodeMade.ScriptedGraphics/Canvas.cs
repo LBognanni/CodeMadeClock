@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -58,7 +57,9 @@ namespace CodeMade.ScriptedGraphics
             string json = "";
             TryAgain<IOException>(() => json = File.ReadAllText(fileName));
             string baseFolder = Path.GetDirectoryName(fileName);
-            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings());
+
+            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(new PathResolver(Path.GetDirectoryName(fileName))));
+
             UpdateBitmapPaths(canvas, baseFolder);
 
             return canvas;
@@ -66,7 +67,7 @@ namespace CodeMade.ScriptedGraphics
 
         private static void UpdateBitmapPaths(Canvas canvas, string baseFolder)
         {
-            foreach(var layer in canvas.Layers)
+            foreach (var layer in canvas.Layers)
             {
                 UpdateBitmapPaths(layer, baseFolder);
             }
@@ -74,9 +75,9 @@ namespace CodeMade.ScriptedGraphics
 
         private static void UpdateBitmapPaths(Layer layer, string baseFolder)
         {
-            foreach(var shape in layer.Shapes)
+            foreach (var shape in layer.Shapes)
             {
-                if(shape is Layer layerShape)
+                if (shape is Layer layerShape)
                 {
                     UpdateBitmapPaths(layerShape, baseFolder);
                 }
@@ -110,42 +111,20 @@ namespace CodeMade.ScriptedGraphics
 
         public void Save(string fileName)
         {
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings());
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings(new PathResolver(Path.GetDirectoryName(fileName))));
             File.WriteAllText(fileName, json);
         }
 
-        private static JsonSerializerSettings GetSerializerSettings()
+        internal static JsonSerializerSettings GetSerializerSettings(IPathResolver resolver)
         {
             return new JsonSerializerSettings
             {
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = new KnownTypesBinder()
+                SerializationBinder = new KnownTypesBinder(),
+                ContractResolver = new PathContractResolver(resolver)
             };
         }
-
-        class KnownTypesBinder : ISerializationBinder
-        {
-            private static Type[] _types = typeof(Canvas).Assembly.GetTypes();
-            private static DefaultSerializationBinder _binder = new DefaultSerializationBinder();
-
-            public Type BindToType(string assemblyName, string typeName)
-            {
-                return _types.SingleOrDefault(t => t.Name == typeName) ?? _binder.BindToType(assemblyName, typeName);
-            }
-
-            public void BindToName(Type serializedType, out string assemblyName, out string typeName)
-            {
-                if (_types.Any(t => t.FullName == serializedType.FullName))
-                {
-                    assemblyName = null;
-                    typeName = serializedType.Name;
-                }
-                else
-                {
-                    _binder.BindToName(serializedType, out assemblyName, out typeName);
-                }
-            }
-        }
     }
+
 }

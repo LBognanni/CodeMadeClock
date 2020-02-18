@@ -6,11 +6,14 @@ namespace CodeMade.ScriptedGraphics
 {
     public class BitmapShape : RectangleShape
     {
+        private readonly IPathResolver _resolver;
+
         public string Path { get; set; }
 
-        public BitmapShape()
+        public BitmapShape(IPathResolver resolver)
         {
             Image = new Lazy<Image>(ImageFactory);
+            this._resolver = resolver;
         }
 
         [XmlIgnore]
@@ -19,7 +22,7 @@ namespace CodeMade.ScriptedGraphics
         [XmlIgnore]
         public Image FixedImage { get; set; }
 
-        private Image ImageFactory() => DrawingUtilities.LoadImage(Path);
+        private Image ImageFactory() => DrawingUtilities.LoadImage(_resolver.Resolve(Path));
 
         public override void Render(Graphics g, float scaleFactor)
         {

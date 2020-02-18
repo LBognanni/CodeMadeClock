@@ -87,7 +87,7 @@ namespace CodeMade.Clock
             }
 
             var wrap = new Layer();
-            wrap.Shapes.Add(new BitmapShape
+            wrap.Shapes.Add(new BitmapShape(null)
             {
                 FixedImage = bmp,
                 Left = 0,
