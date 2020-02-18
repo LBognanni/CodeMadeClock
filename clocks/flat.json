@@ -88,7 +88,7 @@
 					"NumbersText":["13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"],
 					"Color": "#ff88",
 					"FontName": "Lucida Console Bold",
-					"FontSize": 6,
+					"FontSize": 5,
 					"Radius": 25,
 					"Offset": {
 						"X": 52,

@@ -2,22 +2,26 @@
 	"Width": 104,
 	"Height": 104,
 	"Layers": [
+
+		// Shadow
 		{
 			"$type": "GaussianBlurLayer",
-            "BlurRadius": 3.0,
-            "Shapes": [
-                {
-                    "$type": "CircleShape",
-                    "Position": {
-                        "X": 52,
-                        "Y": 52
-                    },
-                    "Radius": 50,
-                    "InnerRadius": 44,
-                    "Color": "#0008"
-                }
-            ]
+			"BlurRadius": 3.0,
+			"Shapes": [
+				{
+					"$type": "CircleShape",
+					"Position": {
+						"X": 52,
+						"Y": 52
+					},
+					"Radius": 50,
+					"InnerRadius": 44,
+					"Color": "#0008"
+				}
+			]
 		},
+
+		// background
 		{
 			"Shapes": [
 				{
@@ -36,7 +40,7 @@
 						"Y": 52
 					},
 					"Radius": 48,
-					"Color": "#444"
+					"Color": "#333"
 				},
 				{
 					"$type": "RotateRepeatLayer",
@@ -59,7 +63,7 @@
 					"Shapes": [
 						{
 							"$type": "Shape",
-							"Color": "#444",
+							"Color": "#333",
 							"Path": "-1.5,-46 1.5,-46 1.5,-43 0,-42 -1.5,-43"
 						}
 					],
@@ -99,106 +103,395 @@
 						"Y": 52
 					}
 				},
+
+				{
+					"$type": "TextShape",
+					"Position": {
+						"X": 52,
+						"Y": 35
+					},
+					"Centered": true,
+					"Text": "CODEMADE",
+					"FontName": "Times New Roman",
+					"FontSizePx": 8,
+					"Color": "#fff4"
+				},
 			]
 		},
-        {
-            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
-            "Smooth": true,
-            "Offset": {
-                "X": 52,
-                "Y": 52
-            },
-            "Shapes": [
-                
-                {
-                    "$type": "Shape",
-                    "Color": "#0003",
-                    "Path": "-0.5,-26 0.5,-26 2.75,-3 2,-2, 2,-1 -2,-1 -2,-2 -2.75,-3"
-                },
-                {
-            		"$type": "CircleShape",
-            		"Color": "#0003",
-            		"Position":{
-            			"X": 0,
-            			"Y": 0
-            		},
-            		"Radius": 2.4
-                },
 
-                {
-                    "$type": "Shape",
-                    "Color": "90-#bbb-#aaa",
-                    "Path": "0,-25 2,-3 1,-2, 1,-1 -1,-1 -1,-2 -2,-3"
-                },
-                {
-            		"$type": "CircleShape",
-            		"Color": "#aaa",
-            		"Position":{
-            			"X": 0,
-            			"Y": 0
-            		},
-            		"Radius": 1.5
-                },
+		// left quadrant
+		{
+			"Shapes": [
 
-                {
-                    "$type": "Shape",
-                    "Color": "#fff",
-                    "Path": "0,-18 1,-4 0.5,-3, 0, -2.8 -0.5,-3 -1,-4"
-                },
-            ]
-        },
-        //{
-        //    "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
-        //    "Smooth": true,
-        //    "Offset": {
-        //        "X": 52,
-        //        "Y": 52
-        //    },
-        //    "Shapes": [
-        //        {
-        //            "$type": "Shape",
-        //            "Color": "#0002",
-        //            "Path": " -1.25,8.5 -1.25,-33.5 1.25,-33.5 1.25,8.5"
-        //        },
-        //        {
-        //            "$type": "Shape",
-        //            "Color": "#8be",
-        //            "Path": " -0.75,8 -0.75,-33 0.75,-33 0.75,8"
-        //        }
-        //    ]
-        //},
-        //{
-        //    "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
-        //    "Offset": {
-        //        "X": 52,
-        //        "Y": 52
-        //    },
-        //    "Shapes": [
-        //        {
-        //            "$type": "Shape",
-        //            "Color": "#0004",
-        //            "Path": "-0.58,-39.18 0,-39.5 0.58,-39.18 0.58,6.18 0.98,6.18 0.98,10.18 -0.98,10.18 -0.98,6.18 -0.58,6.18"
-        //        },
-        //        {
-        //            "$type": "CircleShape",
-        //            "X": 0,
-        //            "Y": 0,
-        //            "Radius": 2.5,
-        //            "Color": "#0002"
-        //        },
-        //        {
-        //            "$type": "Shape",
-        //            "Color": "#cef",
-        //            "Path": "-0.4,-39 0,-39.5 0.4,-39 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
-        //        },
-        //        {
-        //            "$type": "CircleShape",
-        //            "X": 0,
-        //            "Y": 0,
-        //            "Radius": 2,
-        //            "Color": "#cef"
-        //        }
-        //    ]
-        //},
+				{
+					"$type": "CircleShape",
+					"Position":{
+						"X": 30,
+						"Y": 60
+					},
+					"Radius": 15,
+					"Color": "270-#666-#aaa"
+				},
+				{
+					"$type": "CircleShape",
+					"Position":{
+						"X": 30,
+						"Y": 60
+					},
+					"Radius": 14.6,
+					"Color": "90-#666-#eee"
+				},
+				{
+					"$type": "CircleShape",
+					"Position":{
+						"X": 30,
+						"Y": 60
+					},
+					"Radius": 14.3,
+					"Color": "#ccc"
+				},
+				{
+					"$type": "RotateRepeatLayer",
+					"Shapes": [
+						{
+							"$type": "Shape",
+							"Color": "#0008",
+							"Path": "-0.15,-14 0.15,-14 0.15,-13 -0.15,-13"
+						}
+					],
+					"Offset": {
+						"X": 30,
+						"Y": 60
+					},
+					"RepeatRotate": 6,
+					"RepeatCount": 60
+				},
+				{
+					"$type": "RotateRepeatLayer",
+					"Shapes": [
+						{
+							"$type": "Shape",
+							"Color": "#0008",
+							"Path": "-0.25,-14 0.25,-14 0.25,-12 -0.25,-12"
+						}
+					],
+					"Offset": {
+						"X": 30,
+						"Y": 60
+					},
+					"RepeatRotate": 30,
+					"RepeatCount": 12
+				},
+			]
+		},
+		{
+			"$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 30,
+				"Y": 60.4
+			},
+			"Shapes": [
+				{
+					"$type": "Shape",
+					"Color": "#0006",
+					"Path": "0,-13 -0.1,-12 -0.3,2 -0.2,2.5 0.2,2.5 0.3,2 0.1,-12"
+				},
+			]
+
+		},
+		{
+			"$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 30,
+				"Y": 60
+			},
+			"Shapes": [
+				{
+					"$type": "Shape",
+					"Color": "#800",
+					"Path": "0,-13 -0.1,-12 -0.3,2 -0.2,2.5 0.2,2.5 0.3,2 0.1,-12"
+				},
+			]
+
+		},
+		{
+			"Shapes":[
+				{
+					"$type" : "CircleShape",
+					"Position": {
+						"X": 30,
+						"Y": 60
+					},
+					"Radius": 1,
+					"Color": "#800"
+				}
+			]
+		},
+
+
+		// Right quadrant
+		{
+			"Shapes": [
+
+				{
+					"$type": "CircleShape",
+					"Position":{
+						"X": 74,
+						"Y": 60
+					},
+					"Radius": 15,
+					"Color": "270-#666-#aaa"
+				},
+				{
+					"$type": "CircleShape",
+					"Position":{
+						"X": 74,
+						"Y": 60
+					},
+					"Radius": 14.6,
+					"Color": "90-#666-#eee"
+				},
+				{
+					"$type": "CircleShape",
+					"Position":{
+						"X": 74,
+						"Y": 60
+					},
+					"Radius": 14.3,
+					"Color": "#ccc"
+				},
+
+				{
+					"$type": "RotateRepeatLayer",
+					"Shapes": [
+						{
+							"$type": "Shape",
+							"Color": "#0006",
+							"Path": "-0.4,-14 0.4,-14 0.3,-13 -0.3,-13"
+						},
+
+						{
+							"$type": "Shape",
+							"Color": "#0006",
+							"Path": "0.9,-12 1.5,-12 1.5,-11 0.9,-11"
+						},
+
+					],
+					"Offset": {
+						"X": 74,
+						"Y": 60
+					},
+					"RepeatRotate": 24,
+					"RepeatCount": 15
+				},
+			]
+		},
+
+		{
+			"$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 74,
+				"Y": 60
+			},
+			"Shapes": [
+				{
+					"$type": "RotateRepeatLayer",
+					"Shapes": [
+
+						{
+							"$type": "Shape",
+							"Color": "#0006",
+							"Path": "0.3,-13 0.9,-13 0.9,-12 0.3,-12"
+						},
+
+						{
+							"$type": "Shape",
+							"Color": "#0006",
+							"Path": "1.5,-11 2.1,-11 2.1,-10 1.5,-10"
+						},
+					],
+					"Offset": {
+						"X": 0,
+						"Y": 0
+					},
+					"RepeatRotate": 12,
+					"RepeatCount": 30
+				},
+			]
+
+		},
+
+		{
+			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 74,
+				"Y": 60
+			},
+			"Shapes": [
+				{
+					"$type": "CircleShape",
+					"Position": {
+						"X": 0,
+						"Y": -4
+					},
+					"Color": "#0003",
+					"Radius": 4,
+				},
+			]
+
+		},
+
+		{
+			"Shapes": [
+
+				{
+					"$type": "CircleShape",
+					"Color": "30-#bbb-#666",
+					"Position": {
+						"X": 52,
+						"Y": 52
+					},
+					"Radius": 3.2
+				},
+				{
+					"$type": "CircleShape",
+					"Color": "#888",
+					"Position": {
+						"X": 52,
+						"Y": 52
+					},
+					"Radius": 2.8
+				},
+			]
+		},
+
+		// Hours
+		{
+			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"Smooth": true,
+			"Offset": {
+				"X": 52,
+				"Y": 52
+			},
+			"Shapes": [
+				
+				{
+					"$type": "Shape",
+					"Color": "#0003",
+					"Path": "-0.5,-26 0.5,-26 2.75,-3 2,-2, 2,-1 -2,-1 -2,-2 -2.75,-3"
+				},
+				{
+					"$type": "CircleShape",
+					"Color": "#0003",
+					"Position":{
+						"X": 0,
+						"Y": 0
+					},
+					"Radius": 2.4
+				},
+
+				{
+					"$type": "Shape",
+					"Color": "90-#bbb-#aaa",
+					"Path": "0,-25 2,-3 1,-2, 1,-1 -1,-1 -1,-2 -2,-3"
+				},
+				{
+					"$type": "CircleShape",
+					"Color": "#aaa",
+					"Position":{
+						"X": 0,
+						"Y": 0
+					},
+					"Radius": 1.5
+				},
+
+				{
+					"$type": "Shape",
+					"Color": "#fff",
+					"Path": "0,-18 1,-4 0.5,-3, 0, -2.8 -0.5,-3 -1,-4"
+				},
+			]
+		},
+
+		// Minutes
+		{
+			"$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+			"Smooth": true,
+			"Offset": {
+				"X": 52,
+				"Y": 52
+			},
+			"Shapes": [
+				
+				{
+					"$type": "Shape",
+					"Color": "#0003",
+					"Path": "-0.5,-36 0.5,-36 2.75,-5 2,-4, 2,-1 -2,-1 -2,-4 -2.75,-5"
+				},
+				{
+					"$type": "CircleShape",
+					"Color": "#0003",
+					"Position":{
+						"X": 0,
+						"Y": 0
+					},
+					"Radius": 2.1
+				},
+
+				{
+					"$type": "Shape",
+					"Color": "90-#bbb-#aaa",
+					"Path": "0,-35 2,-5 1,-4, 1,-1 -1,-1 -1,-4 -2,-5"
+				},
+				{
+					"$type": "CircleShape",
+					"Color": "#aaa",
+					"Position":{
+						"X": 0,
+						"Y": 0
+					},
+					"Radius": 1.5
+				},
+
+				{
+					"$type": "Shape",
+					"Color": "#fff",
+					"Path": "0,-28 1,-6 0.5,-5, 0, -4.8 -0.5,-5 -1,-6"
+				},
+			]
+		},
+		//{
+		//    "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+		//    "Offset": {
+		//        "X": 52,
+		//        "Y": 52
+		//    },
+		//    "Shapes": [
+		//        {
+		//            "$type": "Shape",
+		//            "Color": "#0004",
+		//            "Path": "-0.58,-39.18 0,-39.5 0.58,-39.18 0.58,6.18 0.98,6.18 0.98,10.18 -0.98,10.18 -0.98,6.18 -0.58,6.18"
+		//        },
+		//        {
+		//            "$type": "CircleShape",
+		//            "X": 0,
+		//            "Y": 0,
+		//            "Radius": 2.5,
+		//            "Color": "#0002"
+		//        },
+		//        {
+		//            "$type": "Shape",
+		//            "Color": "#cef",
+		//            "Path": "-0.4,-39 0,-39.5 0.4,-39 0.4,6 0.8,6 0.8,10 -0.8,10 -0.8,6 -0.4,6"
+		//        },
+		//        {
+		//            "$type": "CircleShape",
+		//            "X": 0,
+		//            "Y": 0,
+		//            "Radius": 2,
+		//            "Color": "#cef"
+		//        }
+		//    ]
+		//},
 	]
 }

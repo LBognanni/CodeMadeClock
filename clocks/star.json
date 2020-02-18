@@ -1,0 +1,261 @@
+{
+	"Width": 201,
+	"Height": 201,
+	"Layers": [
+		{
+			"$type": "GaussianBlurLayer",
+			"BlurRadius": 5,
+			"Offset": {
+				"X": 2,
+				"Y": 2
+			},
+			"Shapes": [
+
+				{
+					"$type": "CircleShape",
+					"Position": {
+						"X": 101,
+						"Y": 101,
+					},
+					"Radius": 50,
+					"Color": "#0008"
+				},
+				{
+					"$type": "RotateRepeatLayer",
+					"Offset": {
+						"X": 101,
+						"Y": 101,
+					},
+					"RepeatRotate": 30,
+					"RepeatCount": 12,
+					"Shapes": [
+						{
+							"$type": "RectangleShape",
+							"Left": -1.5,
+							"Top": -60,
+							"Width": 3,
+							"Height": 11,
+							"Color": "#0008"
+						},
+						{
+							"$type": "Shape",
+							"Color": "#0008",
+							"Path": "0,-95 4,-60 -4,-60"
+						},
+						{
+							"$type": "Layer",
+							"Rotate": 15,
+							"Shapes": [
+								{
+									"$type": "Shape",
+									"Color": "#0008",
+									"Path": "0,-85 4,-50 -4,-50"
+								},
+							]
+						}
+					]
+				}
+
+			]
+		},
+		
+		{
+			"Shapes": [
+
+				{
+					"$type": "RotateRepeatLayer",
+					"Offset": {
+						"X": 101,
+						"Y": 101,
+					},
+					"RepeatRotate": 30,
+					"RepeatCount": 12,
+					"Shapes": [
+						{
+							"$type": "Shape",
+							"Color": "#0008",
+							"Path": "-1.3,-60 1.3,-60 1.3,-49 -1.3,-49"
+						},
+						{
+							"$type": "Shape",
+							"Path": "-1,-60 1,-60 1,-49 -1,-49",
+							"Color": "0-#bbb-#777" 
+						},
+						{
+							"$type": "Shape",
+							"Color": "90-#840-#630",
+							"Path": "0,-95 4,-60 -4,-60"
+						},
+						{
+							"$type": "Layer",
+							"Rotate": 15,
+							"Shapes": [
+								{
+									"$type": "Shape",
+									"Color": "90-#840-#630",
+									"Path": "0,-85 4,-49 -4,-49"
+								},
+							]
+						}
+					]
+				},
+
+				{
+					"$type": "CircleShape",
+					"Position": {
+						"X": 101,
+						"Y": 101,
+					},
+					"Radius": 51,
+					"Color": "30-#bbb-#444"
+				},
+
+				{
+					"$type": "CircleShape",
+					"Position": {
+						"X": 101,
+						"Y": 101,
+					},
+					"Radius": 50,
+					"Color": "210-#bbb-#444"
+				},
+
+				{
+					"$type": "CircleShape",
+					"Position": {
+						"X": 101,
+						"Y": 101,
+					},
+					"Color": "30-#eed-#f4e9c6",
+					"Radius": 49
+				},
+
+				{
+					"$type": "RotateRepeatLayer",
+					"Offset": {
+						"X": 101,
+						"Y": 101,
+					},
+					"RepeatRotate": 30,
+					"RepeatCount": 12,
+					"Shapes": [
+						{
+							"$type": "CircleShape",
+							"Position": {
+								"X": 0,
+								"Y": -47
+							},
+							"Radius": 1,
+							"Color": "#000a"
+						}
+					]
+				},
+
+				{
+					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"Numbers": [1,2,3,9,10,11,12],
+					"Color": "#000a",
+					"FontName": "Times New Roman Bold",
+					"FontSize": 10,
+					"Radius": 40,
+					"RotateMode": 1,
+					"Offset": {
+						"X": 101,
+						"Y": 101
+					}
+				},
+
+				{
+					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"Numbers": [4,5,6,7,8],
+					"Color": "#000a",
+					"FontName": "Times New Roman Bold",
+					"FontSize": 10,
+					"Radius": 40,
+					"RotateMode": 2,
+					"Offset": {
+						"X": 101,
+						"Y": 101
+					}
+				}
+			]
+		},
+
+		{
+			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 101,
+				"Y": 102
+			},
+			"Shapes": [
+				{
+					"$type": "Shape",
+					"Path": "0,-30, 2.5,0 0,2.5 -2.5,0",
+					"Color": "#0004"
+				}
+			]
+		},
+
+		{
+			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 101,
+				"Y": 101
+			},
+			"Shapes": [
+				{
+					"$type": "Shape",
+					"Path": "0,-30, 2.5,0 0,2.5 -2.5,0",
+					"Color": "#555"
+				}
+			]
+		},
+
+		{
+			"$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 101,
+				"Y": 102
+			},
+			"Smooth": true,
+			"Shapes": [
+				{
+					"$type": "Shape",
+					"Path": "0,-35, 2,0 0,2 -2, 0",
+					"Color": "#0004"
+				}
+			]
+		},
+
+		{
+			"$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+			"Offset": {
+				"X": 101,
+				"Y": 101
+			},
+			"Smooth": true,
+			"Shapes": [
+				{
+					"$type": "Shape",
+					"Path": "0,-35, 2,0 0,2 -2, 0",
+					"Color": "#555"
+				}
+			]
+		},
+
+		{
+			"Shapes": [
+				{
+					"$type": "CircleShape",
+					"Position": {
+						"X": 101,
+						"Y": 101
+					},
+					"Radius": 1.5,
+					"Color": "30-#bbb-#777"
+				}
+			]
+		}
+
+	]
+}
