@@ -17,6 +17,10 @@ namespace CodeMade.ScriptedGraphics
         public string Font { get => FontName; set => FontName = value; }
         public float FontSize { get => FontSizePx; set => FontSizePx = value; }
 
+        public TextShape()
+        {
+        }
+
         public TextShape(string text, string fontName, int fontSizePx, Vertex position, string color)
         {
             Text = text;
@@ -26,7 +30,24 @@ namespace CodeMade.ScriptedGraphics
             Color = color;
         }
 
-        public void Render(Graphics g, float scaleFactor)
+        public virtual void Render(Graphics g, float scaleFactor)
+        {
+            using (var textOption = new TextRenderingOption(g, System.Drawing.Text.TextRenderingHint.AntiAlias))
+            using (var font = GetFont(scaleFactor))
+            using (var brush = new SolidBrush(Color.ToColor()))
+            {
+                var position = Position.AsPointF(scaleFactor);
+                Vertex move = new Vertex();
+                if (Centered)
+                {
+                    var sz = g.MeasureString(Text, font);
+                    move = new Vertex(sz.Width / 2, sz.Height / 2);
+                }
+                RenderString(g, font, brush, position, move);
+            }
+        }
+
+        protected virtual Font GetFont(float scaleFactor)
         {
             var fontNameList = FontName.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
             bool isBold = FindAndRemove(fontNameList, "Bold");
@@ -42,19 +63,7 @@ namespace CodeMade.ScriptedGraphics
                 style |= FontStyle.Italic;
             }
 
-            using (var textOption = new TextRenderingOption(g, System.Drawing.Text.TextRenderingHint.AntiAlias))
-            using (var font = new Font(string.Join(" ", fontNameList.ToArray()), FontSizePx * scaleFactor, style, GraphicsUnit.Pixel))
-            using (var brush = new SolidBrush(Color.ToColor()))
-            {
-                var position = Position.AsPointF(scaleFactor);
-                Vertex move = new Vertex();
-                if (Centered)
-                {
-                    var sz = g.MeasureString(Text, font);
-                    move = new Vertex(sz.Width / 2, sz.Height / 2);
-                }
-                RenderString(g, font, brush, position, move);
-            }
+            return new Font(string.Join(" ", fontNameList.ToArray()), FontSizePx * scaleFactor, style, GraphicsUnit.Pixel);
         }
 
         protected virtual void RenderString(Graphics g, Font font, SolidBrush brush, PointF position, Vertex move)

@@ -33,7 +33,6 @@ namespace CodeMade.ScriptedGraphics.Tests
             var bmp = JsonConvert.DeserializeObject<BitmapShape>(json, deserializationSettings);
             Assert.IsNotNull(bmp);
             Assert.IsNotNull(bmp.Image.Value);
-
         }
     }
 
