@@ -60,32 +60,7 @@ namespace CodeMade.ScriptedGraphics
 
             var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(new PathResolver(Path.GetDirectoryName(fileName))));
 
-            UpdateBitmapPaths(canvas, baseFolder);
-
             return canvas;
-        }
-
-        private static void UpdateBitmapPaths(Canvas canvas, string baseFolder)
-        {
-            foreach (var layer in canvas.Layers)
-            {
-                UpdateBitmapPaths(layer, baseFolder);
-            }
-        }
-
-        private static void UpdateBitmapPaths(Layer layer, string baseFolder)
-        {
-            foreach (var shape in layer.Shapes)
-            {
-                if (shape is Layer layerShape)
-                {
-                    UpdateBitmapPaths(layerShape, baseFolder);
-                }
-                else if (shape is BitmapShape bmp)
-                {
-                    bmp.Path = Path.Combine(baseFolder, bmp.Path);
-                }
-            }
         }
 
         private static void TryAgain<TException>(Func<string> fn) where TException : Exception
