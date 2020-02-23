@@ -9,7 +9,14 @@ namespace CodeMade.ScriptedGraphics.Tests
 {
     public class BitmapTesterBase
     {
-        public static void AssertBitmapsAreEqual(Bitmap expected, Bitmap actual)
+        public enum PixelCompareMode
+        {
+            FullColor,
+            RGB,
+            RGBSimilar
+        }
+
+        public static void AssertBitmapsAreEqual(Bitmap expected, Bitmap actual, PixelCompareMode compareMode = PixelCompareMode.FullColor)
         {
             if (expected.Width != actual.Width)
                 Assert.Fail($"Expected width {expected.Width}, actual {actual.Width}");
@@ -22,13 +29,29 @@ namespace CodeMade.ScriptedGraphics.Tests
                 {
                     var expectedPixel = expected.GetPixel(x, y);
                     var actualPixel = actual.GetPixel(x, y);
-                    if (expectedPixel != actualPixel)
+                    if (ArePixelsDifferent(expectedPixel, actualPixel, compareMode))
                     {
                         DisplayDiagnosticImage(expected, actual);
                         Assert.Fail($"Expected pixel at ({x},{y}) to be {expectedPixel.ToHtml()} but was {actualPixel.ToHtml()}");
                         return;
                     }
                 }
+            }
+        }
+
+        private static bool ArePixelsDifferent(Color expectedPixel, Color actualPixel, PixelCompareMode compareMode)
+        {
+            switch (compareMode)
+            {
+                case PixelCompareMode.FullColor:
+                    return (expectedPixel != actualPixel);
+                case PixelCompareMode.RGB:
+                    return (expectedPixel.R, expectedPixel.G, expectedPixel.B) != (actualPixel.R, actualPixel.G, actualPixel.B);
+                case PixelCompareMode.RGBSimilar:
+                    var diffs = Math.Abs(expectedPixel.R - actualPixel.R) + Math.Abs(expectedPixel.G - actualPixel.G) + Math.Abs(expectedPixel.B - actualPixel.B);
+                    return diffs > 8;
+                default:
+                    return true;
             }
         }
 
@@ -77,7 +100,7 @@ namespace CodeMade.ScriptedGraphics.Tests
 
         protected static string TestPath(string fileName)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\", fileName);
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
         }
     }
 }
