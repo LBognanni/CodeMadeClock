@@ -50,5 +50,39 @@ namespace CodeMade.Clock.Tests
             var bmp = optimizedCanvas.Render();
             AssertBitmapsAreEqual(clockCanvas.Render(), bmp);
         }
+
+
+        [Test]
+        [Ignore("This is not working atm")]
+        public void OptimizedCanvas_Renders_Like_Canvas_When_Holes()
+        {
+            var canvas = new Canvas(100, 100, "");
+            canvas.Add(new RectangleShape(0, 0, 20, 20, "white"));
+            canvas.Add(new CircleShape(10, 10, 10, "red"));
+
+            canvas.Add(new RectangleShape(80, 80, 20, 20, "white"));
+            canvas.Add(new CircleShape(90, 90, 10, "red"));
+
+            canvas.Layers.Add(new SecondsLayer() { Offset = new Vertex(50, 50) });
+            canvas.Add(new RectangleShape(-1, -30, 2, 32, "blue"));
+            canvas.Layers.Add(new Layer());
+
+            canvas.Add(new RectangleShape(0, 80, 20, 20, "white"));
+            canvas.Add(new CircleShape(10, 90, 10, "green"));
+
+            canvas.Add(new RectangleShape(80, 0, 20, 20, "white"));
+            canvas.Add(new CircleShape(90, 10, 10, "green"));
+            
+            canvas.Add(new Layer());
+            canvas.Add(new CircleShape(50, 50, 50, "red"));
+            canvas.Add(new DeleteCircleShape { Position = new Vertex(50, 50), Radius = 45 });
+
+            var clockCanvas = new ClockCanvas(new TestTimer(DateTime.Today.AddHours(3).AddMinutes(30).AddSeconds(45)), canvas);
+            var optimizedCanvas = clockCanvas.OptimizeFor(1);
+            clockCanvas.Update();
+            optimizedCanvas.Update();
+            var bmp = optimizedCanvas.Render();
+            AssertBitmapsAreEqual(clockCanvas.Render(), bmp);
+        }
     }
 }

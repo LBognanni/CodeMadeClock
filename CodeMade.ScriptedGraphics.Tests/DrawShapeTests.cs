@@ -96,5 +96,34 @@ namespace CodeMade.ScriptedGraphics.Tests
             var bitmapRectangle = controlCanvas.Render();
             return bitmapRectangle;
         }
+
+        [Test]
+        public void DonutShape_Is_Like_Two_Circles()
+        {
+            var canvas1 = new Canvas(100, 100, "#0000");
+            canvas1.Add(new RectangleShape(0, 0, 100, 100, "white"));
+            canvas1.Add(new CircleShape(50, 50, 40, "red"));
+            canvas1.Add(new CircleShape(50, 50, 20, "white"));
+
+            var canvas2 = new Canvas(100, 100, "#0000");
+            canvas2.Add(new RectangleShape(0, 0, 100, 100, "white"));
+            canvas2.Add(new DonutShape { Position = new Vertex(50, 50), Radius = 40, InnerRadius = 20, Color = "red" });
+
+            AssertBitmapsAreEqual(canvas1.Render(), canvas2.Render(), PixelCompareMode.RGBSimilar);
+        }
+
+        [Test]
+        [Ignore("inner circle is aliased using DeleteCircleShape")]
+        public void DonutShape_Is_Like_Circle_Minus_Erase()
+        {
+            var canvas1 = new Canvas(100, 100, "#0000");
+            canvas1.Add(new CircleShape(50, 50, 40, "red"));
+            canvas1.Add(new DeleteCircleShape { Position = new Vertex(50, 50), Radius = 20 });
+
+            var canvas2 = new Canvas(100, 100, "#0000");
+            canvas2.Add(new DonutShape { Position = new Vertex(50, 50), Radius = 40, InnerRadius = 20, Color = "red" });
+
+            AssertBitmapsAreEqual(canvas1.Render(), canvas2.Render(), PixelCompareMode.RGB);
+        }
     }
 }
