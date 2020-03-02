@@ -1,35 +1,125 @@
 ﻿using CodeMade.ScriptedGraphics;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock
 {
     public partial class frmClock : Form
     {
-        ClockCanvas _canvas;
-        ClockCanvas _renderCanvas;
-        ITimer _timer;
+        private ClockCanvas _canvas;
+        private ClockCanvas _renderCanvas;
+        private ITimer _timer;
+        private Settings _settings;
+        private Action _debouncedSaveSettings;
         
         public frmClock(string fileName)
         {
             InitializeComponent();
-            Size = Properties.Settings.Default.Size;
+            
+            _settings = Settings.Load("settings.json");
+            if (_settings.HasSettings)
+            {
+                Size = _settings.Size;
+                StartPosition = FormStartPosition.Manual;
+                LoadLocation(_settings.Location);
+            }
+            else
+            {
+                Size = new Size(256, 256);
+            }
+
             Text = "CodeMade Clock";
             ShowInTaskbar = false;
-            Size = new Size(256, 256);
             _timer = new ClockTimer();
             var canvas = Canvas.Load(fileName ?? @"democlock.json");
             _canvas = new ClockCanvas(_timer, canvas);
             TopMost = true;
             tsmClose.Image = il24.Images[0];
+
+            _debouncedSaveSettings = ((Action)SaveSettings).Debounce(1500);
+        }
+
+        private void LoadLocation(Point location)
+        {
+            var closestScreen = Screen.PrimaryScreen;
+            var closestDistance = FindCenter(Screen.PrimaryScreen.Bounds);
+            var clockRect = new Rectangle(location, Size);
+            var clockPt = FindCenter(clockRect);
+            var intersects = new List<Screen>();
+
+            foreach(var screen in Screen.AllScreens)
+            {
+                if (screen.Bounds.Contains(clockRect))
+                {
+                    Location = location;
+                    return;
+                }
+                else if (screen.Bounds.IntersectsWith(clockRect))
+                {
+                    intersects.Add(screen);
+                }
+            }
+
+            switch (intersects.Count)
+            {
+                case 0:
+                    // Not on any screen - move in the closest one
+                    var screens = Screen.AllScreens.Select(s => (s, FindDistanceSquared(s.Bounds, clockPt)));
+                    MoveToScreen(location, screens.OrderBy(s => s.Item2).First().s);
+                    break;
+                case 1:
+                    // Intersects one screen - move to it
+                    MoveToScreen(location, intersects[0]);
+                    break;
+                default:
+                    // Intersect multiple screens - this might be fine (in between two side-by-side screens)
+                    Location = location;
+                    break;
+            }
+        }
+
+        private void MoveToScreen(Point location, Screen screen)
+        {
+            if(location.X < screen.Bounds.Left)
+            {
+                location.X = screen.Bounds.Left;
+            }
+            else if(location.X + Width > screen.Bounds.Right)
+            {
+                location.X = screen.Bounds.Right - Width;
+            }
+
+            if(location.Y < screen.Bounds.Top)
+            {
+                location.Y = screen.Bounds.Top;
+            }
+            else if(location.Y + Height > screen.Bounds.Bottom)
+            {
+                location.Y = screen.Bounds.Bottom - Height;
+            }
+
+            Location = location;
+        }
+
+        private Point FindCenter(Rectangle bounds)
+        {
+            return new Point(bounds.Left + (bounds.Width / 2), bounds.Top + (bounds.Height / 2));
+        }
+
+        private decimal FindDistanceSquared(Rectangle bounds, Point pt)
+        {
+            var pt2 = FindCenter(bounds);
+            return (pt.X * pt2.X) + (pt.Y * pt2.Y);
+        }
+
+        protected void SaveSettings()
+        {
+            _settings.Location = Location;
+            _settings.Size = Size;
+            _settings.Save();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -41,16 +131,21 @@ namespace CodeMade.Clock
             SetStyle(ControlStyles.ResizeRedraw, true);
             base.OnLoad(e);
             UpdateImage();
-            Timer timer = new Timer();
+            var timer = new System.Windows.Forms.Timer();
             timer.Tick += Timer_Tick;
             timer.Interval = 500;
             timer.Start();
-
         }
+
         protected override void OnResize(EventArgs e)
         {
             _renderCanvas = null;
             base.OnResize(e);
+
+            if (_debouncedSaveSettings != null)
+            {
+                _debouncedSaveSettings();
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -69,6 +164,15 @@ namespace CodeMade.Clock
             {
                 contextMenu.Show(this, e.Location);
             }
+        }
+
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            if (_debouncedSaveSettings != null)
+            {
+                _debouncedSaveSettings();
+            }
+            base.OnLocationChanged(e);
         }
 
         protected override CreateParams CreateParams
@@ -104,7 +208,7 @@ namespace CodeMade.Clock
 
         private void SmallerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdateSize(0.75);
+            UpdateSize(0.8);
         }
 
         private void LargerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -115,8 +219,8 @@ namespace CodeMade.Clock
         private void UpdateSize(double multiplier)
         {
             Size = new Size((int)(Size.Width * multiplier), (int)(Size.Height * multiplier));
-            Properties.Settings.Default.Size = Size;
-            Properties.Settings.Default.Save();
+            _settings.Size = Size;
+            _settings.Save();
         }
     }
 }

@@ -109,6 +109,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.ClientSize = new System.Drawing.Size(510, 462);
             this.Name = "frmClock";
             this.Text = "Form1";
