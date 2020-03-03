@@ -2,10 +2,11 @@
 using System;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace CodeMade.Clock
 {
-    public partial class frmPreview : Form
+    public partial class frmPreview : Form, ITimer
     {
         private string _fileToWatch;
         private Canvas _canvas;
@@ -16,9 +17,11 @@ namespace CodeMade.Clock
         {
             _fileToWatch = fileToWatch;
             InitializeComponent();
-            this.AutoScaleMode = AutoScaleMode.Dpi;
-            this.pbCanvas.Click += pbCanvas_Click;
+            AutoScaleMode = AutoScaleMode.Dpi;
+            pbCanvas.Click += pbCanvas_Click;
             UpdateFileList();
+
+            cbSpecificTime.CheckedChanged += (s, e) => { dpTime.Enabled = cbSpecificTime.Checked; };
         }
 
         private void UpdateFileList()
@@ -69,9 +72,9 @@ namespace CodeMade.Clock
         private void UpdateImage(bool alsoLoadCanvas = false)
         {
 
-            this.BeginInvoke((Action)(() =>
+            BeginInvoke((Action)(() =>
             {
-                this.txtLog.Text = "OK";
+                txtLog.Text = "OK";
             }));
 
             try
@@ -83,27 +86,27 @@ namespace CodeMade.Clock
                     {
                         return;
                     }
-                    _clockCanvas = new ClockCanvas(new ClockTimer(), _canvas);
+                    _clockCanvas = new ClockCanvas(this, _canvas);
                 }
                 _clockCanvas.Update();
-                var szx = (float)this.pbCanvas.Width / (float)_canvas.Width;
-                var szy = (float)this.pbCanvas.Height / (float)_canvas.Height;
-                this.BeginInvoke((Action)(() => {
+                var szx = (float)pbCanvas.Width / (float)_canvas.Width;
+                var szy = (float)pbCanvas.Height / (float)_canvas.Height;
+                BeginInvoke((Action)(() => {
                     try
                     {
-                        this.pbCanvas.Image = _clockCanvas.Render(Math.Min(szx, szy));
+                        pbCanvas.Image = _clockCanvas.Render(Math.Min(szx, szy));
                     }
                     catch (Exception ex)
                     {
-                        this.txtLog.Text = ex.Message;
+                        txtLog.Text = ex.Message;
                     }
                 }));
             }
             catch (Exception ex)
             {
-                this.BeginInvoke((Action)(() =>
+                BeginInvoke((Action)(() =>
                 {
-                    this.txtLog.Text = ex.Message;
+                    txtLog.Text = ex.Message;
                 }));
                 return;
             }
@@ -113,6 +116,32 @@ namespace CodeMade.Clock
         {
             base.OnResizeEnd(e);
             UpdateImage();
+        }
+        private void CmdCopy_Click(object sender, System.EventArgs e)
+        {
+            Clipboard.Clear();
+            DataObject data = new DataObject();
+            using (var ms = new MemoryStream())
+            {
+                pbCanvas.Image.Save(ms, ImageFormat.Png);
+                data.SetData("PNG", false, ms);
+                Clipboard.SetDataObject(data, true);
+            }
+        }
+
+        public DateTime GetTime()
+        {
+            if(cbSpecificTime.Checked)
+            {
+                return dpTime.Value;
+            }
+            return DateTime.Now;
+        }
+
+        private void cmdSavePreview_Click(object sender, EventArgs e)
+        {
+            string fileName = Path.ChangeExtension(_fileToWatch, "png");
+            this.pbCanvas.Image.Save(fileName);
         }
     }
 }
