@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CodeMade.ScriptedGraphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using CodeMade.ScriptedGraphics;
 
 namespace CodeMade.Clock
 {
@@ -61,7 +61,7 @@ namespace CodeMade.Clock
 
             foreach (var (isSkipLayerGroup, layerList) in layerGroups)
             {
-                if(isSkipLayerGroup)
+                if (isSkipLayerGroup)
                 {
                     newCanvas.Layers.AddRange(layerList);
                 }

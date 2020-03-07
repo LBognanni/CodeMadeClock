@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeMade.Clock
 {
@@ -28,14 +23,14 @@ namespace CodeMade.Clock
         public static Settings Load(string fileName)
         {
             var settings = new Settings(fileName);
-            
+
             if (File.Exists(fileName))
             {
                 JsonConvert.PopulateObject(File.ReadAllText(fileName), settings);
                 settings.HasSettings = true;
             }
 
-            return settings; 
+            return settings;
         }
 
         public void Save()

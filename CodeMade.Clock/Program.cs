@@ -1,8 +1,5 @@
 ﻿using CommandLine;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock
@@ -13,7 +10,7 @@ namespace CodeMade.Clock
         {
             [Value(0, Required = false)]
             public string DisplayFile { get; set; }
-            [Option('p', "preview", Required = false, HelpText ="Run in preview mode showing the specified file")]
+            [Option('p', "preview", Required = false, HelpText = "Run in preview mode showing the specified file")]
             public string PreviewFile { get; set; }
         }
 
@@ -30,7 +27,7 @@ namespace CodeMade.Clock
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(options =>
                 {
-                    if(!string.IsNullOrEmpty(options.PreviewFile) && System.IO.File.Exists(options.PreviewFile))
+                    if (!string.IsNullOrEmpty(options.PreviewFile) && System.IO.File.Exists(options.PreviewFile))
                     {
                         Application.Run(new frmPreview(options.PreviewFile));
                     }

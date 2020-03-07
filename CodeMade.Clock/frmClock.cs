@@ -16,12 +16,12 @@ namespace CodeMade.Clock
         private Settings _settings;
         private Action _debouncedSaveSettings;
         private LocationSetter _locationSetter;
-        
+
         public frmClock(string fileName)
         {
             _locationSetter = new LocationSetter(this);
             InitializeComponent();
-            
+
             _settings = Settings.Load("settings.json");
             if (_settings.HasSettings)
             {
@@ -86,12 +86,12 @@ namespace CodeMade.Clock
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 WinAPI.ReleaseCapture();
                 WinAPI.SendMessage(Handle, WinAPI.WM_NCLBUTTONDOWN, new UIntPtr(WinAPI.HTCAPTION), IntPtr.Zero);
             }
-            else if(e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right)
             {
                 contextMenu.Show(this, e.Location);
             }
