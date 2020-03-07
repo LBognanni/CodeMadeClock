@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NodaTime;
+using System;
 
 namespace CodeMade.Clock
 {
     public class MinutesLayer : TimedLayer
     {
-        public override void Update(DateTime time)
+        public override void Update(LocalTime time)
         {
             if (Smooth)
             {

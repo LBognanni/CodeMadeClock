@@ -1,9 +1,9 @@
-﻿using System;
+﻿using NodaTime;
 
 namespace CodeMade.Clock
 {
     public interface ITimer
     {
-        DateTime GetTime();
+        Instant GetTime();
     }
 }

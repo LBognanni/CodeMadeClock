@@ -1,5 +1,6 @@
 ﻿using CodeMade.ScriptedGraphics;
 using CodeMade.ScriptedGraphics.Tests;
+using NodaTime;
 using NUnit.Framework;
 using System;
 
@@ -10,14 +11,14 @@ namespace CodeMade.Clock.Tests
     {
         class TestTimer : ITimer
         {
-            private DateTime fakeDate;
+            private Instant fakeDate;
 
-            public TestTimer(DateTime fixedDate)
+            public TestTimer(Instant fixedDate)
             {
                 fakeDate = fixedDate;
             }
 
-            public DateTime GetTime()
+            public Instant GetTime()
             {
                 return fakeDate;
             }
@@ -43,7 +44,7 @@ namespace CodeMade.Clock.Tests
             canvas.Add(new RectangleShape(80, 0, 20, 20, "white"));
             canvas.Add(new CircleShape(90, 10, 10, "green"));
 
-            var clockCanvas = new ClockCanvas(new TestTimer(DateTime.Today.AddHours(3).AddMinutes(30).AddSeconds(45)), canvas);
+            var clockCanvas = new ClockCanvas(new TestTimer(Instant.FromDateTimeOffset(DateTime.Today.AddHours(3).AddMinutes(30).AddSeconds(45))), canvas);
             var optimizedCanvas = clockCanvas.OptimizeFor(1);
             clockCanvas.Update();
             optimizedCanvas.Update();
@@ -77,7 +78,7 @@ namespace CodeMade.Clock.Tests
             canvas.Add(new CircleShape(50, 50, 50, "red"));
             canvas.Add(new DeleteCircleShape { Position = new Vertex(50, 50), Radius = 45 });
 
-            var clockCanvas = new ClockCanvas(new TestTimer(DateTime.Today.AddHours(3).AddMinutes(30).AddSeconds(45)), canvas);
+            var clockCanvas = new ClockCanvas(new TestTimer(Instant.FromDateTimeOffset(DateTime.Today.AddHours(3).AddMinutes(30).AddSeconds(45))), canvas);
             var optimizedCanvas = clockCanvas.OptimizeFor(1);
             clockCanvas.Update();
             optimizedCanvas.Update();

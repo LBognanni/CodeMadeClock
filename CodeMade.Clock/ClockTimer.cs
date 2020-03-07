@@ -1,12 +1,13 @@
-﻿using System;
+﻿using NodaTime;
+using System;
 
 namespace CodeMade.Clock
 {
     public class ClockTimer : ITimer
     {
-        public DateTime GetTime()
+        public Instant GetTime()
         {
-            return DateTime.Now;
+            return SystemClock.Instance.GetCurrentInstant();
         }
     }
 }

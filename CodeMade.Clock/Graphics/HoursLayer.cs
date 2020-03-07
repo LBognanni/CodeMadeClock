@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NodaTime;
+using System;
 
 namespace CodeMade.Clock
 {
     public class HoursLayer : TimedLayer
     {
-        public override void Update(DateTime time)
+        public override void Update(LocalTime time)
         {
             if (Smooth)
             {

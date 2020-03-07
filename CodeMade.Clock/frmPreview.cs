@@ -1,8 +1,10 @@
 ﻿using CodeMade.ScriptedGraphics;
+using NodaTime;
+using NodaTime.Extensions;
 using System;
-using System.Windows.Forms;
-using System.IO;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Forms;
 
 namespace CodeMade.Clock
 {
@@ -82,7 +84,7 @@ namespace CodeMade.Clock
                 if ((_canvas == null) || (alsoLoadCanvas))
                 {
                     _canvas = Canvas.Load(_fileToWatch);
-                    if(_canvas == null)
+                    if (_canvas == null)
                     {
                         return;
                     }
@@ -91,7 +93,8 @@ namespace CodeMade.Clock
                 _clockCanvas.Update();
                 var szx = (float)pbCanvas.Width / (float)_canvas.Width;
                 var szy = (float)pbCanvas.Height / (float)_canvas.Height;
-                BeginInvoke((Action)(() => {
+                BeginInvoke((Action)(() =>
+                {
                     try
                     {
                         pbCanvas.Image = _clockCanvas.Render(Math.Min(szx, szy));
@@ -129,13 +132,13 @@ namespace CodeMade.Clock
             }
         }
 
-        public DateTime GetTime()
+        public Instant GetTime()
         {
-            if(cbSpecificTime.Checked)
+            if (cbSpecificTime.Checked)
             {
-                return dpTime.Value;
+                return dpTime.Value.ToInstant();
             }
-            return DateTime.Now;
+            return SystemClock.Instance.GetCurrentInstant();
         }
 
         private void cmdSavePreview_Click(object sender, EventArgs e)

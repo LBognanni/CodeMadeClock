@@ -1,10 +1,7 @@
 ﻿using CodeMade.Clock.LocationMoving;
-using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace CodeMade.Clock.Tests
 {
