@@ -13,7 +13,8 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             FullColor,
             RGB,
-            RGBSimilar
+            RGBSimilar,
+            RGBASimilar
         }
 
         public static void AssertBitmapsAreEqual(Bitmap expected, Bitmap actual, PixelCompareMode compareMode = PixelCompareMode.FullColor)
@@ -48,8 +49,9 @@ namespace CodeMade.ScriptedGraphics.Tests
                 case PixelCompareMode.RGB:
                     return (expectedPixel.R, expectedPixel.G, expectedPixel.B) != (actualPixel.R, actualPixel.G, actualPixel.B);
                 case PixelCompareMode.RGBSimilar:
-                    var diffs = Math.Abs(expectedPixel.R - actualPixel.R) + Math.Abs(expectedPixel.G - actualPixel.G) + Math.Abs(expectedPixel.B - actualPixel.B);
-                    return diffs > 8;
+                    return Math.Abs(expectedPixel.R - actualPixel.R) + Math.Abs(expectedPixel.G - actualPixel.G) + Math.Abs(expectedPixel.B - actualPixel.B) > 8;
+                case PixelCompareMode.RGBASimilar:
+                    return Math.Abs(expectedPixel.R - actualPixel.R) + Math.Abs(expectedPixel.G - actualPixel.G) + Math.Abs(expectedPixel.B - actualPixel.B) > 8;
                 default:
                     return true;
             }

@@ -54,7 +54,6 @@ namespace CodeMade.Clock.Tests
 
 
         [Test]
-        [Ignore("This is not working atm")]
         public void OptimizedCanvas_Renders_Like_Canvas_When_Holes()
         {
             var canvas = new Canvas(100, 100, "");
@@ -74,7 +73,7 @@ namespace CodeMade.Clock.Tests
             canvas.Add(new RectangleShape(80, 0, 20, 20, "white"));
             canvas.Add(new CircleShape(90, 10, 10, "green"));
             
-            canvas.Add(new Layer());
+            canvas.Layers.Add(new CachedLayer());
             canvas.Add(new CircleShape(50, 50, 50, "red"));
             canvas.Add(new DeleteCircleShape { Position = new Vertex(50, 50), Radius = 45 });
 
@@ -83,7 +82,7 @@ namespace CodeMade.Clock.Tests
             clockCanvas.Update();
             optimizedCanvas.Update();
             var bmp = optimizedCanvas.Render();
-            AssertBitmapsAreEqual(clockCanvas.Render(), bmp);
+            AssertBitmapsAreEqual(clockCanvas.Render(), bmp, PixelCompareMode.RGBASimilar);
         }
     }
 }

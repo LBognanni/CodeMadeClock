@@ -70,5 +70,13 @@ namespace CodeMade.Clock.Tests
             Assert.AreEqual(30, layer.Rotate);
         }
 
+        [Test]
+        public void HoursHand_Is_15_Degs_At_00_00_UTC_In_Paris_On_A_24h_Clock()
+        {
+            Instant time = Instant.FromDateTimeUtc(new DateTime(2020, 01, 01, 00, 00, 00, DateTimeKind.Utc));
+            var layer = new HoursLayer { TimeZone = "Europe/Paris", Is24Hours = true };
+            layer.Update(time);
+            Assert.AreEqual(15, layer.Rotate);
+        }
     }
 }
