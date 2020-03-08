@@ -46,6 +46,7 @@ namespace CodeMade.Clock
         public string Color { get; set; }
         public float Radius { get; set; }
         public RotateTextMode RotateMode { get; set; } = RotateTextMode.None;
+        public bool Is24Hours { get; set; }
 
         private Lazy<TextShapeWithRotation[]> _textShapes;
 
@@ -60,12 +61,12 @@ namespace CodeMade.Clock
             const double hourInRad = Math.PI / 6;
             const double offsetInRad = hourInRad * -3;
 
-            for (int hour = 1; hour <= 12; ++hour)
+            for (int hour = 1; hour <= (Is24Hours ? 24 : 12); ++hour)
             {
                 var numberIdx = Array.IndexOf(Numbers, hour);
                 if (numberIdx >= 0)
                 {
-                    var angle = hourInRad * hour + offsetInRad;
+                    var angle = (Is24Hours ? hourInRad / 2 : hourInRad) * hour + offsetInRad;
                     var pos = new Vertex((float)Math.Cos(angle) * Radius, (float)Math.Sin(angle) * Radius);
 
                     string text = hour.ToString();
@@ -76,8 +77,8 @@ namespace CodeMade.Clock
 
                     float rotation = RotateMode switch
                     {
-                        RotateTextMode.RotateIn => hour * 30,
-                        RotateTextMode.RotateOut => 180.0f + (hour * 30),
+                        RotateTextMode.RotateIn => hour * (Is24Hours ? 15 : 30),
+                        RotateTextMode.RotateOut => 180.0f + (hour * (Is24Hours ? 15 : 30)),
                         _ => 0
                     };
 
