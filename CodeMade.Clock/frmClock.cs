@@ -21,6 +21,7 @@ namespace CodeMade.Clock
         {
             _locationSetter = new LocationSetter(this);
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
 
             _settings = Settings.Load("settings.json");
             if (_settings.HasSettings)
@@ -56,7 +57,6 @@ namespace CodeMade.Clock
         protected override void OnLoad(EventArgs e)
         {
             ControlBox = false;
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.ResizeRedraw, true);

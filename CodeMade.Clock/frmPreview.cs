@@ -23,7 +23,8 @@ namespace CodeMade.Clock
             pbCanvas.Click += pbCanvas_Click;
             UpdateFileList();
 
-            cbSpecificTime.CheckedChanged += (s, e) => { dpTime.Enabled = cbSpecificTime.Checked; };
+            cbSpecificTime.CheckedChanged += (s, e) => { dpTime.Enabled = cbSpecificTime.Checked; UpdateImage(); };
+            dpTime.ValueChanged += (s, e) => { UpdateImage(); };
         }
 
         private void UpdateFileList()
@@ -136,7 +137,7 @@ namespace CodeMade.Clock
         {
             if (cbSpecificTime.Checked)
             {
-                return dpTime.Value.ToInstant();
+                return dpTime.Value.ToUniversalTime().ToInstant();
             }
             return SystemClock.Instance.GetCurrentInstant();
         }
