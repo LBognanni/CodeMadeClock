@@ -5,15 +5,16 @@ namespace CodeMade.Clock
 {
     public class HoursLayer : TimedLayer
     {
+        public float? Angle { get; set; }
         public bool Is24Hours { get; set; }
 
         public override void Update(LocalTime time)
         {
-            float angle = Is24Hours ? 15.0f : 30.0f;
+            var angle = Angle ?? (Is24Hours ? 15.0f : 30.0f);
 
             if (Smooth)
             {
-                Rotate = (float)time.Hour * angle + ((float)time.Minute * (30.0f / 60.0f));
+                Rotate = time.Hour * angle + (time.Minute * (angle / 60.0f));
             }
             else
             {
