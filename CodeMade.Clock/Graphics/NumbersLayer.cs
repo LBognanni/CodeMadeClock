@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace CodeMade.Clock
 {
@@ -60,10 +61,11 @@ namespace CodeMade.Clock
             List<TextShapeWithRotation> shapes = new List<TextShapeWithRotation>();
             const double hourInRad = Math.PI / 6;
             const double offsetInRad = hourInRad * -3;
+            var numbers = Numbers ?? Enumerable.Range(1, Is24Hours ? 24 : 12).ToArray();
 
             for (int hour = 1; hour <= (Is24Hours ? 24 : 12); ++hour)
             {
-                var numberIdx = Array.IndexOf(Numbers, hour);
+                var numberIdx = Array.IndexOf(numbers, hour);
                 if (numberIdx >= 0)
                 {
                     var angle = (Is24Hours ? hourInRad / 2 : hourInRad) * hour + offsetInRad;
