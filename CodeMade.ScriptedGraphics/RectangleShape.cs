@@ -10,6 +10,8 @@ namespace CodeMade.ScriptedGraphics
         public float Height { get; set; }
         public string Color { get; set; }
 
+        public bool Smooth { get; set; }
+
         public RectangleShape()
         {
         }
@@ -27,7 +29,7 @@ namespace CodeMade.ScriptedGraphics
         {
             RectangleF rect = new RectangleF(Left * scaleFactor, Top * scaleFactor, Width * scaleFactor, Height * scaleFactor);
 
-            using (var smoothing = new SmoothingOption(g, System.Drawing.Drawing2D.SmoothingMode.Default))
+            using (var smoothing = new SmoothingOption(g, Smooth? System.Drawing.Drawing2D.SmoothingMode.AntiAlias : System.Drawing.Drawing2D.SmoothingMode.Default))
             {
                 using (var brush = Color.ParseBrush(rect))
                 {
