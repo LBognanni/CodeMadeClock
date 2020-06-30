@@ -167,6 +167,7 @@
             this.cmdCopy.TabIndex = 1;
             this.cmdCopy.Text = "Copy image";
             this.cmdCopy.UseVisualStyleBackColor = true;
+            this.cmdCopy.Click += CmdCopy_Click;
             // 
             // cbSpecificTime
             // 
