@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 
 namespace CodeMade.Clock
@@ -79,7 +80,8 @@ namespace CodeMade.Clock
             var bmp = new Bitmap((int)(_canvas.Width * scaleFactor), (int)(_canvas.Height * scaleFactor));
             using (var g = Graphics.FromImage(bmp))
             {
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.Half;
+                g.SmoothingMode = SmoothingMode.HighQuality;
                 foreach (var layer in layerList)
                 {
                     layer.Render(g, scaleFactor);

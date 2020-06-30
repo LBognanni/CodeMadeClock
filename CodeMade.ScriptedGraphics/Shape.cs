@@ -51,7 +51,7 @@ namespace CodeMade.ScriptedGraphics
             RectangleF rect = GetBounds(points);
             using (var brush = Color.ParseBrush(rect))
             {
-                g.FillPath(brush, new System.Drawing.Drawing2D.GraphicsPath(points, GetPointTypes(), FillMode.Alternate));
+                g.FillPath(brush, new GraphicsPath(points, GetPointTypes(), FillMode.Alternate));
             }
         }
 

@@ -15,6 +15,7 @@ namespace CodeMade.ScriptedGraphics
                 g.Transform = graphics.Transform;
                 g.CompositingMode = graphics.CompositingMode;
                 g.CompositingQuality = graphics.CompositingQuality;
+                g.PixelOffsetMode = graphics.PixelOffsetMode;
 
                 base.Render(g, scaleFactor);
 
