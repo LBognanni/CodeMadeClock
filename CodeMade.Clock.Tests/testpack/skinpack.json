@@ -1,0 +1,12 @@
+{
+  "Version": "1.0.0",
+  "Name": "Test Skins",
+  "Descriptions": "Test description",
+  "Skins": [
+    {
+      "Name": "A clock",
+      "Description": "A test clock for testing",
+      "Definition": "testclock.json"
+    }
+  ]
+}

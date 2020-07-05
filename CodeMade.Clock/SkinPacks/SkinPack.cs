@@ -1,11 +1,14 @@
-﻿using System;
+﻿using CodeMade.ScriptedGraphics;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CodeMade.Clock.SkinPacks
 {
     public class SkinPack
     {
-        private string _fileName;
+        private readonly IFileReader _fileReader;
 
         public List<Skin> Skins { get; }
 
@@ -13,17 +16,61 @@ namespace CodeMade.Clock.SkinPacks
         public string Description { get; set; }
         public Version Version { get; set; }
 
-        private SkinPack(string fileName)
+        public SkinPack(IFileReader fileReader)
         {
-            _fileName = fileName;
+            _fileReader = fileReader;
             Skins = new List<Skin>();
         }
 
-        public static SkinPack Load(string fileName)
+        public static SkinPack Load(string path) => Load(new FileReader(path));
+       
+        public static SkinPack Load(IFileReader fileReader)
         {
-            var skinPack = new SkinPack(fileName);
+            const string skinPackFileName = "skinpack.json";
+
+            if(!fileReader.FileExists(skinPackFileName))
+            {
+                throw new EntryPointNotFoundException("File skinpack.json is missing in container.");
+            }
+
+            var skinPack = new SkinPack(fileReader);
+            JsonConvert.PopulateObject(fileReader.GetString(skinPackFileName), skinPack);
+
+            skinPack.LoadSkins(fileReader);
+
+            skinPack.Verify();
 
             return skinPack;
+        }
+
+        private void LoadSkins(IFileReader fileReader)
+        {
+            foreach(var skin in this.Skins)
+            {
+                skin.Load(fileReader);
+            }
+        }
+
+        internal void Verify()
+        {
+            foreach(var skin in Skins)
+            {
+                if(skin.Canvas == null)
+                {
+                    throw new ValidationFailedException($"Could not load skilfile {skin.Definition} for {skin.Name}");
+                }
+                if((skin.Variables?.Count ?? 0) != 0)
+                {
+                    //var varsFile = Path.Combine(_path, Path.ChangeExtension(skin.Definition, ".vars.json"));
+                }
+            }
+        }
+
+        public class ValidationFailedException : Exception
+        {
+            public ValidationFailedException(string message) : base(message)
+            {
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using CodeMade.Clock.SkinPacks;
+using NUnit.Framework;
 
 namespace CodeMade.ScriptedGraphics.Tests
 {
@@ -11,7 +12,7 @@ namespace CodeMade.ScriptedGraphics.Tests
         {
             var reference = LoadLocalBitmap(path);
             var canvas = new Canvas(width, heigth, "red");
-            canvas.Add(new BitmapShape(new PathResolver(TestPath("testimages")))
+            canvas.Add(new BitmapShape(new FileReader(TestPath("testimages")))
             {
                 Left = 0,
                 Top = 0,

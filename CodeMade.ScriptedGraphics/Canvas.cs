@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using CodeMade.Clock.SkinPacks;
 using Newtonsoft.Json;
 
 namespace CodeMade.ScriptedGraphics
@@ -53,13 +54,15 @@ namespace CodeMade.ScriptedGraphics
             Layers.Last().Shapes.Add(shape);
         }
 
-        public static Canvas Load(string fileName)
+        public static Canvas Load(string fileName) =>
+            Load(fileName, new FileReader(Path.GetDirectoryName(fileName)));
+
+        public static Canvas Load(string fileName, IFileReader fileReader)
         {
             string json = "";
-            TryAgain<IOException>(() => json = File.ReadAllText(fileName));
-            string baseFolder = Path.GetDirectoryName(fileName);
+            TryAgain<IOException>(() => json = fileReader.GetString(fileName));
 
-            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(new PathResolver(Path.GetDirectoryName(fileName))));
+            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(fileReader));
 
             return canvas;
         }
@@ -87,18 +90,18 @@ namespace CodeMade.ScriptedGraphics
 
         public void Save(string fileName)
         {
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings(new PathResolver(Path.GetDirectoryName(fileName))));
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented, GetSerializerSettings(new FileReader(Path.GetDirectoryName(fileName))));
             File.WriteAllText(fileName, json);
         }
 
-        internal static JsonSerializerSettings GetSerializerSettings(IPathResolver resolver)
+        internal static JsonSerializerSettings GetSerializerSettings(IFileReader fileReader)
         {
             return new JsonSerializerSettings
             {
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 TypeNameHandling = TypeNameHandling.Auto,
                 SerializationBinder = new KnownTypesBinder(),
-                ContractResolver = new PathContractResolver(resolver)
+                ContractResolver = new FileReaderContractResolver(fileReader)
             };
         }
     }

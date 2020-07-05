@@ -8,20 +8,20 @@ namespace CodeMade.ScriptedGraphics
     class CustomFontTextShape : TextShape, IDisposable
     {
         private readonly PrivateFontCollection _fontCollection;
-        private readonly IPathResolver _resolver;
+        private readonly IFileReader _fileReader;
         public string FontFile { get; set; }
 
-        public CustomFontTextShape(IPathResolver resolver)
+        public CustomFontTextShape(IFileReader fileReader)
         {
             _fontCollection = new PrivateFontCollection();
-            _resolver = resolver;
+            _fileReader = fileReader;
         }
 
         protected override Font GetFont(float scaleFactor)
         {
             if (_fontCollection.Families.Length == 0)
             {
-                _fontCollection.AddFontFile(_resolver.Resolve(FontFile));
+                _fontCollection.AddFontFile(_fileReader.GetFontFile(FontFile));
             }
 
             return new Font(_fontCollection.Families.First(), FontSize * scaleFactor);

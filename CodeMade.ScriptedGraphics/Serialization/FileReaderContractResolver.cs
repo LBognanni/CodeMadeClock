@@ -3,22 +3,22 @@ using Newtonsoft.Json.Serialization;
 
 namespace CodeMade.ScriptedGraphics
 {
-    class PathContractResolver : DefaultContractResolver
+    class FileReaderContractResolver : DefaultContractResolver
     {
-        private IPathResolver _resolver;
+        private IFileReader _fileReader;
 
-        public PathContractResolver(IPathResolver resolver)
+        public FileReaderContractResolver(IFileReader fileReader)
         {
-            _resolver = resolver;
+            _fileReader = fileReader;
         }
 
         protected override JsonObjectContract CreateObjectContract(Type objectType)
         {
-            var constructor = objectType.GetConstructor(new Type[] { typeof(IPathResolver) });
+            var constructor = objectType.GetConstructor(new Type[] { typeof(IFileReader) });
             if(constructor!=null)
             {
                 var contract = base.CreateObjectContract(objectType);
-                contract.DefaultCreator = () => Activator.CreateInstance(objectType, _resolver);
+                contract.DefaultCreator = () => Activator.CreateInstance(objectType, _fileReader);
                 return contract;
             }
 
