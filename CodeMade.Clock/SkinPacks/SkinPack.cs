@@ -57,11 +57,7 @@ namespace CodeMade.Clock.SkinPacks
             {
                 if(skin.Canvas == null)
                 {
-                    throw new ValidationFailedException($"Could not load skilfile {skin.Definition} for {skin.Name}");
-                }
-                if((skin.Variables?.Count ?? 0) != 0)
-                {
-                    //var varsFile = Path.Combine(_path, Path.ChangeExtension(skin.Definition, ".vars.json"));
+                    throw new ValidationFailedException($"Could not load skin file {skin.Definition} for {skin.Name}");
                 }
             }
         }
