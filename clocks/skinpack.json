@@ -1,0 +1,32 @@
+{
+	"Version": "1.0",
+	"Name": "Default Pack",
+	"Description": "Default Clock pack",
+	"Skins": [
+		{
+			"Name": "Classic White",
+			"Description": "",
+			"Definition": "white.json"
+		},
+		{
+			"Name": "Classic Blue",
+			"Description": "",
+			"Definition": "blue2.json"
+		},
+		{
+			"Name": "Blue",
+			"Description": "",
+			"Definition": "blue.json"
+		},
+		{
+			"Name": "Red",
+			"Description": "",
+			"Definition": "red.json"
+		},
+		{
+			"Name": "Blue",
+			"Description": "",
+			"Definition": "blue.json"
+		},
+	]
+}
