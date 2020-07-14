@@ -2,8 +2,6 @@
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using System.IO;
-using System.Reflection;
 
 namespace CodeMade.ScriptedGraphics.Tests
 {

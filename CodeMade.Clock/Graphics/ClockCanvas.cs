@@ -71,7 +71,7 @@ namespace CodeMade.Clock
                 }
             }
 
-            return new ClockCanvas(this._timer, newCanvas);
+            return new ClockCanvas(_timer, newCanvas);
         }
 
         private Layer MergeLayers(float scaleFactor, Canvas newCanvas, List<Layer> layerList)

@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 
 namespace CodeMade.Clock.Tests
@@ -65,7 +63,8 @@ namespace CodeMade.Clock.Tests
         public void SkinPack_ThrowsWhenIndexIsMissing()
         {
             var io = Mock.Of<IFileReader>(r => r.FileExists(It.IsAny<string>()) == false);
-            Assert.Throws<EntryPointNotFoundException>(() => {
+            Assert.Throws<EntryPointNotFoundException>(() =>
+            {
                 SkinPack.Load(io);
             });
         }
@@ -145,35 +144,7 @@ namespace CodeMade.Clock.Tests
             Assert.IsNotNull(shape);
             Assert.AreEqual("red", shape.Color);
             Assert.AreEqual(1, shape.Left);
-            
+
         }
-
-
-        class FakeFileReader : IFileReader
-        {
-            private readonly IDictionary<string, string> _files;
-
-            public FakeFileReader(IDictionary<string, string> files)
-            {
-                _files = files;
-            }
-
-            public bool FileExists(string fileName) =>
-                _files.ContainsKey(fileName);
-
-            public string GetFontFile(string fontFile)
-            {
-                throw new NotImplementedException();
-            }
-
-            public string GetString(string fileName) =>
-                _files[fileName];
-            
-
-            public Image LoadImage(string path)
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
+    }    
 }

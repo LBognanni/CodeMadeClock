@@ -32,11 +32,22 @@ namespace CodeMade.ScriptedGraphics
             Layers = new List<Layer>(new Layer[] { bgLayer });
         }
 
+        public Image RenderAt(int maxWidth, int maxHeight)
+        {
+            var scaleFactor = Math.Min((float)maxWidth / (float)Width, (float)maxHeight / (float)Height);
+            return Render(scaleFactor);
+        }
+
         public virtual Bitmap Render(float scaleFactor = 1)
         {
             int scaleWidth = (int)((float)Width * scaleFactor);
             int scaleHeight = (int)((float)Height * scaleFactor);
 
+            return RenderAt(scaleFactor, scaleWidth, scaleHeight);
+        }
+
+        private Bitmap RenderAt(float scaleFactor, int scaleWidth, int scaleHeight)
+        {
             Bitmap bmp = new Bitmap(scaleWidth, scaleHeight);
             using (var g = Graphics.FromImage(bmp))
             {
