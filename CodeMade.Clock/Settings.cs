@@ -4,12 +4,13 @@ using System.IO;
 
 namespace CodeMade.Clock
 {
-    class Settings
+    public class Settings : ISettings
     {
         public bool HasSettings { get; private set; }
         public Size Size { get; set; }
         public Point Location { get; set; }
-        public string Skin { get; set; }
+        public string SelectedSkinpack { get; set; }
+        public string SelectedSkin { get; set; }
 
         [JsonIgnore]
         private string _fileName { get; set; }

@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace CodeMade.Clock.SkinPacks
 {
@@ -45,7 +44,7 @@ namespace CodeMade.Clock.SkinPacks
 
         private void LoadSkins(IFileReader fileReader)
         {
-            foreach(var skin in this.Skins)
+            foreach(var skin in Skins)
             {
                 skin.Load(fileReader);
             }

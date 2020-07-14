@@ -16,13 +16,18 @@ namespace CodeMade.Clock.SkinPacks
 
         public string GetFontFile(string fontFile) =>
             Resolve(fontFile);
-        
+
+        public IFileReader GetPack(string pack) =>
+            new FileReader(Resolve(pack));
 
         public string GetString(string fileName) =>
             File.ReadAllText(Resolve(fileName));
 
         public Image LoadImage(string path) =>
             DrawingUtilities.LoadImage(Resolve(path));
+
+        public bool PackExists(string pack) =>
+            Directory.Exists(Resolve(pack));
 
         private string Resolve(string fileName) =>
             Path.Combine(_path, fileName);

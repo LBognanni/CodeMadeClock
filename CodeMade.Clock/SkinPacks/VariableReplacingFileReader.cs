@@ -23,6 +23,9 @@ namespace CodeMade.Clock.SkinPacks
         public string GetFontFile(string fontFile) =>
             _inner.GetFontFile(fontFile);
 
+        public IFileReader GetPack(string pack) =>
+            _inner.GetPack(pack);
+
         public string GetString(string fileName)
         {
             var regexes = _variables.Select(v => new { Regex = new Regex($"\\$\\b{v.Key}\\b"), Replace = v.Value }).ToList();
@@ -37,6 +40,9 @@ namespace CodeMade.Clock.SkinPacks
 
         public Image LoadImage(string path) =>
             _inner.LoadImage(path);
+
+        public bool PackExists(string pack) =>
+            _inner.PackExists(pack);
     }
     
 }

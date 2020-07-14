@@ -1,5 +1,4 @@
 ﻿using CodeMade.ScriptedGraphics;
-using System;
 using System.Collections.Generic;
 
 namespace CodeMade.Clock.SkinPacks

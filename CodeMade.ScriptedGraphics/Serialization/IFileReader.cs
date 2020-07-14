@@ -8,5 +8,7 @@ namespace CodeMade.ScriptedGraphics
         string GetString(string fileName);
         Image LoadImage(string path);
         string GetFontFile(string fontFile);
+        bool PackExists(string pack);
+        IFileReader GetPack(string pack);
     }
 }

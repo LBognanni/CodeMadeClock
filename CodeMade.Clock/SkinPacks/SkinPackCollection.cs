@@ -1,11 +1,6 @@
 ﻿using CodeMade.ScriptedGraphics;
-using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeMade.Clock.SkinPacks
 {
@@ -13,17 +8,23 @@ namespace CodeMade.Clock.SkinPacks
     {
         private IFileReader _fileReader;
 
-        public IList<SkinPack> Packs { get; }
+        public IReadOnlyList<SkinPack> Packs { get; }
 
-        public SkinPackCollection(IFileReader resolver)
+        public SkinPackCollection(IFileReader fileReader)
         {
-            Packs = new List<SkinPack>();
-            _fileReader = resolver;
+            var packs = new List<SkinPack>();
+            Packs = packs;
+            _fileReader = fileReader;
+            var skinPacks = JsonConvert.DeserializeObject<string[]>(_fileReader.GetString("skinpacks.json"));
+
+            foreach(var pack in skinPacks)
+            {
+                if(_fileReader.PackExists(pack))
+                {
+                    packs.Add(SkinPack.Load(_fileReader.GetPack(pack)));
+                }
+            }
         }
 
-        public void Load()
-        {
-
-        }
     }
 }
