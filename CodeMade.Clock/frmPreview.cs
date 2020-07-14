@@ -145,7 +145,7 @@ namespace CodeMade.Clock
         private void cmdSavePreview_Click(object sender, EventArgs e)
         {
             string fileName = Path.ChangeExtension(_fileToWatch, "png");
-            this.pbCanvas.Image.Save(fileName);
+            pbCanvas.Image.Save(fileName);
         }
     }
 }

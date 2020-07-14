@@ -3,11 +3,11 @@
 	"Name": "Default Pack",
 	"Description": "Default Clock pack",
 	"Skins": [
-		{
-			"Name": "Classic White",
-			"Description": "",
-			"Definition": "white.json"
-		},
+		//{
+		//	"Name": "Classic White",
+		//	"Description": "",
+		//	"Definition": "white.json"
+		//},
 		{
 			"Name": "Classic Blue",
 			"Description": "",

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CodeMade.Clock
 {
@@ -24,6 +25,23 @@ namespace CodeMade.Clock
                         }
                     }, TaskScheduler.Default);
             };
+        }
+
+        public static bool SelectItem(this ComboBox comboBox, object selectedItem)
+        {
+            if (selectedItem == null)
+            {
+                return false;
+            }
+
+            var item = comboBox.Items.IndexOf(selectedItem);
+            if(item >=0)
+            {
+                comboBox.SelectedIndex = item;
+                return true;
+            }
+
+            return false;
         }
 
     }
