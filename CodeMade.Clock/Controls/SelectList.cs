@@ -36,7 +36,7 @@ namespace CodeMade.Clock.Controls
                     item.Selected = true;
                     selectedItem = item;
                 }
-                item.Click += Item_Click;
+                item.SelectedChanged += Item_SelectedChanged;
                 Controls.Add(item);
             }
 
@@ -44,15 +44,18 @@ namespace CodeMade.Clock.Controls
                 ScrollToControl(selectedItem);
         }
 
-        private void Item_Click(object sender, EventArgs e)
+        public IEnumerable<SelectListItem> Items => Controls.OfType<SelectListItem>();
+
+        private void Item_SelectedChanged(object sender, EventArgs e)
         {
-            if(sender is SelectListItem item)
+            if ((!(sender is SelectListItem item)) || (!item.Selected))
             {
-                foreach(var other in Controls.OfType<SelectListItem>())
-                {
-                    other.Selected = false;
-                }
-                item.Selected = true;
+                return;
+            }
+
+            foreach (var other in Controls.OfType<SelectListItem>().Where(c => c != item))
+            {
+                other.Selected = false;
             }
         }
 

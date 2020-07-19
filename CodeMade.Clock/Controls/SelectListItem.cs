@@ -17,7 +17,8 @@ namespace CodeMade.Clock.Controls
 
         private static Image ImgChecked = GetCircle(true);
         private static Image ImgUnChecked = GetCircle(false);
-        
+        public event EventHandler SelectedChanged;
+
         private static Image GetCircle(bool @checked)
         {
             Canvas canvas = new Canvas(50, 50, "transparent");
@@ -43,12 +44,12 @@ namespace CodeMade.Clock.Controls
             lblDescription.Click += Control_Click;
             lblTitle.Click += Control_Click;
             tlpMain.Click += Control_Click;
-            Selected = false;
+            imgChecked.Image = ImgUnChecked;
         }
 
         private void Control_Click(object sender, EventArgs e)
         {
-            OnClick(e);
+            Selected = true;
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -60,6 +61,9 @@ namespace CodeMade.Clock.Controls
             BackColor = SystemColors.Window;
         }
 
+        internal void OnSelectedChanged() => 
+            SelectedChanged?.Invoke(this, EventArgs.Empty);
+
         public string Title { get => lblTitle.Text; set => lblTitle.Text = value; }
         public string Description { get => lblDescription.Text; set => lblDescription.Text = value; }
         public Image Picture { get => imgItem.Image; set => imgItem.Image = value; }
@@ -69,8 +73,12 @@ namespace CodeMade.Clock.Controls
             get => _selected; 
             set
             {
-                _selected = value;
-                imgChecked.Image = value ? ImgChecked : ImgUnChecked;
+                if (_selected != value)
+                {
+                    _selected = value;
+                    imgChecked.Image = value ? ImgChecked : ImgUnChecked;
+                    OnSelectedChanged();
+                }
             }
         }
 

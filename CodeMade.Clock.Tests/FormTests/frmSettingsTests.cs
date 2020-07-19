@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using CodeMade.Clock.Controls;
 
 namespace CodeMade.Clock.Tests.FormTests
 {
@@ -41,11 +42,10 @@ namespace CodeMade.Clock.Tests.FormTests
         [Test]
         public void ListsAllSkins_And_SelectsCurrentOne()
         {
-            var lvwSkins = _form.FindControl("lvwSkins") as ListView;
-            Assert.IsNotNull(lvwSkins);
-            Assert.AreEqual(4, lvwSkins.Items.Count);
-            Assert.AreEqual(1, lvwSkins.SelectedItems.Count);
-            Assert.AreEqual("Blue", lvwSkins.SelectedItems.OfType<ListViewItem>().FirstOrDefault()?.Text);
+            var slSkins = _form.FindControl("slSkins") as SelectList;
+            Assert.IsNotNull(slSkins);
+            Assert.AreEqual(4, slSkins.Items.Count());
+            Assert.AreEqual("Black", slSkins.GetSelected<Skin>().Name);
         }
 
         [Test]
@@ -63,17 +63,18 @@ namespace CodeMade.Clock.Tests.FormTests
         public void Save_AppliesChangesAndClosesTheForm()
         {
             var cmdSave = _form.FindControl("cmdSave");
-            var lvwSkins = _form.FindControl("lvwSkins") as ListView;
+            var slSkins = _form.FindControl("slSkins") as SelectList;
             Assert.IsNotNull(cmdSave);
 
             _form.ShowVirtual();
-            lvwSkins.Items[3].Selected = true;
+            slSkins.Items.First(i=>i.Title == "Black").Selected = true;
 
             cmdSave.RunEvent("Click");
             Assert.IsFalse(_form.Visible);
             Assert.AreEqual("Black", _settings.SelectedSkin);
         }
 
+        [Ignore("manual testing only")]
         [Test]
         public void ShowForm()
         {
