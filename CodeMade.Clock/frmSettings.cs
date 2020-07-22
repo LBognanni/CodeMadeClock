@@ -24,17 +24,17 @@ namespace CodeMade.Clock
         {
             cmbSkinPack.SuspendLayout();
             cmbSkinPack.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbSkinPack.DataSource = _skinPacks.Packs;
+            cmbSkinPack.DataSource = _skinPacks.Packs.Values.ToList();
             cmbSkinPack.DisplayMember = "Name";
             cmbSkinPack.ValueMember = "Name";
-            cmbSkinPack.SelectItem(_skinPacks.Packs.FirstOrDefault(p => p.Name == _settings.SelectedSkinpack));
+            cmbSkinPack.SelectItem(_skinPacks.Packs[_settings.SelectedSkinpack]);
             cmbSkinPack.ResumeLayout();
             cmbSkinPack.SelectedIndexChanged += (s, e) => LoadSelectedSkinpack();
         }
 
         private void LoadSelectedSkinpack()
         {
-            var skinPack = _skinPacks.Packs.First();
+            var skinPack = _skinPacks.Packs.Values.First();
             const int icon_size = 128;
             SuspendLayout();
 
