@@ -9,7 +9,7 @@ namespace CodeMade.Clock.SkinPacks
     {
         private readonly IFileReader _fileReader;
 
-        public List<Skin> Skins { get; }
+        public IReadOnlyList<Skin> Skins { get; }
 
         public string Name { get; set; }
         public string Description { get; set; }

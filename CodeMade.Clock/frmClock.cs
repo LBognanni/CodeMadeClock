@@ -1,8 +1,10 @@
 ﻿using CodeMade.Clock.LocationMoving;
+using CodeMade.Clock.SkinPacks;
 using CodeMade.ScriptedGraphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -13,17 +15,33 @@ namespace CodeMade.Clock
         private ClockCanvas _canvas;
         private ClockCanvas _renderCanvas;
         private ITimer _timer;
-        private Settings _settings;
+        private ISettings _settings;
+        private SkinPackCollection _skinpacks;
         private Action _debouncedSaveSettings;
         private LocationSetter _locationSetter;
 
-        public frmClock(string fileName)
+        public frmClock(string skinOverride = null, ISettings settings = null, SkinPackCollection skinpacks = null)
         {
             _locationSetter = new LocationSetter(this);
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
+            Text = "CodeMade Clock";
+            TopMost = true;
+            tsmClose.Image = il24.Images[0];
+            ShowInTaskbar = false;
 
-            _settings = Settings.Load("settings.json");
+            _settings = settings ?? Settings.Load(Path.Combine(Application.LocalUserAppDataPath, "settings.json"));
+            _skinpacks = skinpacks ?? SkinPackCollection.Load(Path.Combine(Application.LocalUserAppDataPath, "skinpacks"), Path.Combine(Application.StartupPath, "skinpacks"));
+
+            _timer = new ClockTimer();
+            LoadSize();
+            LoadSkin(skinOverride);
+
+            _debouncedSaveSettings = ((Action)SaveSettings).Debounce(500);
+        }
+
+        private void LoadSize()
+        {
             if (_settings.HasSettings)
             {
                 Size = _settings.Size;
@@ -34,18 +52,26 @@ namespace CodeMade.Clock
             {
                 Size = new Size(256, 256);
             }
-
-            Text = "CodeMade Clock";
-            ShowInTaskbar = false;
-            _timer = new ClockTimer();
-            var canvas = Canvas.Load(fileName ?? @"democlock.json");
-            _canvas = new ClockCanvas(_timer, canvas);
-            TopMost = true;
-            tsmClose.Image = il24.Images[0];
-
-            _debouncedSaveSettings = ((Action)SaveSettings).Debounce(1500);
         }
 
+        private void LoadSkin(string skinOverride)
+        {
+            Canvas canvas;
+            if (string.IsNullOrEmpty(skinOverride))
+            {
+                canvas = _skinpacks.Packs[_settings.SelectedSkinpack]?.Skins
+                                .FirstOrDefault(s => s.Name.Equals(_settings.SelectedSkin, StringComparison.OrdinalIgnoreCase)).Canvas;
+                if (canvas == null)
+                {
+                    canvas = _skinpacks.Packs.First().Value.Skins.First().Canvas;
+                }
+            }
+            else
+            {
+                canvas = Canvas.Load(skinOverride);
+            }
+            _canvas = new ClockCanvas(_timer, canvas);
+        }
 
         protected void SaveSettings()
         {
@@ -62,7 +88,7 @@ namespace CodeMade.Clock
             SetStyle(ControlStyles.ResizeRedraw, true);
             base.OnLoad(e);
             UpdateImage();
-            var timer = new System.Windows.Forms.Timer();
+            var timer = new Timer();
             timer.Tick += Timer_Tick;
             timer.Interval = 500;
             timer.Start();
@@ -73,11 +99,11 @@ namespace CodeMade.Clock
             _renderCanvas = null;
             base.OnResize(e);
 
-            if (_debouncedSaveSettings != null)
-            {
-                _debouncedSaveSettings();
-            }
+            OnSaveSettings();
         }
+
+        private void OnSaveSettings() => 
+            _debouncedSaveSettings?.Invoke();
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -99,10 +125,7 @@ namespace CodeMade.Clock
 
         protected override void OnLocationChanged(EventArgs e)
         {
-            if (_debouncedSaveSettings != null)
-            {
-                _debouncedSaveSettings();
-            }
+            OnSaveSettings();
             base.OnLocationChanged(e);
         }
 
@@ -153,7 +176,7 @@ namespace CodeMade.Clock
         {
             Size = new Size((int)(Size.Width * multiplier), (int)(Size.Height * multiplier));
             _settings.Size = Size;
-            _settings.Save();
+            OnSaveSettings();
         }
     }
 }
