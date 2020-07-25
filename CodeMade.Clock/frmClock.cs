@@ -54,21 +54,26 @@ namespace CodeMade.Clock
             }
         }
 
+        internal string SelectedSkin { get; private set; }
+
         private void LoadSkin(string skinOverride)
         {
             Canvas canvas;
             if (string.IsNullOrEmpty(skinOverride))
             {
-                canvas = _skinpacks.Packs[_settings.SelectedSkinpack]?.Skins
-                                .FirstOrDefault(s => s.Name.Equals(_settings.SelectedSkin, StringComparison.OrdinalIgnoreCase)).Canvas;
-                if (canvas == null)
+                var skin = _skinpacks.Packs[_settings.SelectedSkinpack]?.Skins
+                                .FirstOrDefault(s => s.Name.Equals(_settings.SelectedSkin, StringComparison.OrdinalIgnoreCase));
+                if (skin == null)
                 {
-                    canvas = _skinpacks.Packs.First().Value.Skins.First().Canvas;
+                    skin = _skinpacks.Packs.First().Value.Skins.First();
                 }
+                SelectedSkin = skin.Name;
+                canvas = skin.Canvas;
             }
             else
             {
                 canvas = Canvas.Load(skinOverride);
+                SelectedSkin = skinOverride;
             }
             _canvas = new ClockCanvas(_timer, canvas);
         }

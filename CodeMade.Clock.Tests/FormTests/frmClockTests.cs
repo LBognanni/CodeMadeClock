@@ -11,7 +11,6 @@ namespace CodeMade.Clock.Tests.FormTests
     [TestFixture]
     class frmClockTests
     {
-        private frmClock _sut;
         private ISettings _settings;
         private SkinPackCollection _skinpacks;
 
@@ -29,7 +28,8 @@ namespace CodeMade.Clock.Tests.FormTests
         [Test]
         public void frmClock_LoadsSelectedSkinpack()
         {
-            Assert.Fail("Add a way to check the loaded skin/pack");
+            var sut = new frmClock(settings: _settings, skinpacks: _skinpacks);
+            Assert.AreEqual("Red", sut.SelectedSkin);
         }
 
         [Test]
