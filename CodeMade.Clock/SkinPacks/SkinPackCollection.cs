@@ -28,14 +28,15 @@ namespace CodeMade.Clock.SkinPacks
             }
         }
 
-        public static SkinPackCollection Load(string localUserAppDataPath, string fallbackPath)
+        public static SkinPackCollection Load(string localUserSkinPacksFolder, string fallbackPath)
         {
-            if(!File.Exists(Path.Combine(localUserAppDataPath, SkinpacksIndex)))
+            if(!File.Exists(Path.Combine(localUserSkinPacksFolder, SkinpacksIndex)))
             {
-                CopyFolder(fallbackPath, localUserAppDataPath);
+                CopyFolder(fallbackPath, Path.Combine(localUserSkinPacksFolder, "default"));
+                File.WriteAllText(Path.Combine(localUserSkinPacksFolder, "skinpacks.json"), "[\"default\"]");
             }
 
-            return new SkinPackCollection(new FileReader(localUserAppDataPath));
+            return new SkinPackCollection(new FileReader(localUserSkinPacksFolder));
         }
 
         private static void CopyFolder(string sourceFolder, string destinationFolder)

@@ -1,5 +1,7 @@
-﻿using CommandLine;
+﻿using CodeMade.Clock.SkinPacks;
+using CommandLine;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock
@@ -24,21 +26,24 @@ namespace CodeMade.Clock
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            var settings = Settings.Load(Path.Combine(Application.LocalUserAppDataPath, "settings.json"));
+            var skinpacks = SkinPackCollection.Load(Path.Combine(Application.LocalUserAppDataPath, "skinpacks"), Path.Combine(Application.StartupPath, "clocks"));
+
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(options =>
                 {
-                    if (!string.IsNullOrEmpty(options.PreviewFile) && System.IO.File.Exists(options.PreviewFile))
+                    if (!string.IsNullOrEmpty(options.PreviewFile) && File.Exists(options.PreviewFile))
                     {
                         Application.Run(new frmPreview(options.PreviewFile));
                     }
                     else
                     {
-                        Application.Run(new frmClock(options.DisplayFile));
+                        Application.Run(new frmClock(settings, skinpacks, options.DisplayFile));
                     }
                 })
                 .WithNotParsed(errors =>
                 {
-                    Application.Run(new frmClock(null));
+                    Application.Run(new frmClock(settings, skinpacks));
                 });
         }
     }

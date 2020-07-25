@@ -39,6 +39,7 @@
             this.il16 = new System.Windows.Forms.ImageList(this.components);
             this.il24 = new System.Windows.Forms.ImageList(this.components);
             this.il32 = new System.Windows.Forms.ImageList(this.components);
+            this.tsmSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,11 +47,12 @@
             // 
             this.contextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmSettings,
             this.sizeToolStripMenuItem,
             this.toolStripMenuItem1,
             this.tsmClose});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(211, 86);
+            this.contextMenu.Size = new System.Drawing.Size(181, 98);
             // 
             // sizeToolStripMenuItem
             // 
@@ -58,32 +60,32 @@
             this.smallerToolStripMenuItem,
             this.largerToolStripMenuItem});
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sizeToolStripMenuItem.Text = "Size";
             // 
             // smallerToolStripMenuItem
             // 
             this.smallerToolStripMenuItem.Name = "smallerToolStripMenuItem";
-            this.smallerToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.smallerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.smallerToolStripMenuItem.Text = "Smaller";
             this.smallerToolStripMenuItem.Click += new System.EventHandler(this.SmallerToolStripMenuItem_Click);
             // 
             // largerToolStripMenuItem
             // 
             this.largerToolStripMenuItem.Name = "largerToolStripMenuItem";
-            this.largerToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.largerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.largerToolStripMenuItem.Text = "Larger";
             this.largerToolStripMenuItem.Click += new System.EventHandler(this.LargerToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(207, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // tsmClose
             // 
             this.tsmClose.Name = "tsmClose";
-            this.tsmClose.Size = new System.Drawing.Size(210, 24);
+            this.tsmClose.Size = new System.Drawing.Size(180, 22);
             this.tsmClose.Text = "Exit";
             this.tsmClose.Click += new System.EventHandler(this.TsmClose_Click);
             // 
@@ -105,13 +107,21 @@
             this.il32.TransparentColor = System.Drawing.Color.Transparent;
             this.il32.Images.SetKeyName(0, "close");
             // 
+            // tsmSettings
+            // 
+            this.tsmSettings.Name = "tsmSettings";
+            this.tsmSettings.Size = new System.Drawing.Size(180, 22);
+            this.tsmSettings.Text = "&Settings...";
+            this.tsmSettings.Click += new System.EventHandler(this.tsmSettings_Click);
+            // 
             // frmClock
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.ClientSize = new System.Drawing.Size(510, 462);
+            this.ClientSize = new System.Drawing.Size(382, 375);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmClock";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Form1";
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -129,6 +139,7 @@
         private System.Windows.Forms.ToolStripMenuItem sizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem smallerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem largerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmSettings;
     }
 }
 

@@ -18,6 +18,8 @@ namespace CodeMade.Clock
         private Settings(string fileName)
         {
             HasSettings = false;
+            SelectedSkin = "blue.json";
+            SelectedSkinpack = "default";
             _fileName = fileName;
         }
 

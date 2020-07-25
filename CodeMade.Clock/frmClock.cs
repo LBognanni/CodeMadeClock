@@ -20,7 +20,7 @@ namespace CodeMade.Clock
         private Action _debouncedSaveSettings;
         private LocationSetter _locationSetter;
 
-        public frmClock(string skinOverride = null, ISettings settings = null, SkinPackCollection skinpacks = null)
+        public frmClock(ISettings settings, SkinPackCollection skinpacks, string skinOverride = null)
         {
             _locationSetter = new LocationSetter(this);
             InitializeComponent();
@@ -30,14 +30,21 @@ namespace CodeMade.Clock
             tsmClose.Image = il24.Images[0];
             ShowInTaskbar = false;
 
-            _settings = settings ?? Settings.Load(Path.Combine(Application.LocalUserAppDataPath, "settings.json"));
-            _skinpacks = skinpacks ?? SkinPackCollection.Load(Path.Combine(Application.LocalUserAppDataPath, "skinpacks"), Path.Combine(Application.StartupPath, "skinpacks"));
+            _settings = settings;
+            _skinpacks = skinpacks;
 
             _timer = new ClockTimer();
             LoadSize();
             LoadSkin(skinOverride);
 
             _debouncedSaveSettings = ((Action)SaveSettings).Debounce(500);
+            this.Resize += FrmClock_Resize;
+        }
+
+        private void FrmClock_Resize(object sender, EventArgs e)
+        {
+            _renderCanvas = null;
+            OnSaveSettings();
         }
 
         private void LoadSize()
@@ -59,7 +66,7 @@ namespace CodeMade.Clock
         private void LoadSkin(string skinOverride)
         {
             Canvas canvas;
-            if (string.IsNullOrEmpty(skinOverride))
+            if (string.IsNullOrEmpty(skinOverride) || !File.Exists(skinOverride))
             {
                 var skin = _skinpacks.Packs[_settings.SelectedSkinpack]?.Skins
                                 .FirstOrDefault(s => s.Name.Equals(_settings.SelectedSkin, StringComparison.OrdinalIgnoreCase));
@@ -97,14 +104,6 @@ namespace CodeMade.Clock
             timer.Tick += Timer_Tick;
             timer.Interval = 500;
             timer.Start();
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            _renderCanvas = null;
-            base.OnResize(e);
-
-            OnSaveSettings();
         }
 
         private void OnSaveSettings() => 
@@ -182,6 +181,15 @@ namespace CodeMade.Clock
             Size = new Size((int)(Size.Width * multiplier), (int)(Size.Height * multiplier));
             _settings.Size = Size;
             OnSaveSettings();
+        }
+
+        private void tsmSettings_Click(object sender, EventArgs e)
+        {
+            frmSettings form = new frmSettings(_skinpacks, _settings);
+            if(form.ShowDialog() == DialogResult.OK)
+            {
+                LoadSkin(null);
+            }
         }
     }
 }
