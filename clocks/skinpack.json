@@ -24,9 +24,24 @@
 			"Definition": "red.json"
 		},
 		{
-			"Name": "Blue",
+			"Name": "Cube",
 			"Description": "",
-			"Definition": "blue.json"
+			"Definition": "cube.json"
 		},
+		{
+			"Name": "Transparent",
+			"Description": "",
+			"Definition": "transparent.json"
+		},
+		{
+			"Name": "Chronograph",
+			"Description": "",
+			"Definition": "chronograph.json"
+		},
+		{
+			"Name": "Flat",
+			"Description": "",
+			"Definition": "flat.json"
+		}
 	]
 }

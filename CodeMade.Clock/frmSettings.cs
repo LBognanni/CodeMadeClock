@@ -46,12 +46,14 @@ namespace CodeMade.Clock
 
         private void cmdCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
         private void cmdSave_Click(object sender, EventArgs e)
         {
             _settings.SelectedSkin = slSkins.GetSelected<Skin>()?.Name;
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

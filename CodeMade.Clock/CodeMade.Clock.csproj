@@ -9,6 +9,7 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>Loris Bognanni</Authors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="publish\**" />

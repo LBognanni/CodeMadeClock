@@ -83,6 +83,7 @@ namespace CodeMade.Clock
                 SelectedSkin = skinOverride;
             }
             _canvas = new ClockCanvas(_timer, canvas);
+            _renderCanvas = null;
         }
 
         protected void SaveSettings()
