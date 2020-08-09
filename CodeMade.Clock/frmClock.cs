@@ -187,6 +187,7 @@ namespace CodeMade.Clock
         private void tsmSettings_Click(object sender, EventArgs e)
         {
             frmSettings form = new frmSettings(_skinpacks, _settings);
+            form.TopMost = this.TopMost;
             if(form.ShowDialog() == DialogResult.OK)
             {
                 LoadSkin(null);

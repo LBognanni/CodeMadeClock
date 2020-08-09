@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClock));
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smallerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.largerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,7 +40,6 @@
             this.il16 = new System.Windows.Forms.ImageList(this.components);
             this.il24 = new System.Windows.Forms.ImageList(this.components);
             this.il32 = new System.Windows.Forms.ImageList(this.components);
-            this.tsmSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +52,14 @@
             this.toolStripMenuItem1,
             this.tsmClose});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(181, 98);
+            this.contextMenu.Size = new System.Drawing.Size(126, 76);
+            // 
+            // tsmSettings
+            // 
+            this.tsmSettings.Name = "tsmSettings";
+            this.tsmSettings.Size = new System.Drawing.Size(125, 22);
+            this.tsmSettings.Text = "&Settings...";
+            this.tsmSettings.Click += new System.EventHandler(this.tsmSettings_Click);
             // 
             // sizeToolStripMenuItem
             // 
@@ -60,32 +67,32 @@
             this.smallerToolStripMenuItem,
             this.largerToolStripMenuItem});
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.sizeToolStripMenuItem.Text = "Size";
             // 
             // smallerToolStripMenuItem
             // 
             this.smallerToolStripMenuItem.Name = "smallerToolStripMenuItem";
-            this.smallerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.smallerToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.smallerToolStripMenuItem.Text = "Smaller";
             this.smallerToolStripMenuItem.Click += new System.EventHandler(this.SmallerToolStripMenuItem_Click);
             // 
             // largerToolStripMenuItem
             // 
             this.largerToolStripMenuItem.Name = "largerToolStripMenuItem";
-            this.largerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.largerToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.largerToolStripMenuItem.Text = "Larger";
             this.largerToolStripMenuItem.Click += new System.EventHandler(this.LargerToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(122, 6);
             // 
             // tsmClose
             // 
             this.tsmClose.Name = "tsmClose";
-            this.tsmClose.Size = new System.Drawing.Size(180, 22);
+            this.tsmClose.Size = new System.Drawing.Size(125, 22);
             this.tsmClose.Text = "Exit";
             this.tsmClose.Click += new System.EventHandler(this.TsmClose_Click);
             // 
@@ -107,22 +114,16 @@
             this.il32.TransparentColor = System.Drawing.Color.Transparent;
             this.il32.Images.SetKeyName(0, "close");
             // 
-            // tsmSettings
-            // 
-            this.tsmSettings.Name = "tsmSettings";
-            this.tsmSettings.Size = new System.Drawing.Size(180, 22);
-            this.tsmSettings.Text = "&Settings...";
-            this.tsmSettings.Click += new System.EventHandler(this.tsmSettings_Click);
-            // 
             // frmClock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 375);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmClock";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Form1";
+            this.Text = "CodeMade Clock";
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
