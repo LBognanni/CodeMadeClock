@@ -1,5 +1,4 @@
-﻿using CodeMade.Clock.SkinPacks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace CodeMade.ScriptedGraphics.Tests
 {

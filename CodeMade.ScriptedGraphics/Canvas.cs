@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using CodeMade.Clock.SkinPacks;
 using Newtonsoft.Json;
 
 namespace CodeMade.ScriptedGraphics

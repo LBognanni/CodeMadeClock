@@ -1,8 +1,7 @@
-﻿using CodeMade.ScriptedGraphics;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 
-namespace CodeMade.Clock.SkinPacks
+namespace CodeMade.ScriptedGraphics
 {
     public class FileReader : IFileReader
     {

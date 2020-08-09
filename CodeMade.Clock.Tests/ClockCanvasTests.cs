@@ -57,7 +57,7 @@ namespace CodeMade.Clock.Tests
         {
             var canvas = new Canvas(273, 273, "");
             canvas.Add(new RectangleShape(0, 0, 20, 20, "white"));
-            canvas.Add(new BitmapShape(new PathResolver(TestPath("")))
+            canvas.Add(new BitmapShape(new FileReader(TestPath("")))
             {
                 Left = 0,
                 Top = 0,

@@ -1,5 +1,4 @@
-﻿using CodeMade.Clock.SkinPacks;
-using Moq;
+﻿using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
