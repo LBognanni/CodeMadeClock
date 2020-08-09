@@ -51,7 +51,14 @@ namespace CodeMade.ScriptedGraphics
             RectangleF rect = GetBounds(points);
             using (var brush = Color.ParseBrush(rect))
             {
+                var state = g.BeginContainer();
+
+                g.PixelOffsetMode = PixelOffsetMode.Half;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+
                 g.FillPath(brush, new GraphicsPath(points, GetPointTypes(), FillMode.Alternate));
+
+                g.EndContainer(state);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace CodeMade.ScriptedGraphics
 {
-    class PathResolver : IPathResolver
+    public class PathResolver : IPathResolver
     {
         private readonly string _absoluteDir;
 

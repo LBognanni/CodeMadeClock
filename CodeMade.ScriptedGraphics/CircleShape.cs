@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -32,7 +33,14 @@ namespace CodeMade.ScriptedGraphics
         {
             using (var brush = Color.ParseBrush(new RectangleF(left, top, diameter, diameter)))
             {
+                var state = g.BeginContainer();
+
+                g.PixelOffsetMode = PixelOffsetMode.Half;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+
                 g.FillEllipse(brush, left, top, diameter, diameter);
+
+                g.EndContainer(state);
             }
         }
     }

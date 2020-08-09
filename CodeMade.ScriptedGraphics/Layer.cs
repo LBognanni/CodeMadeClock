@@ -55,13 +55,13 @@ namespace CodeMade.ScriptedGraphics
         protected virtual void ApplyTransform(Graphics g, float scaleFactor)
         {
             g.TranslateTransform(Offset.X * scaleFactor, Offset.Y * scaleFactor);
-            g.RotateTransform(Rotate, System.Drawing.Drawing2D.MatrixOrder.Prepend);
+            g.RotateTransform(Rotate, MatrixOrder.Prepend);
         }
 
         protected virtual void BeforeTransform(Graphics g, float scaleFactor)
         {
             originalTransform = g.BeginContainer();
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
         }
 
         protected virtual void AfterRenderShapes(Graphics g, float scaleFactor)

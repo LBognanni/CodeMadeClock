@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -25,7 +20,14 @@ namespace CodeMade.ScriptedGraphics
 
                 using (var brush = Color.ParseBrush(rect))
                 {
+                    var state = g.BeginContainer();
+
+                    g.PixelOffsetMode = PixelOffsetMode.Half;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+
                     g.FillPath(brush, path);
+
+                    g.EndContainer(state);
                 }
             }
         }

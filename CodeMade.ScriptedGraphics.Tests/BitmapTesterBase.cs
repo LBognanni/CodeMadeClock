@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 
 namespace CodeMade.ScriptedGraphics.Tests
 {
@@ -19,6 +17,8 @@ namespace CodeMade.ScriptedGraphics.Tests
 
         public static void AssertBitmapsAreEqual(Bitmap expected, Bitmap actual, PixelCompareMode compareMode = PixelCompareMode.FullColor)
         {
+            expected.SetResolution(actual.HorizontalResolution, actual.VerticalResolution);
+
             if (expected.Width != actual.Width)
                 Assert.Fail($"Expected width {expected.Width}, actual {actual.Width}");
             if (expected.Height != actual.Height)
@@ -59,13 +59,13 @@ namespace CodeMade.ScriptedGraphics.Tests
 
         private static void DisplayDiagnosticImage(Bitmap expected, Bitmap actual)
         {
-            string filename = System.IO.Path.GetTempFileName();
-            using (Image bmp = new Bitmap(expected.Width * 2 + 1, expected.Height))
+            string filename = Path.GetTempFileName();
+            using (Image bmp = new Bitmap(expected.Width * 2 + 5, expected.Height + 2))
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    g.DrawImageUnscaled(expected, 0, 0);
-                    g.DrawImageUnscaled(actual, expected.Width + 1, 0);
+                    g.DrawImage(expected, 1, 1);
+                    g.DrawImage(actual, expected.Width + 3, 1);
                 }
                 bmp.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
             }

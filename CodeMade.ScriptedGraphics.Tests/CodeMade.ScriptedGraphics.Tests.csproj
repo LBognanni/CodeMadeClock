@@ -38,6 +38,9 @@
     <None Update="testimages\colors_inv.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="testimages\default_Test.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="testimages\random.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

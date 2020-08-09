@@ -5,18 +5,19 @@ namespace CodeMade.ScriptedGraphics.Tests
     [TestFixture]
     class BitmapShapeTests : BitmapTesterBase
     {
-        [Test]
-        public void TestImage()
+        [TestCase(@"testimages\colors.png", 231, 229)]
+        [TestCase(@"testimages\default_Test.png", 273, 273)]
+        public void TestImage(string path, int width, int heigth)
         {
-            var reference = LoadLocalBitmap(@"testimages\colors.png");
-            var canvas = new Canvas(231, 229, "red");
+            var reference = LoadLocalBitmap(path);
+            var canvas = new Canvas(width, heigth, "red");
             canvas.Add(new BitmapShape(new PathResolver(TestPath("testimages")))
             {
                 Left = 0,
                 Top = 0,
-                Width = 231,
-                Height = 229,
-                Path = TestPath(@"testimages\colors.png")
+                Width = width,
+                Height = heigth,
+                Path = TestPath(path)
             });
             AssertBitmapsAreEqual(reference, canvas.Render());
 

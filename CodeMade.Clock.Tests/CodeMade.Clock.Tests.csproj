@@ -7,6 +7,11 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="..\CodeMade.ScriptedGraphics.Tests\testimages\default_Test.png" Link="default_Test.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CodeMade.Clock\CodeMade.Clock.csproj" />
     <ProjectReference Include="..\CodeMade.ScriptedGraphics.Tests\CodeMade.ScriptedGraphics.Tests.csproj" />
     <ProjectReference Include="..\CodeMade.ScriptedGraphics\CodeMade.ScriptedGraphics.csproj" />

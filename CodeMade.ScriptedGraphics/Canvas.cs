@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -40,8 +39,6 @@ namespace CodeMade.ScriptedGraphics
             Bitmap bmp = new Bitmap(scaleWidth, scaleHeight);
             using (var g = Graphics.FromImage(bmp))
             {
-                g.PixelOffsetMode = PixelOffsetMode.Half;
-                g.SmoothingMode = SmoothingMode.HighQuality;
 
                 foreach (var layer in Layers)
                 {

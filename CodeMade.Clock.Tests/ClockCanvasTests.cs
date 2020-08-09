@@ -52,6 +52,28 @@ namespace CodeMade.Clock.Tests
             AssertBitmapsAreEqual(clockCanvas.Render(), bmp);
         }
 
+        [Test]
+        public void OptimizedCanvas_Renders_Like_Canvas_When_Bitmap()
+        {
+            var canvas = new Canvas(273, 273, "");
+            canvas.Add(new RectangleShape(0, 0, 20, 20, "white"));
+            canvas.Add(new BitmapShape(new PathResolver(TestPath("")))
+            {
+                Left = 0,
+                Top = 0,
+                Width = 273,
+                Height = 273,
+                Path = TestPath(@"default_Test.png")
+            });
+
+            var clockCanvas = new ClockCanvas(new TestTimer(Instant.FromDateTimeOffset(DateTime.Today.AddHours(3).AddMinutes(30).AddSeconds(45))), canvas);
+            var optimizedCanvas = clockCanvas.OptimizeFor(1);
+            clockCanvas.Update();
+            optimizedCanvas.Update();
+            var bmp = optimizedCanvas.Render();
+            AssertBitmapsAreEqual(clockCanvas.Render(), bmp);
+        }
+
 
         [Test]
         public void OptimizedCanvas_Renders_Like_Canvas_When_Holes()
