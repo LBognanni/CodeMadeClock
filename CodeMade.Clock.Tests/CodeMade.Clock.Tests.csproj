@@ -28,6 +28,9 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="test.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="testpack\skinpack.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
