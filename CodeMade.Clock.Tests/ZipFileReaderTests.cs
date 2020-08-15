@@ -34,6 +34,7 @@ namespace CodeMade.Clock.Tests
         public void ZipFileReader_CanSayIfFileExists()
         {
             Assert.IsTrue(_sut.FileExists("test.json"));
+            Assert.IsTrue(_sut.FileExists("folder/test.json"));
             Assert.IsFalse(_sut.FileExists("folder/file.txt"));
         }
     }
