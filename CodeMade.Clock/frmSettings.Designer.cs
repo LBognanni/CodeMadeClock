@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.slSkins = new CodeMade.Clock.Controls.SelectList();
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,6 +41,7 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdSave = new System.Windows.Forms.Button();
             this.ilPreview = new System.Windows.Forms.ImageList(this.components);
+            this.slSkins = new CodeMade.Clock.Controls.SelectList();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -72,17 +72,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Appearance";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // slSkins
-            // 
-            this.slSkins.AutoScroll = true;
-            this.slSkins.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.slSkins.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.slSkins.Location = new System.Drawing.Point(2, 54);
-            this.slSkins.Name = "slSkins";
-            this.slSkins.Size = new System.Drawing.Size(540, 336);
-            this.slSkins.TabIndex = 4;
-            this.slSkins.WrapContents = false;
             // 
             // label2
             // 
@@ -146,6 +135,7 @@
             this.cmdAddSkinPack.TabIndex = 2;
             this.cmdAddSkinPack.Text = "Add...";
             this.cmdAddSkinPack.UseVisualStyleBackColor = true;
+            this.cmdAddSkinPack.Click += new System.EventHandler(this.cmdAddSkinPack_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -185,6 +175,17 @@
             this.ilPreview.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             this.ilPreview.ImageSize = new System.Drawing.Size(128, 128);
             this.ilPreview.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // slSkins
+            // 
+            this.slSkins.AutoScroll = true;
+            this.slSkins.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.slSkins.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.slSkins.Location = new System.Drawing.Point(2, 54);
+            this.slSkins.Name = "slSkins";
+            this.slSkins.Size = new System.Drawing.Size(540, 336);
+            this.slSkins.TabIndex = 4;
+            this.slSkins.WrapContents = false;
             // 
             // frmSettings
             // 

@@ -10,10 +10,24 @@ namespace CodeMade.Clock.SkinPacks
     {
         private const string SkinpacksIndex = "skinpacks.json";
         private IFileReader _fileReader;
+        private readonly Func<string, IFileReader> _fileReaderFactory;
 
         public IDictionary<string, SkinPack> Packs { get; }
 
-        internal SkinPackCollection(IFileReader fileReader)
+        internal SkinPackCollection(IFileReader fileReader) : this(fileReader, DefaultFileReaderFactory)
+        {
+        }
+
+        private static IFileReader DefaultFileReaderFactory(string path)
+        {
+            if(path.EndsWith(".skinpack"))
+            {
+                return new ZipFileReader(path);
+            }
+            return new CombinedFileReader(path);
+        }
+
+        internal SkinPackCollection(IFileReader fileReader, Func<string, IFileReader> fileReaderFactory)
         {
             Packs = new Dictionary<string, SkinPack>();
             _fileReader = fileReader;
@@ -36,7 +50,7 @@ namespace CodeMade.Clock.SkinPacks
                 File.WriteAllText(Path.Combine(localUserSkinPacksFolder, "skinpacks.json"), "[\"default\"]");
             }
 
-            return new SkinPackCollection(new FileReader(localUserSkinPacksFolder));
+            return new SkinPackCollection(new CombinedFileReader(localUserSkinPacksFolder));
         }
 
         private static void CopyFolder(string sourceFolder, string destinationFolder)
@@ -56,6 +70,26 @@ namespace CodeMade.Clock.SkinPacks
                 string destinationFile = Path.Combine(destinationFolder, Path.GetFileName(file));
                 File.Copy(file, destinationFile);
             }
+        }
+
+        internal void Import(IFileReader fileReader, string packName)
+        {
+            if(!fileReader.FileExists(packName))
+            {
+                throw new FileNotFoundException($"File {packName} does not exist.");
+            }
+
+            var pack = SkinPack.Load(fileReader.GetPack(packName));
+            if(Packs.ContainsKey(pack.Name))
+            {
+                throw new DuplicatePackException($"A skin pack named {pack.Name} has already been imported.");
+            }
+
+        }
+
+        public class DuplicatePackException : Exception 
+        {
+            public DuplicatePackException(string message): base(message) { }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CodeMade.Clock.SkinPacks;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -55,6 +56,24 @@ namespace CodeMade.Clock
             _settings.SelectedSkin = slSkins.GetSelected<Skin>()?.Name;
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void cmdAddSkinPack_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new OpenFileDialog { Title = "Load Skinpack", Filter = "Skinpack file (*.skinpack)|*.skinpack" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        _skinPacks.Import(new CombinedFileReader(Path.GetDirectoryName(dialog.FileName)), Path.GetFileName(dialog.FileName));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
         }
     }
 }

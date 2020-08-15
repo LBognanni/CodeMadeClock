@@ -15,7 +15,7 @@ namespace CodeMade.Clock.SkinPacks
         public string Description { get; set; }
         public Version Version { get; set; }
 
-        public SkinPack(IFileReader fileReader)
+        internal SkinPack(IFileReader fileReader)
         {
             _fileReader = fileReader;
             Skins = new List<Skin>();
