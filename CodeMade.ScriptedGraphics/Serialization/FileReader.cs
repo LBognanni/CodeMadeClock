@@ -28,7 +28,7 @@ namespace CodeMade.ScriptedGraphics
         public bool PackExists(string pack) =>
             Directory.Exists(Resolve(pack));
 
-        private string Resolve(string fileName) =>
+        public string Resolve(string fileName) =>
             Path.Combine(_path, fileName);
     }
 }
