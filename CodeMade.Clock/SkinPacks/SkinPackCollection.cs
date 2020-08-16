@@ -9,28 +9,16 @@ namespace CodeMade.Clock.SkinPacks
     public class SkinPackCollection
     {
         private const string SkinpacksIndex = "skinpacks.json";
-        private IFileReader _fileReader;
-        private readonly Func<string, IFileReader> _fileReaderFactory;
+        private readonly IFileReader _fileReader;
+        private readonly IFileWriter _fileWriter;
 
         public IDictionary<string, SkinPack> Packs { get; }
 
-        internal SkinPackCollection(IFileReader fileReader) : this(fileReader, DefaultFileReaderFactory)
-        {
-        }
-
-        private static IFileReader DefaultFileReaderFactory(string path)
-        {
-            if(path.EndsWith(".skinpack"))
-            {
-                return new ZipFileReader(path);
-            }
-            return new CombinedFileReader(path);
-        }
-
-        internal SkinPackCollection(IFileReader fileReader, Func<string, IFileReader> fileReaderFactory)
+        internal SkinPackCollection(IFileReader fileReader, IFileWriter fileWriter)
         {
             Packs = new Dictionary<string, SkinPack>();
             _fileReader = fileReader;
+            _fileWriter = fileWriter;
             var skinPacks = JsonConvert.DeserializeObject<string[]>(_fileReader.GetString(SkinpacksIndex));
 
             foreach(var pack in skinPacks)
@@ -44,32 +32,14 @@ namespace CodeMade.Clock.SkinPacks
 
         public static SkinPackCollection Load(string localUserSkinPacksFolder, string fallbackPath)
         {
+            var writer = new FileWriter(localUserSkinPacksFolder);
             if(!File.Exists(Path.Combine(localUserSkinPacksFolder, SkinpacksIndex)))
             {
-                CopyFolder(fallbackPath, Path.Combine(localUserSkinPacksFolder, "default"));
-                File.WriteAllText(Path.Combine(localUserSkinPacksFolder, "skinpacks.json"), "[\"default\"]");
+                FileWriter.CopyFolder(fallbackPath, Path.Combine(localUserSkinPacksFolder, "default"));
+                writer.Write(SkinpacksIndex, "[\"default\"]");
             }
 
-            return new SkinPackCollection(new CombinedFileReader(localUserSkinPacksFolder));
-        }
-
-        private static void CopyFolder(string sourceFolder, string destinationFolder)
-        {
-            if(!Directory.Exists(destinationFolder))
-            {
-                Directory.CreateDirectory(destinationFolder);
-            }
-
-            foreach(var directory in Directory.GetDirectories(sourceFolder))
-            {
-                CopyFolder(directory, Path.Combine(destinationFolder, Path.GetFileName(directory)));
-            }
-
-            foreach(var file in Directory.GetFiles(sourceFolder))
-            {
-                string destinationFile = Path.Combine(destinationFolder, Path.GetFileName(file));
-                File.Copy(file, destinationFile);
-            }
+            return new SkinPackCollection(new CombinedFileReader(localUserSkinPacksFolder), writer);
         }
 
         internal void Import(IFileReader fileReader, string packName)
@@ -79,12 +49,16 @@ namespace CodeMade.Clock.SkinPacks
                 throw new FileNotFoundException($"File {packName} does not exist.");
             }
 
-            var pack = SkinPack.Load(fileReader.GetPack(packName));
+            var packFileReader = fileReader.GetPack(packName);
+            var pack = SkinPack.Load(packFileReader);
             if(Packs.ContainsKey(pack.Name))
             {
                 throw new DuplicatePackException($"A skin pack named {pack.Name} has already been imported.");
             }
 
+            _fileWriter.Import(fileReader.Resolve(packName));
+            Packs.Add(pack.Name, pack);
+            _fileWriter.Write(SkinpacksIndex, JsonConvert.SerializeObject(Packs.Keys));
         }
 
         public class DuplicatePackException : Exception 

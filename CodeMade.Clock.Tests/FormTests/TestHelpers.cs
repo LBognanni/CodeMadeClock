@@ -39,11 +39,14 @@ namespace CodeMade.Clock.Tests.FormTests
             return new FakeFileReader(new Dictionary<string, string>
             {
                 { "skinpacks.json", "[\"test\", \"demo\"]" },
-                { "skinpack.json", skinpack },
-                { "clockred.json", Canvas("red") },
-                { "clockblue.json", Canvas("blue") },
-                { "clockgreen.json", Canvas("green") },
-                { "clockblack.json", Canvas("#333") }
+                { "test/skinpack.json", skinpack },
+                { "demo/skinpack.json", @"{
+	""Version"": ""1.0"",
+	""Name"": ""demo""}" },
+                { "test/clockred.json", Canvas("red") },
+                { "test/clockblue.json", Canvas("blue") },
+                { "test/clockgreen.json", Canvas("green") },
+                { "test/clockblack.json", Canvas("#333") }
             });
         }
 

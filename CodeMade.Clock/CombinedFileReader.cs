@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace CodeMade.Clock
         {
             if (pack.EndsWith(".skinpack"))
             {
-                return new ZipFileReader(_inner.Resolve(pack));
+                return new ZipFileReader(Resolve(pack));
             }
             return _inner.GetPack(pack);
         }
@@ -46,5 +47,8 @@ namespace CodeMade.Clock
             }
             return _inner.PackExists(pack);
         }
+
+        public string Resolve(string fileName) =>
+            _inner.Resolve(fileName);
     }
 }

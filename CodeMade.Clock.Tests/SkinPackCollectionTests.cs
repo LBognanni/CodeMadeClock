@@ -1,5 +1,6 @@
 ﻿using CodeMade.Clock.SkinPacks;
 using CodeMade.ScriptedGraphics;
+using Microsoft.VisualBasic;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -20,16 +21,7 @@ namespace CodeMade.Clock.Tests
                 { "skinpacks.json", $"[ \"{skinpackname}\" ]" },
                 { $"{skinpackname}/skinpack.json", "{ \"Name\": \"" + skinpackname + "\" }" }
             };
-            _sut = new SkinPackCollection(new FakeFileReader(files), FakeFileReaderFactory);
-        }
-
-        private IFileReader FakeFileReaderFactory(string path)
-        {
-            var files = new Dictionary<string, string>()
-            {
-                { "skinpack.json", "{ \"Name\": \"" + skinpackname + "\" }" }
-            };
-            return new FakeFileReader(files);
+            _sut = new SkinPackCollection(new FakeFileReader(files), new FakeFileWriter());
         }
 
         [Test]
@@ -53,6 +45,18 @@ namespace CodeMade.Clock.Tests
             {
                 _sut.Import(new FakeFileReader(files), "testpack");
             });
+        }
+
+        [Test]
+        public void SkinPackCollection_CanImportNewPack()
+        {
+            var files = new Dictionary<string, string>() {
+                { "testpack", "" },
+                { "testpack/skinpack.json", "{ \"Name\": \"other pack\" }" }
+            };
+
+            _sut.Import(new FakeFileReader(files), "testpack");
+            CollectionAssert.Contains(_sut.Packs.Keys, "other pack");
         }
     }
 }

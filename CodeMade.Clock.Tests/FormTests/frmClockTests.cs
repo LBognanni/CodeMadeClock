@@ -21,7 +21,7 @@ namespace CodeMade.Clock.Tests.FormTests
                 s.HasSettings == true &&
                 s.SelectedSkinpack == "test" &&
                 s.SelectedSkin == "Red");
-            _skinpacks = new SkinPackCollection(TestHelpers.GetFakeFileReader());
+            _skinpacks = new SkinPackCollection(TestHelpers.GetFakeFileReader(), null);
 
         }
 

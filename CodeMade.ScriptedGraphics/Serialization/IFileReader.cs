@@ -10,5 +10,6 @@ namespace CodeMade.ScriptedGraphics
         string GetFontFile(string fontFile);
         bool PackExists(string pack);
         IFileReader GetPack(string pack);
+        string Resolve(string fileName);
     }
 }

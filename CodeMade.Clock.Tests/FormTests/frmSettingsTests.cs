@@ -23,7 +23,7 @@ namespace CodeMade.Clock.Tests.FormTests
         {
             _settings = new FakeSettings() { SelectedSkinpack = "test", SelectedSkin = "Black" };
             var filereader = TestHelpers.GetFakeFileReader();
-            var skinPack = new SkinPackCollection(filereader);
+            var skinPack = new SkinPackCollection(filereader, null);
             _form = new frmSettings(skinPack, _settings);
         }
 

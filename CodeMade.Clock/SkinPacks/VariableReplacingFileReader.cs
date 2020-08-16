@@ -43,6 +43,9 @@ namespace CodeMade.Clock.SkinPacks
 
         public bool PackExists(string pack) =>
             _inner.PackExists(pack);
+
+        public string Resolve(string fileName) =>
+            _inner.Resolve(fileName);
     }
     
 }

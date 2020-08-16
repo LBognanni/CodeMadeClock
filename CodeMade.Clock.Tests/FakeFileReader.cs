@@ -35,5 +35,8 @@ namespace CodeMade.Clock.Tests
 
         public bool PackExists(string pack) =>
             true;
+
+        public string Resolve(string fileName) =>
+            fileName;
     }
 }

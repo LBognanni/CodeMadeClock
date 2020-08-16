@@ -38,10 +38,8 @@ namespace CodeMade.Clock
             return tempFile;
         }
 
-        public IFileReader GetPack(string pack)
-        {
-            throw new NotImplementedException("Reading a package from inside a ZipFile is not supported.");
-        }
+        public IFileReader GetPack(string pack) =>
+            throw new NotSupportedException("Reading a package from inside a ZipFile is not supported.");
 
         public string GetString(string fileName)
         {
@@ -59,5 +57,8 @@ namespace CodeMade.Clock
         }
 
         public bool PackExists(string pack) => false;
+
+        public string Resolve(string fileName) =>
+            throw new NotSupportedException("Resolving is not supported in Zip files");
     }
 }
