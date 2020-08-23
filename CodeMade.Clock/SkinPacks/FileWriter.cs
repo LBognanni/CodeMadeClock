@@ -22,11 +22,11 @@ namespace CodeMade.Clock.SkinPacks
             }
             else if (File.Exists(fileOrDirectoryName))
             {
-                File.Copy(fileOrDirectoryName, _path);
+                File.Copy(fileOrDirectoryName, Path.Combine(_path, Path.GetFileName(fileOrDirectoryName)));
             }
             else
             {
-                throw new FileNotFoundException("File or directory does not exist.");
+                throw new FileNotFoundException($"File or directory {fileOrDirectoryName} does not exist.");
             }
         }
 
@@ -52,6 +52,30 @@ namespace CodeMade.Clock.SkinPacks
         public void Write(string fileName, string contents)
         {
             File.WriteAllText(Path.Combine(_path, fileName), contents);
+        }
+
+        public void ReplacePack(string oldPack, string newPack)
+        {
+            Remove(oldPack);
+
+            Import(newPack);
+        }
+
+        private void Remove(string packName)
+        {
+            string packPath = Path.Combine(_path, packName);
+            if (Directory.Exists(packPath))
+            {
+                Directory.Delete(packPath);
+            }
+            else if (File.Exists(packPath))
+            {
+                File.Delete(packPath);
+            }
+            else
+            {
+                throw new FileNotFoundException($"File or directory {packPath} does not exist.");
+            }
         }
     }
 }

@@ -67,6 +67,7 @@ namespace CodeMade.Clock
                     try
                     {
                         _skinPacks.Import(new CombinedFileReader(Path.GetDirectoryName(dialog.FileName)), Path.GetFileName(dialog.FileName));
+                        LoadSkinpackList();
                     }
                     catch (Exception ex)
                     {

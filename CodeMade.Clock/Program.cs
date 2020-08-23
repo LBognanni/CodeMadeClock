@@ -25,9 +25,10 @@ namespace CodeMade.Clock
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            var settingsPath = Directory.GetParent(Application.LocalUserAppDataPath).FullName;
 
-            var settings = Settings.Load(Path.Combine(Application.LocalUserAppDataPath, "settings.json"));
-            var skinpacks = SkinPackCollection.Load(Path.Combine(Application.LocalUserAppDataPath, "skinpacks"), Path.Combine(Application.StartupPath, "clocks"));
+            var settings = Settings.Load(Path.Combine(settingsPath, "settings.json"));
+            var skinpacks = SkinPackCollection.Load(Path.Combine(settingsPath, "skinpacks"), Path.Combine(Application.StartupPath, "clocks"));
 
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(options =>

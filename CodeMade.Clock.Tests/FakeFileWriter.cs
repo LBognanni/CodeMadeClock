@@ -8,6 +8,10 @@ namespace CodeMade.Clock.Tests
         {
         }
 
+        public void ReplacePack(string oldPack, string newPack)
+        {
+        }
+
         public void Write(string fileName, string contents)
         {
         }

@@ -22,7 +22,7 @@ namespace CodeMade.Clock.Tests
     ""Skins"": [
     ]
 }";
-            var sut = new SkinPack(null);
+            var sut = new SkinPack();
             JsonConvert.PopulateObject(json, sut);
             Assert.AreEqual("1.2.3", sut.Version.ToString());
             Assert.AreEqual("Test Pack", sut.Name);

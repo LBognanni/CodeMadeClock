@@ -10,5 +10,6 @@ namespace CodeMade.Clock.SkinPacks
     {
         void Import(string fileOrDirectoryName);
         void Write(string fileName, string contents);
+        void ReplacePack(string oldPack, string newPack);
     }
 }

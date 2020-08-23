@@ -7,17 +7,14 @@ namespace CodeMade.Clock.SkinPacks
 {
     public class SkinPack
     {
-        private readonly IFileReader _fileReader;
-
         public IReadOnlyList<Skin> Skins { get; }
 
         public string Name { get; set; }
         public string Description { get; set; }
         public Version Version { get; set; }
 
-        internal SkinPack(IFileReader fileReader)
+        internal SkinPack()
         {
-            _fileReader = fileReader;
             Skins = new List<Skin>();
         }
 
@@ -32,7 +29,7 @@ namespace CodeMade.Clock.SkinPacks
                 throw new EntryPointNotFoundException("File skinpack.json is missing in container.");
             }
 
-            var skinPack = new SkinPack(fileReader);
+            var skinPack = new SkinPack();
             JsonConvert.PopulateObject(fileReader.GetString(skinPackFileName), skinPack);
 
             skinPack.LoadSkins(fileReader);
