@@ -15,6 +15,7 @@ using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using Microsoft.Build.Tasks;
+using System.IO;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -26,7 +27,7 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Compile);
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Release'")]
     readonly Configuration Configuration = Configuration.Release;
@@ -63,6 +64,34 @@ class Build : NukeBuild
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetVerbosity(MSBuildVerbosity.Minimal)
                 .DisableRestore());
+        });
+
+
+    Target Release => _ => _
+        .DependsOn(Compile)
+        .Executes(() => {
+            var innoLocation = Environment.ExpandEnvironmentVariables(@"%userprofile%\.nuget\packages\tools.innosetup");
+            if(!Directory.Exists(innoLocation))
+            {
+                throw new Exception("InnoSetup location not found");
+            }
+            var folders = Directory.GetDirectories(innoLocation);
+            if(!folders.Any())
+            {
+                throw new Exception("No version of InnoSetup found");
+            }
+            var latestVersion = folders.OrderByDescending(f => f).First();
+            var isccPath = Path.Combine(latestVersion, "tools", "ISCC.exe");
+            if (!File.Exists(isccPath))
+            {
+                throw new Exception("InnoSetup executable not found");
+            }
+            var process = System.Diagnostics.Process.Start(isccPath, "setup.iss");
+            process.WaitForExit();
+            if(process.ExitCode!=0)
+            {
+                throw new Exception("Setup build did not run successfully :(");
+            }
         });
 
 }
