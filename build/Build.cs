@@ -91,7 +91,7 @@ class Build : NukeBuild
             {
                 throw new Exception("InnoSetup executable not found");
             }
-            var process = System.Diagnostics.Process.Start(isccPath, "setup.iss");
+            var process = System.Diagnostics.Process.Start(isccPath, $"setup.iss /DAppVersion={GitVersion.AssemblySemVer}");
             process.WaitForExit();
             if(process.ExitCode!=0)
             {

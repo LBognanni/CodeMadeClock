@@ -35,8 +35,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "CodeMade.Clock\bin\Release\net472\CodeMade.Clock.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "CodeMade.Clock\bin\Release\net472\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\CodeMade.Clock\bin\Release\net472\CodeMade.Clock.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\CodeMade.Clock\bin\Release\net472\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "clocks\*"; DestDir: "{app}\clock-setup"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
