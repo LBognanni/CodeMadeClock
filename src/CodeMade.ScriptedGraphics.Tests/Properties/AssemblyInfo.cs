@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CodeMade.Clock")]
-[assembly: AssemblyDescription("A simple desktop clock for Windows")]
+[assembly: AssemblyTitle("CodeMade.ScriptedGraphics.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CodeMade")]
-[assembly: AssemblyProduct("Clock")]
-[assembly: AssemblyCopyright("Copyright © 2019 Loris Bognanni")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("CodeMade.ScriptedGraphics.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a3432c2c-465f-46f2-b71f-82a85f76a659")]
+[assembly: Guid("0f18eac6-4f4e-4d86-b5a0-05fd5ef9c3a4")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,7 +30,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly:InternalsVisibleTo("CodeMade.Clock.Tests")]
+// [assembly: AssemblyVersion("1.0.70.0")]
+[assembly: AssemblyVersion("1.0.70.0")]
+[assembly: AssemblyFileVersion("1.0.70.0")]
+[assembly: AssemblyInformationalVersion("1.0.70-add-nuke-build.28+Branch.add-nuke-build.Sha.be5890aa553c6d159a6710158e9f001a0f1ac341")]
