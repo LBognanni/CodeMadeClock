@@ -14,6 +14,9 @@ using System;
 using System.Linq;
 using Octokit;
 using System.Threading.Tasks;
+using Nuke.Common.Tools.NUnit;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -69,6 +72,18 @@ class Build : NukeBuild
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetVerbosity(MSBuildVerbosity.Minimal)
                 .DisableRestore());
+        });
+
+    Target Test => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetTest(s => s
+                .SetConfiguration(Configuration)
+                .SetNoBuild(true)
+                .SetVerbosity(DotNetVerbosity.Minimal)
+                .SetProjectFile("src/CodeMade.Clock.sln")
+            );
         });
 
 
@@ -156,5 +171,18 @@ class Build : NukeBuild
             };
             var asset = await client.Repository.Release.UploadAsset(release, assetUpload);
         }
+    }
+}
+
+internal class FileNameComparer : IEqualityComparer<AbsolutePath>
+{
+    public bool Equals([AllowNull] AbsolutePath x, [AllowNull] AbsolutePath y)
+    {
+        return Path.GetFileName(x.ToString()).Equals(Path.GetFileName(y.ToString()));
+    }
+
+    public int GetHashCode([DisallowNull] AbsolutePath obj)
+    {
+        return obj.GetHashCode();
     }
 }

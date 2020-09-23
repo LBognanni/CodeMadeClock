@@ -51,11 +51,11 @@ namespace CodeMade.Clock.Tests
         public void SkinPackCollection_CanImportNewPack()
         {
             var files = new Dictionary<string, string>() {
-                { "testpack", "" },
-                { "testpack/skinpack.json", "{ \"Name\": \"other pack\" }" }
+                { "other pack", "" },
+                { "other pack/skinpack.json", "{ \"Name\": \"other pack\" }" }
             };
 
-            _sut.Import(new FakeFileReader(files), "testpack");
+            _sut.Import(new FakeFileReader(files), "other pack");
             CollectionAssert.Contains(_sut.Packs.Keys, "other pack");
         }
     }
