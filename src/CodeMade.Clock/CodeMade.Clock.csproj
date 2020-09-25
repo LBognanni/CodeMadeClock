@@ -46,6 +46,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /E /Y &quot;$(SolutionDir)clocks&quot; &quot;$(TargetDir)clocks\&quot;" />
+    <Exec Command="xcopy /E /Y &quot;$(SolutionDir)..\clocks&quot; &quot;$(TargetDir)clocks\&quot;" />
   </Target>
 </Project>

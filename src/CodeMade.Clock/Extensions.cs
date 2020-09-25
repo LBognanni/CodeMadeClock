@@ -9,7 +9,7 @@ namespace CodeMade.Clock
     {
         public static Action Debounce(this Action func, int milliseconds = 300)
         {
-            CancellationTokenSource? cancelTokenSource = null;
+            CancellationTokenSource cancelTokenSource = null;
 
             return () =>
             {

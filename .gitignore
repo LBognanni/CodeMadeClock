@@ -7,3 +7,5 @@ packages
 *.suo
 publish
 launchSettings.json
+.tmp
+Output
