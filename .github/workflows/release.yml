@@ -1,7 +1,9 @@
-name: Run Tests on Pull Request
+name: Build release
 
 on: 
-  pull_request:
+  push:
+    branches:
+      - master
 
 
 jobs:
@@ -25,5 +27,7 @@ jobs:
       uses: microsoft/setup-msbuild@2008f912f56e61277eefaac6d1888b750582aa16
 
     # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: .\build.ps1 test
+    - name: Create github release
+      run: .\build.ps1 Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

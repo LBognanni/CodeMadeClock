@@ -1,6 +1,5 @@
 using Nuke.Common;
 using Nuke.Common.Execution;
-using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
@@ -8,7 +7,6 @@ using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using Microsoft.Build.Tasks;
 using System.IO;
 using System;
 using System.Linq;
@@ -35,14 +33,11 @@ class Build : NukeBuild
 
     [Solution] 
     readonly Solution Solution;
-    
-    [GitRepository] 
-    readonly GitRepository GitRepository;
 
     [GitVersion(Framework = "netcoreapp3.1", UpdateAssemblyInfo = true, UpdateBuildNumber = true)]
     readonly GitVersion GitVersion;
-    private readonly string GIT_OWNER = "lbognanni";
-    private readonly string GIT_REPO = "CodeMade.Clock";
+    private readonly string GIT_OWNER = "LBognanni";
+    private readonly string GIT_REPO = "CodeMadeClock";
 
     AbsolutePath OutputDirectory => RootDirectory / "output";
 
@@ -88,7 +83,7 @@ class Build : NukeBuild
 
 
     Target Setup => _ => _
-        .DependsOn(Compile)
+        .DependsOn(Test)
         .Executes(() => {
             var innoLocation = Environment.ExpandEnvironmentVariables(@"%userprofile%\.nuget\packages\tools.innosetup");
             if(!Directory.Exists(innoLocation))
@@ -119,43 +114,40 @@ class Build : NukeBuild
         .DependsOn(Setup)
         .Executes(async () =>
         {
-            if (!GitRepository.IsOnMasterBranch())
-            {
-                throw new Exception("Releases can only be generated from the master branch");
-            }
             var githubToken = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
             var tokenAuth = new Credentials(githubToken);
             var client = new GitHubClient(new ProductHeaderValue("build"));
             client.Credentials = tokenAuth;
 
-            var tag = await CreateTag(client);
-            var release = await CreateRelease(client, tag.Tag);
-            await UploadRelease(client, release, tag.Tag);
+            var tag = $"v{GitVersion.AssemblySemVer}";
+            var release = await CreateRelease(client, tag);
+            await UploadRelease(client, release, tag);
         });
 
     private async Task<GitTag> CreateTag(GitHubClient client)
     {
-        var tag = GitVersion.AssemblySemVer;
+        var tag = $"v{GitVersion.AssemblySemVer}";
         var sha = GitVersion.Sha;
         var newTag = new NewTag
         {
-            Message = "",
-            Object = sha,
             Tag = tag,
-            Type = TaggedType.Commit,
             Tagger = new Committer("Loris Bognanni", "loris@codemade.co.uk", DateTimeOffset.Now)
         };
+        Logger.Normal($"Creating tag {tag} for commit {sha}");
         return await client.Git.Tag.Create(GIT_OWNER, GIT_REPO, newTag);
     }
 
     private async Task<Release> CreateRelease(GitHubClient client, string version)
     {
-        var newRelease = new NewRelease($"v{version}");
-        newRelease.Name = $"Version {version}";
-        newRelease.Body = "Please see [the official page](https://www.codemade.co.uk/clock) for release notes.";
-        newRelease.Draft = true;
-        newRelease.Prerelease = false;
+        var newRelease = new NewRelease(version)
+        {
+            Name = $"Version {version}",
+            Body = "Please see [the official page](https://www.codemade.co.uk/clock) for release notes.",
+            Draft = true,
+            Prerelease = false
+        };
 
+        Logger.Normal($"Creating release {version}");
         return await client.Repository.Release.Create(GIT_OWNER, GIT_REPO, newRelease);
     }
 
@@ -169,6 +161,7 @@ class Build : NukeBuild
                 ContentType = "application/zip",
                 RawData = archiveContents
             };
+            Logger.Normal($"Uploading release");
             var asset = await client.Repository.Release.UploadAsset(release, assetUpload);
         }
     }
