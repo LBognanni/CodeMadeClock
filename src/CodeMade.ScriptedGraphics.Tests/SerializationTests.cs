@@ -12,7 +12,7 @@ namespace CodeMade.ScriptedGraphics.Tests
             canvas.Add(new RectangleShape(20, 20, 60, 60, "#000"));
             canvas.Layers.Add(new Layer());
             canvas.Add(new RectangleShape(50, 50, 50, 50, "blue"));
-            canvas.Add(new TextShape("Testing 123", "Tahoma", 10, new Vertex(10, 50), "#080"));
+            canvas.Add(new TextShape(null, "Testing 123", "Tahoma", 10, new Vertex(10, 50), "#080"));
 
             return canvas;
         }

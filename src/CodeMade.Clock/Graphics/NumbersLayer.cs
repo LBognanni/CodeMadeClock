@@ -8,37 +8,6 @@ namespace CodeMade.Clock
 {
     public class NumbersLayer : Layer
     {
-        public enum RotateTextMode
-        {
-            None,
-            RotateIn,
-            RotateOut
-        }
-
-        class TextShapeWithRotation : TextShape
-        {
-            public TextShapeWithRotation(string text, string fontName, int fontSizePx, Vertex position, string color)
-                : base(text, fontName, fontSizePx, position, color)
-            {
-            }
-
-            public float Rotation { get; set; }
-
-            protected override void RenderString(Graphics g, Font font, SolidBrush brush, PointF position, Vertex move)
-            {
-                var container = g.BeginContainer();
-
-                g.TranslateTransform(position.X, position.Y);
-                g.RotateTransform(Rotation);
-                g.TranslateTransform(-move.X, -move.Y);
-
-                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-                g.DrawString(Text, font, brush, 0, 0);
-
-                g.EndContainer(container);
-            }
-        }
-
         public int[] Numbers { get; set; }
         public string[] NumbersText { get; set; }
         public bool RotateNumbers { get; set; }
@@ -48,12 +17,16 @@ namespace CodeMade.Clock
         public float Radius { get; set; }
         public RotateTextMode RotateMode { get; set; } = RotateTextMode.None;
         public bool Is24Hours { get; set; }
+        public string FontFile { get; set; }
 
         private Lazy<TextShapeWithRotation[]> _textShapes;
+        private Graphics _graphics;
+        private readonly IFileReader _fileReader;
 
-        public NumbersLayer()
+        public NumbersLayer(IFileReader fileReader)
         {
             _textShapes = new Lazy<TextShapeWithRotation[]>(TextShapeFactory);
+            _fileReader = fileReader;
         }
 
         private TextShapeWithRotation[] TextShapeFactory()
@@ -77,14 +50,24 @@ namespace CodeMade.Clock
                         text = NumbersText[numberIdx];
                     }
 
-                    float rotation = RotateMode switch
+                    var baseRotation = hour * (Is24Hours ? 15 : 30);
+
+                    var rotation = RotateMode switch
                     {
-                        RotateTextMode.RotateIn => hour * (Is24Hours ? 15 : 30),
-                        RotateTextMode.RotateOut => 180.0f + (hour * (Is24Hours ? 15 : 30)),
+                        RotateTextMode.RotateIn => baseRotation,
+                        RotateTextMode.RotateOut => 180.0f + baseRotation,
+                        RotateTextMode.RotateBegin => 270 + baseRotation,
+                        RotateTextMode.RotateEnd => 90 + baseRotation,
                         _ => 0
                     };
 
-                    shapes.Add(new TextShapeWithRotation(text, FontName, FontSize, pos, Color) { Centered = true, Rotation = rotation });
+                    shapes.Add(
+                        new TextShapeWithRotation(_fileReader, text, FontName, FontSize, pos, Color) { 
+                            Centered = true, 
+                            Rotation = rotation, 
+                            RotateMode = RotateMode,
+                            FontFile = FontFile
+                        });
                 }
             }
 
@@ -93,6 +76,8 @@ namespace CodeMade.Clock
 
         protected override void RenderShapes(Graphics g, float scaleFactor)
         {
+            _graphics = g;
+
             foreach (var shape in _textShapes.Value)
             {
                 shape.Render(g, scaleFactor);

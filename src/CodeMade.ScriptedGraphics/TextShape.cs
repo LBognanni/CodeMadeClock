@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 
 namespace CodeMade.ScriptedGraphics
 {
-    public class TextShape : IShape
+    public class TextShape : IShape, IDisposable
     {
+        private readonly PrivateFontCollection _fontCollection;
+        private readonly IFileReader _fileReader;
+
         public string Text { get; set; }
         public string FontName { get; set; }
         public float FontSizePx { get; set; }
@@ -15,14 +19,21 @@ namespace CodeMade.ScriptedGraphics
         public bool Centered { get; set; }
 
         public string Font { get => FontName; set => FontName = value; }
+
         public float FontSize { get => FontSizePx; set => FontSizePx = value; }
 
-        public TextShape()
+        public string FontFile { get; set; }
+
+        public TextShape(IFileReader fileReader)
         {
+            _fontCollection = new PrivateFontCollection();
+            _fileReader = fileReader;
         }
 
-        public TextShape(string text, string fontName, int fontSizePx, Vertex position, string color)
+        public TextShape(IFileReader fileReader, string text, string fontName, int fontSizePx, Vertex position, string color)
         {
+            _fontCollection = new PrivateFontCollection();
+            _fileReader = fileReader;
             Text = text;
             FontName = fontName;
             FontSizePx = fontSizePx;
@@ -47,7 +58,30 @@ namespace CodeMade.ScriptedGraphics
             }
         }
 
-        protected virtual Font GetFont(float scaleFactor)
+
+        protected Font GetFont(float scaleFactor)
+        {
+            if(!string.IsNullOrEmpty(FontFile))
+            {
+                return GetCustomFont(scaleFactor);
+            }
+
+            return GetInstalledFont(scaleFactor);
+        }
+
+
+        protected Font GetCustomFont(float scaleFactor)
+        {
+            if (_fontCollection.Families.Length == 0)
+            {
+                _fontCollection.AddFontFile(_fileReader.GetFontFile(FontFile));
+            }
+
+            return new Font(_fontCollection.Families.First(), FontSize * scaleFactor);
+        }
+
+
+        protected Font GetInstalledFont(float scaleFactor)
         {
             var fontNameList = FontName.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
             bool isBold = FindAndRemove(fontNameList, "Bold");
@@ -79,6 +113,11 @@ namespace CodeMade.ScriptedGraphics
 
             fontNameList.RemoveAt(idx);
             return true;
+        }
+
+        public void Dispose()
+        {
+            _fontCollection.Dispose();
         }
     }
 }
