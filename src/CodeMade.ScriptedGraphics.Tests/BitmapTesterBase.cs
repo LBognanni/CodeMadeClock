@@ -24,6 +24,8 @@ namespace CodeMade.ScriptedGraphics.Tests
             if (expected.Height != actual.Height)
                 Assert.Fail($"Expected height {expected.Height}, actual {actual.Height}");
 
+            int differentPixels = 0;
+            int maxDifferentPixels = (expected.Width * expected.Height) / 100;
             for (int x = 0; x < expected.Width; ++x)
             {
                 for (int y = 0; y < expected.Height; ++y)
@@ -32,6 +34,13 @@ namespace CodeMade.ScriptedGraphics.Tests
                     var actualPixel = actual.GetPixel(x, y);
                     if (ArePixelsDifferent(expectedPixel, actualPixel, compareMode))
                     {
+                        if (compareMode == PixelCompareMode.RGBASimilar || compareMode == PixelCompareMode.RGBSimilar)
+                        {
+                            differentPixels++;
+                            if (differentPixels <= maxDifferentPixels)
+                                continue;
+                        }
+
                         DisplayDiagnosticImage(expected, actual);
                         Assert.Fail($"Expected pixel at ({x},{y}) to be {expectedPixel.ToHtml()} but was {actualPixel.ToHtml()}");
                         return;
