@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="0.24.11" />
+    <PackageReference Include="Nuke.Common" Version="5.0.2" />
     <PackageReference Include="NUnit.ConsoleRunner" Version="3.11.1" />
     <PackageReference Include="Octokit" Version="0.48.0" />
     <PackageReference Include="Tools.InnoSetup" Version="6.0.5" />
-    <PackageDownload Include="GitVersion.Tool" Version="[5.3.7]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[5.6.0]" />
   </ItemGroup>
 
 </Project>
