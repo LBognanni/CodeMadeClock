@@ -29,12 +29,12 @@ class Build : NukeBuild
     public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Release'")]
-    readonly Configuration Configuration = Configuration.Release;
+    readonly string Configuration = "Release";
 
     [Solution] 
     readonly Solution Solution;
 
-    [GitVersion(Framework = "netcoreapp3.1", UpdateAssemblyInfo = true, UpdateBuildNumber = true)]
+    [GitVersion(Framework = "net5.0", UpdateAssemblyInfo = true, UpdateBuildNumber = true)]
     readonly GitVersion GitVersion;
     private readonly string GIT_OWNER = "LBognanni";
     private readonly string GIT_REPO = "CodeMadeClock";

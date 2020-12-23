@@ -28,7 +28,13 @@ namespace CodeMade.ScriptedGraphics
         {
             RectangleF rect = new RectangleF(Left * scaleFactor, Top * scaleFactor, Width * scaleFactor, Height * scaleFactor);
 
+            var ctx = g.BeginContainer();
+
+            g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+
             g.DrawImage(FixedImage ?? Image.Value, rect);
+
+            g.EndContainer(ctx);
         }
     }
 }
