@@ -2,9 +2,8 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "CodeMade Clock"
-#define AppVersion "1.0"
 #define AppPublisher "CodeMade"
-#define AppURL "https://www.codemade.co.uk/clock"
+#define AppURL "https://codemade.net/clock"
 #define AppExeName "CodeMade.Clock.exe"
 
 [Setup]
@@ -35,9 +34,12 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "src\CodeMade.Clock\bin\Release\net472\CodeMade.Clock.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src\CodeMade.Clock\bin\Release\net472\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "clocks\*"; DestDir: "{app}\clock-setup"; Flags: ignoreversion
+Source: "src\CodeMade.Clock\bin\Release\net5-windows\CodeMade.Clock.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\CodeMade.Clock\bin\Release\net5-windows\CodeMade.Clock.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\CodeMade.Clock\bin\Release\net5-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "clocks\*"; DestDir: "{app}\clocks"; Flags: ignoreversion
+
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

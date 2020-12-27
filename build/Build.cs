@@ -157,8 +157,8 @@ class Build : NukeBuild
         { 
             var assetUpload = new ReleaseAssetUpload()
             {
-                FileName = $"clock-setup-{version}",
-                ContentType = "application/zip",
+                FileName = $"clock-setup-{version}.exe",
+                ContentType = "application/vnd.microsoft.portable-executable",
                 RawData = archiveContents
             };
             Logger.Normal($"Uploading release");
