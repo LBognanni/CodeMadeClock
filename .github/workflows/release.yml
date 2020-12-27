@@ -7,6 +7,19 @@ on:
 
 
 jobs:
+
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.26.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+
   build:
     runs-on: windows-latest
 
@@ -15,12 +28,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
-    - name: Version  
-      id: version  
-      uses: juliansangillo/tag-version@v1  
-      with:  
-          production-branch: master  
 
     # Install the .NET Core workload
     - name: Install .NET Core
