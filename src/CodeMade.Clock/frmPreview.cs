@@ -2,6 +2,7 @@
 using NodaTime;
 using NodaTime.Extensions;
 using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
@@ -92,8 +93,8 @@ namespace CodeMade.Clock
                     _clockCanvas = new ClockCanvas(this, _canvas);
                 }
                 _clockCanvas.Update();
-                var szx = (float)pbCanvas.Width / (float)_canvas.Width;
-                var szy = (float)pbCanvas.Height / (float)_canvas.Height;
+                var szx = ((float)pbCanvas.Width  - 16) / (float)_canvas.Width;
+                var szy = ((float)pbCanvas.Height - 16) / (float)_canvas.Height;
                 BeginInvoke((Action)(() =>
                 {
                     try
@@ -146,6 +147,25 @@ namespace CodeMade.Clock
         {
             string fileName = Path.ChangeExtension(_fileToWatch, "png");
             pbCanvas.Image.Save(fileName);
+        }
+
+        private void cmbBackground_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cmbBackground.SelectedIndex)
+            {
+                case 0:
+                    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPreview));
+                    pbCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbCanvas.BackgroundImage")));
+                    break;
+                case 1:
+                    pbCanvas.BackgroundImage = null;
+                    pbCanvas.BackColor = Color.White;
+                    break;
+                case 2:
+                    pbCanvas.BackgroundImage = null;
+                    pbCanvas.BackColor = Color.Black;
+                    break;
+            }
         }
     }
 }
