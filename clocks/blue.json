@@ -26,29 +26,31 @@
                         "X": 49,
                         "Y": 49
                     },
-                    "Radius": 48,
-                    "Height": 48,
-                    "Color": "30-#eee-#888"
+                    "Radius": 43,
+                    "Height": 44,
+                    "Color": "30-#59fb-#358b"
                 },
                 {
-                    "$type": "CircleShape",
+                    "$type": "DonutShape",
+                    "Position": {
+                        "X": 49,
+                        "Y": 49
+                    },
+                    "Radius": 48,
+                    "Height": 48,
+                    "Color": "30-#eee-#888",
+                    "InnerRadius": 44
+                },
+                {
+                    "$type": "DonutShape",
                     "Position": {
                         "X": 49,
                         "Y": 49
                     },
                     "Radius": 45,
                     "Height": 45,
-                    "Color": "210-#eee-#888"
-                },
-                {
-                    "$type": "CircleShape",
-                    "Position": {
-                        "X": 49,
-                        "Y": 49
-                    },
-                    "Radius": 43,
-                    "Height": 43,
-                    "Color": "30-#59f-#358"
+                    "Color": "210-#eee-#888",
+                    "InnerRadius": 43
                 },
                 {
                     "$type": "BitmapShape",

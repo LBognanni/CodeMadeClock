@@ -39,8 +39,24 @@ namespace CodeMade.Clock.SkinPacks
                 FileWriter.CopyFolder(fallbackPath, Path.Combine(localUserSkinPacksFolder, "default"));
                 writer.Write(SkinpacksIndex, "[\"default\"]");
             }
+            else
+            {
+                ImportDefaultSkinpack(fallbackPath, Path.Combine(localUserSkinPacksFolder, "default"));
+            }
 
             return new SkinPackCollection(new CombinedFileReader(localUserSkinPacksFolder), writer);
+        }
+
+        private static void ImportDefaultSkinpack(string fallbackPath, string localPath)
+        {
+            var fallbackFileReader = new FileReader(fallbackPath);
+            var localFileReader = new FileReader(localPath);
+            var fallbackSP = JsonConvert.DeserializeObject<SkinPack>(fallbackFileReader.GetString("skinpack.json"));
+            var localSP = JsonConvert.DeserializeObject<SkinPack>(localFileReader.GetString("skinpack.json"));
+            if(fallbackSP.Version> localSP.Version)
+            {
+                FileWriter.CopyFolder(fallbackPath, localPath);
+            }
         }
 
         internal void Import(IFileReader fileReader, string packFileName)

@@ -1,6 +1,6 @@
 {
-	"Width": 103,
-	"Height": 103,
+	"Width": 105,
+	"Height": 105,
 	"Layers": [
 		{
 			"$type": "GaussianBlurLayer",
