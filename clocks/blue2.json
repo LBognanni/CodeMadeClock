@@ -4,17 +4,17 @@
 	"Layers": [
 		{
 			"$type": "GaussianBlurLayer",
-            "BlurRadius": 5.0,
+            "BlurRadius": 0.85,
             "Shapes": [
                 {
                     "$type": "DonutShape",
                     "Position": {
-                        "X": 52,
-                        "Y": 52
+                        "X": 52.5,
+                        "Y": 52.5
                     },
                     "Radius": 50,
                     "InnerRadius": 44,
-                    "Color": "#0008"
+                    "Color": "#0005"
                 }
             ]
 		},

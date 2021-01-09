@@ -45,7 +45,7 @@ namespace CodeMade.Clock.SkinPacks
             foreach (var file in Directory.GetFiles(sourceFolder))
             {
                 string destinationFile = Path.Combine(destinationFolder, Path.GetFileName(file));
-                File.Copy(file, destinationFile);
+                File.Copy(file, destinationFile, true);
             }
         }
 

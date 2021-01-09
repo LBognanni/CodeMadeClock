@@ -15,10 +15,10 @@
                 //},
                 {
                     "$type": "TextShape",
-                    "Text": "codemade.net",
+                    "Text": "{codemade.net}",
                     "FontName": "Lucida Console Italic",
-                    "FontSizePx": 6,
-                    "Color": "#88a4",
+                    "FontSizePx": 5,
+                    "Color": "#88a2",
                     "Centered": true,
                     "Position": {
                         "X": 47,
@@ -29,10 +29,10 @@
         },
         {
             "$type": "GaussianBlurLayer",
-            "BlurRadius": 3.0,
+            "BlurRadius": 1,
             "Offset": {
-                "X": 1,
-                "Y": 1
+                "X": 0.5,
+                "Y": 0.5
             },
             "Shapes": [
                 {

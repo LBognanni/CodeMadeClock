@@ -24,7 +24,7 @@ namespace CodeMade.ScriptedGraphics
                 base.Render(g, scaleFactor);
             }
             SuperfastBlur.GaussianBlur blur = new SuperfastBlur.GaussianBlur(img);
-            globalGraphics.DrawImage(blur.Process((int)BlurRadius), new PointF(0, 0));
+            globalGraphics.DrawImage(blur.Process((int)(BlurRadius * scaleFactor)), new PointF(0, 0));
         }
     }
 }

@@ -4,10 +4,10 @@
     "Layers": [
         {
             "$type": "GaussianBlurLayer",
-            "BlurRadius": 5.0,
+            "BlurRadius": 1.0,
             "Shapes": [
                 {
-                    "$type": "DonutShape",
+                    "$type": "CircleShape",
                     "Position": {
                         "X": 52,
                         "Y": 52
@@ -20,6 +20,15 @@
         },
         {
             "Shapes": [
+                {
+                    "$type": "DeleteCircleShape",
+                    "Position": {
+                        "X": 49,
+                        "Y": 49
+                    },
+                    "Radius": 47,
+                    "Color": "30-#eee-#888"
+                },
                 {
                     "$type": "DonutShape",
                     "Position": {

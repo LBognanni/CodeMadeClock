@@ -4,7 +4,7 @@
 	"Layers": [
 		{
 			"$type": "GaussianBlurLayer",
-			"BlurRadius": 5.0,
+			"BlurRadius": 2.0,
 			"Shapes": [
 				{
 					"$type": "CircleShape",
@@ -19,6 +19,14 @@
 		},
 		{
 			"Shapes":[
+				{
+					"$type": "DeleteCircleShape",
+					"Position": {
+						"X": 51,
+						"Y": 51
+					},
+					"Radius": 45.5
+				},
 				{
 					"$type": "CircleShape",
 					"Position": {

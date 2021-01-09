@@ -1,16 +1,16 @@
 {
-    "Width": 101,
-    "Height": 101,
+    "Width": 102,
+    "Height": 102,
     "Layers": [
         {
             "$type": "GaussianBlurLayer",
-            "BlurRadius": 5.0,
+            "BlurRadius": 1.5,
             "Shapes": [
                 {
                     "$type": "CircleShape",
                     "Position": {
-                        "X": 52,
-                        "Y": 52
+                        "X": 51.5,
+                        "Y": 51.5
                     },
                     "Radius": 46,
                     "Height": 46,

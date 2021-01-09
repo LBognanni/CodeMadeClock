@@ -1,12 +1,12 @@
 {
-	"Width": 104,
-	"Height": 104,
+	"Width": 105,
+	"Height": 105,
 	"Layers": [
 
 		// Shadow
 		{
 			"$type": "GaussianBlurLayer",
-			"BlurRadius": 3.0,
+			"BlurRadius": 1.0,
 			"Shapes": [
 				{
 					"$type": "CircleShape",
@@ -15,8 +15,7 @@
 						"Y": 52
 					},
 					"Radius": 50,
-					"InnerRadius": 44,
-					"Color": "#0008"
+					"Color": "#0006"
 				}
 			]
 		},

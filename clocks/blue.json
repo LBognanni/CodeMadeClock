@@ -4,16 +4,16 @@
     "Layers": [
         {
             "$type": "GaussianBlurLayer",
-            "BlurRadius": 5.0,
+            "BlurRadius": 1,
             "Shapes": [
                 {
                     "$type": "CircleShape",
                     "Position": {
-                        "X": 52,
-                        "Y": 52
+                        "X": 51,
+                        "Y": 51
                     },
-                    "Radius": 46,
-                    "Height": 46,
+                    "Radius": 47,
+                    "Height": 47,
                     "Color": "#0008"
                 }
             ]
