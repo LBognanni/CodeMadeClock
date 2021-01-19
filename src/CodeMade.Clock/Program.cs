@@ -35,7 +35,7 @@ namespace CodeMade.Clock
                 {
                     if (!string.IsNullOrEmpty(options.PreviewFile) && File.Exists(options.PreviewFile))
                     {
-                        Application.Run(new frmPreview(options.PreviewFile));
+                            Application.Run(new frmPreview(options.PreviewFile));
                     }
                     else
                     {

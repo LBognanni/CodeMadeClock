@@ -40,8 +40,8 @@
             this.cmdCopy = new System.Windows.Forms.Button();
             this.cbSpecificTime = new System.Windows.Forms.CheckBox();
             this.cmdSavePreview = new System.Windows.Forms.Button();
-            this.cmbFiles = new System.Windows.Forms.ComboBox();
             this.cmbBackground = new System.Windows.Forms.ComboBox();
+            this.cmbFiles = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -58,18 +58,20 @@
             this.pbCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbCanvas.BackgroundImage")));
             this.pbCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbCanvas.Location = new System.Drawing.Point(0, 0);
+            this.pbCanvas.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pbCanvas.Name = "pbCanvas";
-            this.pbCanvas.Size = new System.Drawing.Size(456, 516);
+            this.pbCanvas.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pbCanvas.Size = new System.Drawing.Size(365, 382);
             this.pbCanvas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbCanvas.TabIndex = 0;
-            this.pbCanvas.Padding = new System.Windows.Forms.Padding(8);
             this.pbCanvas.TabStop = false;
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 23);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -80,8 +82,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(456, 673);
-            this.splitContainer1.SplitterDistance = 516;
+            this.splitContainer1.Size = new System.Drawing.Size(365, 538);
+            this.splitContainer1.SplitterDistance = 382;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 1;
             // 
             // tabControl1
@@ -91,18 +94,20 @@
             this.tabControl1.Controls.Add(this.tpSettings);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(456, 153);
+            this.tabControl1.Size = new System.Drawing.Size(365, 153);
             this.tabControl1.TabIndex = 1;
             // 
             // tpLog
             // 
             this.tpLog.Controls.Add(this.txtLog);
             this.tpLog.Location = new System.Drawing.Point(4, 4);
+            this.tpLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpLog.Name = "tpLog";
-            this.tpLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLog.Size = new System.Drawing.Size(448, 120);
+            this.tpLog.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpLog.Size = new System.Drawing.Size(357, 125);
             this.tpLog.TabIndex = 0;
             this.tpLog.Text = "Log";
             this.tpLog.UseVisualStyleBackColor = true;
@@ -111,11 +116,12 @@
             // 
             this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtLog.Location = new System.Drawing.Point(3, 3);
+            this.txtLog.Location = new System.Drawing.Point(2, 2);
+            this.txtLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(442, 114);
+            this.txtLog.Size = new System.Drawing.Size(353, 121);
             this.txtLog.TabIndex = 0;
             this.txtLog.Text = "Loading...";
             // 
@@ -123,9 +129,10 @@
             // 
             this.tpSettings.Controls.Add(this.tableLayoutPanel1);
             this.tpSettings.Location = new System.Drawing.Point(4, 4);
+            this.tpSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tpSettings.Name = "tpSettings";
-            this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(448, 120);
+            this.tpSettings.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tpSettings.Size = new System.Drawing.Size(357, 125);
             this.tpSettings.TabIndex = 1;
             this.tpSettings.Text = "Settings";
             this.tpSettings.UseVisualStyleBackColor = true;
@@ -143,31 +150,34 @@
             this.tableLayoutPanel1.Controls.Add(this.cmdSavePreview, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.cmbBackground, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 114);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(353, 121);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // dpTime
             // 
             this.dpTime.Enabled = false;
             this.dpTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dpTime.Location = new System.Drawing.Point(176, 3);
+            this.dpTime.Location = new System.Drawing.Point(140, 2);
+            this.dpTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dpTime.Name = "dpTime";
             this.dpTime.ShowUpDown = true;
-            this.dpTime.Size = new System.Drawing.Size(200, 27);
+            this.dpTime.Size = new System.Drawing.Size(161, 23);
             this.dpTime.TabIndex = 3;
             // 
             // cmdCopy
             // 
             this.cmdCopy.AutoSize = true;
-            this.cmdCopy.Location = new System.Drawing.Point(3, 36);
+            this.cmdCopy.Location = new System.Drawing.Point(2, 29);
+            this.cmdCopy.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmdCopy.Name = "cmdCopy";
-            this.cmdCopy.Size = new System.Drawing.Size(103, 30);
+            this.cmdCopy.Size = new System.Drawing.Size(82, 25);
             this.cmdCopy.TabIndex = 1;
             this.cmdCopy.Text = "Copy image";
             this.cmdCopy.UseVisualStyleBackColor = true;
@@ -175,9 +185,10 @@
             // cbSpecificTime
             // 
             this.cbSpecificTime.AutoSize = true;
-            this.cbSpecificTime.Location = new System.Drawing.Point(3, 3);
+            this.cbSpecificTime.Location = new System.Drawing.Point(2, 2);
+            this.cbSpecificTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbSpecificTime.Name = "cbSpecificTime";
-            this.cbSpecificTime.Size = new System.Drawing.Size(167, 24);
+            this.cbSpecificTime.Size = new System.Drawing.Size(134, 19);
             this.cbSpecificTime.TabIndex = 0;
             this.cbSpecificTime.Text = "Show a specific time";
             this.cbSpecificTime.UseVisualStyleBackColor = true;
@@ -185,13 +196,24 @@
             // cmdSavePreview
             // 
             this.cmdSavePreview.AutoSize = true;
-            this.cmdSavePreview.Location = new System.Drawing.Point(3, 77);
+            this.cmdSavePreview.Location = new System.Drawing.Point(2, 58);
+            this.cmdSavePreview.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmdSavePreview.Name = "cmdSavePreview";
-            this.cmdSavePreview.Size = new System.Drawing.Size(105, 30);
+            this.cmdSavePreview.Size = new System.Drawing.Size(85, 25);
             this.cmdSavePreview.TabIndex = 4;
             this.cmdSavePreview.Text = "Save Preview";
             this.cmdSavePreview.UseVisualStyleBackColor = true;
             this.cmdSavePreview.Click += new System.EventHandler(this.cmdSavePreview_Click);
+            // 
+            // cmbBackground
+            // 
+            this.cmbBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBackground.FormattingEnabled = true;
+            this.cmbBackground.Location = new System.Drawing.Point(140, 29);
+            this.cmbBackground.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbBackground.Name = "cmbBackground";
+            this.cmbBackground.Size = new System.Drawing.Size(122, 23);
+            this.cmbBackground.TabIndex = 5;
             // 
             // cmbFiles
             // 
@@ -199,35 +221,21 @@
             this.cmbFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFiles.FormattingEnabled = true;
             this.cmbFiles.Location = new System.Drawing.Point(0, 0);
+            this.cmbFiles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbFiles.Name = "cmbFiles";
-            this.cmbFiles.Size = new System.Drawing.Size(456, 28);
+            this.cmbFiles.Size = new System.Drawing.Size(365, 23);
             this.cmbFiles.TabIndex = 2;
-            // 
-            // cmbBackground
-            // 
-            this.cmbBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbBackground.FormattingEnabled = true;
-            this.cmbBackground.Items.AddRange(new object[] {
-            "Checker",
-            "White",
-            "Black"});
-            this.cmbBackground.Location = new System.Drawing.Point(176, 36);
-            this.cmbBackground.Name = "cmbBackground";
-            this.cmbBackground.Size = new System.Drawing.Size(151, 28);
-            this.cmbBackground.TabIndex = 5;
-            this.cmbBackground.SelectedIndex = 0;
-            this.cmbBackground.SelectedIndexChanged += new System.EventHandler(this.cmbBackground_SelectedIndexChanged);
             // 
             // frmPreview
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(456, 701);
+            this.ClientSize = new System.Drawing.Size(365, 561);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.cmbFiles);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmPreview";
             this.Text = "Preview";
-            this.Load += new System.EventHandler(this.FrmPreview_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

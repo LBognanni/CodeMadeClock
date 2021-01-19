@@ -1,127 +1,122 @@
 ﻿using CodeMade.ScriptedGraphics;
 using NodaTime;
 using NodaTime.Extensions;
+using ReactiveUI;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows.Forms;
+using ReactiveUI.Winforms;
 
 namespace CodeMade.Clock
 {
-    public partial class frmPreview : Form, ITimer
+    public partial class frmPreview : Form, IViewFor<PreviewModel>
     {
-        private string _fileToWatch;
-        private Canvas _canvas;
-        private ClockCanvas _clockCanvas;
-        private FileSystemWatcher _fsw;
+
+        public PreviewModel ViewModel { get; set; }
+        object IViewFor.ViewModel { get => ViewModel; set => ViewModel = (PreviewModel)value; }
 
         public frmPreview(string fileToWatch)
         {
-            _fileToWatch = fileToWatch;
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
-            pbCanvas.Click += pbCanvas_Click;
-            UpdateFileList();
 
-            cbSpecificTime.CheckedChanged += (s, e) => { dpTime.Enabled = cbSpecificTime.Checked; UpdateImage(); };
-            dpTime.ValueChanged += (s, e) => { UpdateImage(); };
-        }
+            ViewModel = new PreviewModel(fileToWatch, pbCanvas.Width, pbCanvas.Height);
 
-        private void UpdateFileList()
-        {
-            cmbFiles.SelectedIndexChanged -= CmbFiles_SelectedIndexChanged;
-            string path = Path.GetDirectoryName(_fileToWatch);
-            cmbFiles.DataSource = Directory.GetFiles(path, "*.json");
-            cmbFiles.Text = _fileToWatch;
-            cmbFiles.SelectedIndexChanged += CmbFiles_SelectedIndexChanged;
-        }
-
-        private void CmbFiles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _fileToWatch = cmbFiles.SelectedValue.ToString();
-            UpdateWatcherAndImage();
-        }
-
-        private void UpdateWatcherAndImage()
-        {
-            if (_fsw != null)
+            this.WhenActivated(disposable =>
             {
-                _fsw.EnableRaisingEvents = false;
-                _fsw.Dispose();
-                _fsw = null;
-            }
-            _fsw = new FileSystemWatcher(Path.GetDirectoryName(_fileToWatch), Path.GetFileName(_fileToWatch));
-            _fsw.Changed += fileToWatch_Changed;
-            _fsw.EnableRaisingEvents = true;
-            UpdateImage(true);
-            UpdateFileList();
+                //this.OneWayBind(ViewModel,
+                //    vm => vm.Files,
+                //    frm => frm.cmbFiles.DataSource)
+                //    .DisposeWith(disposable);
+                //this.Bind(ViewModel,
+                //    vm => vm.FileToWatch,
+                //    frm => frm.cmbFiles.Text)
+                //    .DisposeWith(disposable);
+
+                cmbFiles.DataSource = ViewModel.Files;
+
+                var selectionChanged = Observable.FromEvent<EventHandler, EventArgs>(
+                    h => (_, e) => h(e),
+                    ev => cmbFiles.SelectedIndexChanged += ev,
+                    ev => cmbFiles.SelectedIndexChanged += ev);
+                this.Bind(ViewModel,
+                    vm => vm.FileToWatch,
+                    x => x.cmbFiles.SelectedItem,
+                    selectionChanged)
+                    .DisposeWith(disposable);
+
+
+                this.Bind(ViewModel,
+                    vm => vm.SpecificTimeEnabled,
+                    frm => frm.cbSpecificTime.Checked)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel,
+                    vm => vm.SpecificTimeEnabled,
+                    frm => frm.dpTime.Enabled)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel,
+                    vm => vm.SpecificTime,
+                    frm => frm.dpTime.Value)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.Image,
+                    frm => frm.pbCanvas.Image)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.Log,
+                    frm => frm.txtLog.Text)
+                    .DisposeWith(disposable);
+
+
+                var resizeEvent = pbCanvas.Events().SizeChanged.Select(_ => pbCanvas.Size).DistinctUntilChanged();
+                this.Bind(ViewModel,
+                    vm => vm.RenderWidth,
+                    frm => frm.pbCanvas.Width,
+                    resizeEvent)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel,
+                    vm => vm.RenderHeight,
+                    frm => frm.pbCanvas.Height,
+                    resizeEvent)
+                    .DisposeWith(disposable);
+
+                this.BindCommand(ViewModel,
+                    x => x.UpdateImageCommand,
+                    f => f.pbCanvas,
+                    pbCanvas.Events().Click)
+                .DisposeWith(disposable);
+
+                cmbBackground.DataSource = Enum.GetNames(typeof(PreviewModel.BackgroundStyles));
+                this.Bind(ViewModel,
+                    x => x.BackgroundStyle,
+                    f => f.cmbBackground.SelectedIndex,
+                    cmbBackground.Events().SelectedIndexChanged,
+                    viewToVmConverter: x => (PreviewModel.BackgroundStyles)x,
+                    vmToViewConverter: x => (int)x);
+
+                this.OneWayBind(ViewModel,
+                    x => x.BackgroundImage,
+                    f => f.pbCanvas.BackgroundImage)
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(ViewModel,
+                    x => x.BackgroundColor,
+                    f => f.pbCanvas.BackColor)
+                    .DisposeWith(disposable);
+
+            });
+
         }
 
-        private void pbCanvas_Click(object sender, EventArgs e)
-        {
-            UpdateImage();
-        }
 
-        private void FrmPreview_Load(object sender, EventArgs e)
-        {
-            UpdateWatcherAndImage();
-        }
-
-        private void fileToWatch_Changed(object sender, FileSystemEventArgs e)
-        {
-            UpdateImage(true);
-        }
-
-        private void UpdateImage(bool alsoLoadCanvas = false)
-        {
-
-            BeginInvoke((Action)(() =>
-            {
-                txtLog.Text = "OK";
-            }));
-
-            try
-            {
-                if ((_canvas == null) || (alsoLoadCanvas))
-                {
-                    _canvas = Canvas.Load(_fileToWatch);
-                    if (_canvas == null)
-                    {
-                        return;
-                    }
-                    _clockCanvas = new ClockCanvas(this, _canvas);
-                }
-                _clockCanvas.Update();
-                var szx = ((float)pbCanvas.Width  - 16) / (float)_canvas.Width;
-                var szy = ((float)pbCanvas.Height - 16) / (float)_canvas.Height;
-                BeginInvoke((Action)(() =>
-                {
-                    try
-                    {
-                        pbCanvas.Image = _clockCanvas.Render(Math.Min(szx, szy));
-                    }
-                    catch (Exception ex)
-                    {
-                        txtLog.Text = ex.Message;
-                    }
-                }));
-            }
-            catch (Exception ex)
-            {
-                BeginInvoke((Action)(() =>
-                {
-                    txtLog.Text = ex.Message;
-                }));
-                return;
-            }
-        }
-
-        protected override void OnResizeEnd(EventArgs e)
-        {
-            base.OnResizeEnd(e);
-            UpdateImage();
-        }
         private void CmdCopy_Click(object sender, System.EventArgs e)
         {
             Clipboard.Clear();
@@ -134,38 +129,10 @@ namespace CodeMade.Clock
             }
         }
 
-        public Instant GetTime()
-        {
-            if (cbSpecificTime.Checked)
-            {
-                return dpTime.Value.ToUniversalTime().ToInstant();
-            }
-            return SystemClock.Instance.GetCurrentInstant();
-        }
-
         private void cmdSavePreview_Click(object sender, EventArgs e)
         {
-            string fileName = Path.ChangeExtension(_fileToWatch, "png");
+            string fileName = Path.ChangeExtension(ViewModel.FileToWatch, "png");
             pbCanvas.Image.Save(fileName);
-        }
-
-        private void cmbBackground_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (cmbBackground.SelectedIndex)
-            {
-                case 0:
-                    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPreview));
-                    pbCanvas.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbCanvas.BackgroundImage")));
-                    break;
-                case 1:
-                    pbCanvas.BackgroundImage = null;
-                    pbCanvas.BackColor = Color.White;
-                    break;
-                case 2:
-                    pbCanvas.BackgroundImage = null;
-                    pbCanvas.BackColor = Color.Black;
-                    break;
-            }
         }
     }
 }

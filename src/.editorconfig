@@ -206,3 +206,6 @@ dotnet_naming_symbols.private_fields.applicable_accessibilities = private
 
 dotnet_naming_style.prefix_underscore.capitalization = camel_case
 dotnet_naming_style.prefix_underscore.required_prefix = _
+
+# Default severity for analyzer diagnostics with category 'Interoperability'
+dotnet_analyzer_diagnostic.category-Interoperability.severity = none
