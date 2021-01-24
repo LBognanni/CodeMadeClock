@@ -3,7 +3,6 @@ using CodeMade.ScriptedGraphics;
 using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using CodeMade.Clock.Controls;
 
@@ -25,6 +24,7 @@ namespace CodeMade.Clock.Tests.FormTests
             var filereader = TestHelpers.GetFakeFileReader();
             var skinPack = new SkinPackCollection(filereader, null);
             _form = new frmSettings(skinPack, _settings);
+            //_form.ShowVirtual();
         }
 
         [TearDown]
@@ -33,19 +33,11 @@ namespace CodeMade.Clock.Tests.FormTests
         [Test]
         public void ListsAllSkinPacks_And_SelectsCurrentOne()
         {
+            _form.ShowVirtual();
             var cmbSkinPacks = _form.FindControl("cmbSkinPack") as ComboBox;
             Assert.IsNotNull(cmbSkinPacks);
             Assert.AreEqual(2, cmbSkinPacks.Items.Count);
-            Assert.AreEqual("test", ((SkinPack)cmbSkinPacks?.SelectedItem)?.Name);
-        }
-
-        [Test]
-        public void ListsAllSkins_And_SelectsCurrentOne()
-        {
-            var slSkins = _form.FindControl("slSkins") as SelectList;
-            Assert.IsNotNull(slSkins);
-            Assert.AreEqual(4, slSkins.Items.Count());
-            Assert.AreEqual("Black", slSkins.GetSelected<Skin>().Name);
+            Assert.AreEqual("test", cmbSkinPacks?.SelectedItem);
         }
 
         [Test]
@@ -59,40 +51,11 @@ namespace CodeMade.Clock.Tests.FormTests
             Assert.IsFalse(_form.Visible);
         }
 
-        [Test]
-        public void Save_AppliesChangesAndClosesTheForm()
-        {
-            var cmdSave = _form.FindControl("cmdSave");
-            var slSkins = _form.FindControl("slSkins") as SelectList;
-            Assert.IsNotNull(cmdSave);
-
-            _form.ShowVirtual();
-            slSkins.Items.First(i=>i.Title == "Black").Selected = true;
-
-            cmdSave.RunEvent("Click");
-            Assert.IsFalse(_form.Visible);
-            Assert.AreEqual("Black", _settings.SelectedSkin);
-        }
-
         [Ignore("manual testing only")]
         [Test]
         public void ShowForm()
         {
             _form.ShowDialog();
-        }
-
-        class FakeSettings : ISettings
-        {
-            public bool HasSettings => true;
-
-            public Point Location { get; set; }
-            public string SelectedSkin { get; set; }
-            public string SelectedSkinpack { get; set; }
-            public Size Size { get; set; } = new Size(100, 100);
-
-            public void Save()
-            {
-            }
         }
     }
 }

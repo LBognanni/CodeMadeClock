@@ -28,21 +28,9 @@ namespace CodeMade.Clock
 
             this.WhenActivated(disposable =>
             {
-                //this.OneWayBind(ViewModel,
-                //    vm => vm.Files,
-                //    frm => frm.cmbFiles.DataSource)
-                //    .DisposeWith(disposable);
-                //this.Bind(ViewModel,
-                //    vm => vm.FileToWatch,
-                //    frm => frm.cmbFiles.Text)
-                //    .DisposeWith(disposable);
-
                 cmbFiles.DataSource = ViewModel.Files;
 
-                var selectionChanged = Observable.FromEvent<EventHandler, EventArgs>(
-                    h => (_, e) => h(e),
-                    ev => cmbFiles.SelectedIndexChanged += ev,
-                    ev => cmbFiles.SelectedIndexChanged += ev);
+                var selectionChanged = this.cmbFiles.Events().SelectedIndexChanged;
                 this.Bind(ViewModel,
                     vm => vm.FileToWatch,
                     x => x.cmbFiles.SelectedItem,

@@ -1,55 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodeMade.ScriptedGraphics;
+using ReactiveUI.Winforms;
+using ReactiveUI;
+using System.Reactive.Disposables;
 
 namespace CodeMade.Clock.Controls
 {
-    public partial class SelectListItem : UserControl
+    public partial class SelectListItem : UserControl, IViewFor<SelectListItemViewModel>
     {
-        private bool _selected;
-
-        private static Image ImgChecked = GetCircle(true);
-        private static Image ImgUnChecked = GetCircle(false);
         public event EventHandler SelectedChanged;
 
-        private static Image GetCircle(bool @checked)
+        public SelectListItem() : this(new SelectListItemViewModel())
         {
-            Canvas canvas = new Canvas(50, 50, "transparent");
-            if (@checked)
-            {
-                canvas.Add(new CircleShape(24, 24, 24, "#00aa12"));
-                canvas.Add(new Shape() { Path = "21,32 13,24 11,26 21,36 39,17 37,15", Color = "white" });
-            }
-            else
-            {
-                canvas.Add(new CircleShape(24, 24, 24, "#ddd"));
-                canvas.Add(new CircleShape(24, 24, 22, "#f2f2f2"));
-            }
-
-            return canvas.Render(1);
         }
 
-        public SelectListItem()
+        public SelectListItem(SelectListItemViewModel model)
         {
+            ViewModel = model;
             InitializeComponent();
-            imgChecked.Click += Control_Click;
-            imgItem.Click += Control_Click;
-            lblDescription.Click += Control_Click;
-            lblTitle.Click += Control_Click;
-            tlpMain.Click += Control_Click;
-            imgChecked.Image = ImgUnChecked;
-        }
 
-        private void Control_Click(object sender, EventArgs e)
-        {
-            Selected = true;
+            this.WhenActivated(disposable =>
+            {
+                this.OneWayBind(
+                    ViewModel,
+                    x => x.CheckImage,
+                    f => f.imgChecked.Image
+                    ).DisposeWith(disposable);
+                this.OneWayBind(
+                    ViewModel,
+                    x => x.Title,
+                    f => f.lblTitle.Text
+                    ).DisposeWith(disposable);
+                this.OneWayBind(
+                    ViewModel,
+                    x => x.Description,
+                    f => f.lblDescription.Text
+                    ).DisposeWith(disposable);
+                this.OneWayBind(
+                    ViewModel,
+                    x => x.Image,
+                    f => f.imgItem.Image
+                    ).DisposeWith(disposable);
+
+                this.BindCommand(ViewModel, x => x.SelectCommand, f => f, this.Events().Click);
+                this.BindCommand(ViewModel, x => x.SelectCommand, f => f.imgChecked, imgChecked.Events().Click);
+                this.BindCommand(ViewModel, x => x.SelectCommand, f => f.lblDescription, lblDescription.Events().Click);
+                this.BindCommand(ViewModel, x => x.SelectCommand, f => f.imgItem, imgItem.Events().Click);
+                this.BindCommand(ViewModel, x => x.SelectCommand, f => f.lblTitle, lblTitle.Events().Click);
+                this.BindCommand(ViewModel, x => x.SelectCommand, f => f.tlpMain, tlpMain.Events().Click);
+            });
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -64,24 +65,12 @@ namespace CodeMade.Clock.Controls
         internal void OnSelectedChanged() => 
             SelectedChanged?.Invoke(this, EventArgs.Empty);
 
-        public string Title { get => lblTitle.Text; set => lblTitle.Text = value; }
-        public string Description { get => lblDescription.Text; set => lblDescription.Text = value; }
-        public Image Picture { get => imgItem.Image; set => imgItem.Image = value; }
-
         public bool Selected
         {
-            get => _selected; 
-            set
-            {
-                if (_selected != value)
-                {
-                    _selected = value;
-                    imgChecked.Image = value ? ImgChecked : ImgUnChecked;
-                    OnSelectedChanged();
-                }
-            }
+            get => ViewModel.Selected;
         }
 
-        public object Item { get; set; }
+        public SelectListItemViewModel ViewModel { get ; set ; }
+        object IViewFor.ViewModel { get => ViewModel; set => ViewModel = value as SelectListItemViewModel; }
     }
 }

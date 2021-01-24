@@ -1,61 +1,58 @@
-﻿using CodeMade.Clock.SkinPacks;
+﻿using CodeMade.Clock.Controls;
+using CodeMade.Clock.SkinPacks;
+using ReactiveUI;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Disposables;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock
 {
-    public partial class frmSettings : Form
+
+    public partial class frmSettings : Form, IViewFor<SettingsViewModel>
     {
-        private readonly SkinPackCollection _skinPacks;
-        private readonly ISettings _settings;
+
+        public SettingsViewModel ViewModel { get; set; }
+        object IViewFor.ViewModel { get => ViewModel; set => ViewModel = value as SettingsViewModel; }
 
         public frmSettings(SkinPackCollection skinPacks, ISettings settings)
         {
             InitializeComponent();
-            _skinPacks = skinPacks;
-            _settings = settings;
 
-            LoadSkinpackList();
-            LoadSelectedSkinpack();
-        }
+            ViewModel = new SettingsViewModel(settings, skinPacks);
 
-        private void LoadSkinpackList()
-        {
-            cmbSkinPack.SuspendLayout();
-            cmbSkinPack.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbSkinPack.DataSource = _skinPacks.Packs.Values.ToList();
-            cmbSkinPack.DisplayMember = "Name";
-            cmbSkinPack.ValueMember = "Name";
-            cmbSkinPack.SelectItem(_skinPacks.Packs[_settings.SelectedSkinpack]);
-            cmbSkinPack.ResumeLayout();
-            cmbSkinPack.SelectedIndexChanged += (s, e) => LoadSelectedSkinpack();
-        }
+            this.WhenActivated(disposable =>
+            {
+                cmbSkinPack.DataSource = ViewModel.SkinPackList.ToList();
+                cmbSkinPack.DropDownStyle = ComboBoxStyle.DropDownList;
 
-        private void LoadSelectedSkinpack()
-        {
-            var skinPack = _skinPacks.Packs.Values.First();
-            const int icon_size = 128;
-            SuspendLayout();
+                this.Bind(ViewModel,
+                    vm => vm.SelectedSkinPack,
+                    frm => frm.cmbSkinPack.SelectedItem,
+                    cmbSkinPack.Events().SelectedIndexChanged)
+                .DisposeWith(disposable);
 
-            Skin selectedSkin = skinPack.Skins.FirstOrDefault(s => s.Name == _settings.SelectedSkin);
-            slSkins.Bind(skinPack.Skins, selectedSkin, s => s.Name, s => s.Description, s => s.Canvas.RenderAt(icon_size, icon_size));
+                this.OneWayBind(ViewModel,
+                    vm => vm.Skins,
+                    frm => frm.flpSkins.Controls,
+                    vmToViewConverterOverride: new SelectListItemConverter())
+                    .DisposeWith(disposable);
 
-            ResumeLayout();
-        }
-
-        private void cmdCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-
-        private void cmdSave_Click(object sender, EventArgs e)
-        {
-            _settings.SelectedSkin = slSkins.GetSelected<Skin>()?.Name;
-            DialogResult = DialogResult.OK;
-            Close();
+                cmdSave.Click += (s, a) =>
+                {
+                    ViewModel.SaveChanges();
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                };
+                cmdCancel.Click += (s, a) =>
+                {
+                    this.DialogResult = DialogResult.Cancel;
+                    this.Close();
+                };
+            });
         }
 
         private void cmdAddSkinPack_Click(object sender, EventArgs e)
@@ -66,8 +63,8 @@ namespace CodeMade.Clock
                 {
                     try
                     {
-                        _skinPacks.Import(new CombinedFileReader(Path.GetDirectoryName(dialog.FileName)), Path.GetFileName(dialog.FileName));
-                        LoadSkinpackList();
+                        //_skinPacks.Import(new CombinedFileReader(Path.GetDirectoryName(dialog.FileName)), Path.GetFileName(dialog.FileName));
+                        //LoadSkinpackList();
                     }
                     catch (Exception ex)
                     {

@@ -18,6 +18,9 @@
     <None Remove="publish\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Controls\SelectList.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <SupportedPlatform Include="windows" />
   </ItemGroup>
   <ItemGroup>
@@ -29,12 +32,12 @@
     <ProjectReference Include="..\CodeMade.ScriptedGraphics\CodeMade.ScriptedGraphics.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.7.82" />
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="NodaTime" Version="2.4.7" />
-    <PackageReference Include="ReactiveUI" Version="13.0.27" />
-    <PackageReference Include="ReactiveUI.Events.Winforms" Version="13.0.38" />
-    <PackageReference Include="ReactiveUI.WinForms" Version="13.0.27" />
+    <PackageReference Include="NodaTime" Version="3.0.5" />
+    <PackageReference Include="ReactiveUI" Version="13.1.1" />
+    <PackageReference Include="ReactiveUI.Events.Winforms" Version="13.1.1" />
+    <PackageReference Include="ReactiveUI.WinForms" Version="13.1.1" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
