@@ -1,97 +1,64 @@
 ﻿using CodeMade.Clock.LocationMoving;
 using CodeMade.Clock.SkinPacks;
 using CodeMade.ScriptedGraphics;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock
 {
-    public partial class frmClock : Form, ILocationReceiver
+    public partial class frmClock : Form, ILocationReceiver, IViewFor<frmClockViewModel>
     {
-        private ClockCanvas _canvas;
-        private ClockCanvas _renderCanvas;
         private ITimer _timer;
-        private ISettings _settings;
-        private SkinPackCollection _skinpacks;
-        private Action _debouncedSaveSettings;
-        private LocationSetter _locationSetter;
+        private readonly ISettings _settings;
+        private readonly SkinPackCollection _skinpacks;
 
         public frmClock(ISettings settings, SkinPackCollection skinpacks, string skinOverride = null)
         {
-            _locationSetter = new LocationSetter(this);
+            _settings = settings;
+            _skinpacks = skinpacks;
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.None;
+            StartPosition = FormStartPosition.Manual;
             Text = "CodeMade Clock";
             TopMost = true;
             tsmClose.Image = il24.Images[0];
             ShowInTaskbar = false;
 
-            _settings = settings;
-            _skinpacks = skinpacks;
+            ViewModel = new frmClockViewModel(settings, skinpacks, new ClockTimer(), new LocationFixer(this) , skinOverride);
 
-            _timer = new ClockTimer();
-            LoadSize();
-            LoadSkin(skinOverride);
 
-            _debouncedSaveSettings = ((Action)SaveSettings).Debounce(500);
-            this.Resize += FrmClock_Resize;
-        }
-
-        private void FrmClock_Resize(object sender, EventArgs e)
-        {
-            _renderCanvas = null;
-            OnSaveSettings();
-        }
-
-        private void LoadSize()
-        {
-            if (_settings.HasSettings)
+            this.WhenActivated(disposable =>
             {
-                Size = _settings.Size;
-                StartPosition = FormStartPosition.Manual;
-                _locationSetter.SetLocation(_settings.Location);
-            }
-            else
-            {
-                Size = new Size(256, 256);
-            }
+                this.Bind(ViewModel,
+                    vm => vm.Width,
+                    frm => frm.Width,
+                    this.Events().Resize)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel,
+                    vm => vm.Height,
+                    frm => frm.Height,
+                    this.Events().Resize)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel,
+                    vm => vm.Location,
+                    frm => frm.Location,
+                    this.Events().LocationChanged)
+                    .DisposeWith(disposable);
+
+                ViewModel.WhenAnyValue(x => x.Image)
+                    .WhereNotNull()
+                    .Subscribe(img => WinAPI.SetFormBackground(this, img));
+
+            });
         }
 
-        internal string SelectedSkin { get; private set; }
-
-        private void LoadSkin(string skinOverride)
-        {
-            Canvas canvas;
-            if (string.IsNullOrEmpty(skinOverride) || !File.Exists(skinOverride))
-            {
-                var skin = _skinpacks.Packs[_settings.SelectedSkinpack]?.Skins
-                                .FirstOrDefault(s => s.Name.Equals(_settings.SelectedSkin, StringComparison.OrdinalIgnoreCase));
-                if (skin == null)
-                {
-                    skin = _skinpacks.Packs.First().Value.Skins.First();
-                }
-                SelectedSkin = skin.Name;
-                canvas = skin.Canvas;
-            }
-            else
-            {
-                canvas = Canvas.Load(skinOverride);
-                SelectedSkin = skinOverride;
-            }
-            _canvas = new ClockCanvas(_timer, canvas);
-            _renderCanvas = null;
-        }
-
-        protected void SaveSettings()
-        {
-            _settings.Location = Location;
-            _settings.Size = Size;
-            _settings.Save();
-        }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -100,20 +67,8 @@ namespace CodeMade.Clock
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.ResizeRedraw, true);
             base.OnLoad(e);
-            UpdateImage();
-            var timer = new Timer();
-            timer.Tick += Timer_Tick;
-            timer.Interval = 500;
-            timer.Start();
         }
 
-        private void OnSaveSettings() => 
-            _debouncedSaveSettings?.Invoke();
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            UpdateImage();
-        }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -128,12 +83,6 @@ namespace CodeMade.Clock
             }
         }
 
-        protected override void OnLocationChanged(EventArgs e)
-        {
-            OnSaveSettings();
-            base.OnLocationChanged(e);
-        }
-
         protected override CreateParams CreateParams
         {
             get
@@ -144,45 +93,24 @@ namespace CodeMade.Clock
 
         public IEnumerable<Rectangle> Screens => Screen.AllScreens.Select(s => s.Bounds);
 
+        public frmClockViewModel ViewModel { get; set; }
+        object IViewFor.ViewModel { get => ViewModel; set => ViewModel = value as frmClockViewModel; }
+
         protected override void OnClick(EventArgs e)
         {
-            UpdateImage();
+            ViewModel.ForceUpdateImage();
         }
 
-        private void UpdateImage()
-        {
-            var szx = (float)Size.Width / (float)_canvas.Width;
-            var szy = (float)Size.Height / (float)_canvas.Height;
-            var ratio = Math.Min(szx, szy);
-            if (_renderCanvas == null)
-            {
-                _renderCanvas = _renderCanvas = _canvas.OptimizeFor(ratio);
-            }
-            _renderCanvas.Update();
-            WinAPI.SetFormBackground(this, _renderCanvas.Render(ratio));
-        }
 
         private void TsmClose_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void SmallerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UpdateSize(0.8);
-        }
+        private void SmallerToolStripMenuItem_Click(object sender, EventArgs e) => ViewModel.Smaller();
 
-        private void LargerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UpdateSize(1.25);
-        }
+        private void LargerToolStripMenuItem_Click(object sender, EventArgs e) => ViewModel.Bigger();
 
-        private void UpdateSize(double multiplier)
-        {
-            Size = new Size((int)(Size.Width * multiplier), (int)(Size.Height * multiplier));
-            _settings.Size = Size;
-            OnSaveSettings();
-        }
 
         private void tsmSettings_Click(object sender, EventArgs e)
         {
@@ -190,7 +118,8 @@ namespace CodeMade.Clock
             form.TopMost = this.TopMost;
             if(form.ShowDialog() == DialogResult.OK)
             {
-                LoadSkin(null);
+                ViewModel.LoadSkin(null);
+                _settings.Save();
             }
         }
     }

@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace CodeMade.Clock.LocationMoving
 {
-    public class LocationSetter
+    public class LocationFixer : ILocationFixer
     {
         private readonly ILocationReceiver _target;
 
-        public LocationSetter(ILocationReceiver target)
+        public LocationFixer(ILocationReceiver target)
         {
             _target = target;
         }
 
-        public void SetLocation(Point location)
+        public Point FixLocation(Point location)
         {
             var clockRect = new Rectangle(location, _target.Size);
             var clockPt = FindCenter(clockRect);
@@ -23,8 +23,7 @@ namespace CodeMade.Clock.LocationMoving
             {
                 if (screen.Contains(clockRect))
                 {
-                    _target.Location = location;
-                    return;
+                    return location;
                 }
                 else if (screen.IntersectsWith(clockRect))
                 {
@@ -32,25 +31,22 @@ namespace CodeMade.Clock.LocationMoving
                 }
             }
 
-            switch (intersects.Count)
+            return intersects.Count switch
             {
-                case 0:
-                    // Not on any screen - move in the closest one
-                    var screens = _target.Screens.Select(s => (s, FindDistanceSquared(s, clockPt)));
-                    MoveToScreen(location, screens.OrderBy(s => s.Item2).First().s);
-                    break;
-                case 1:
-                    // Intersects one screen - move to it
-                    MoveToScreen(location, intersects[0]);
-                    break;
-                default:
-                    // Intersect multiple screens - this might be fine (in between two side-by-side screens)
-                    _target.Location = location;
-                    break;
-            }
+                0 => MoveToClosestScreen(location, clockPt),
+                1 => MoveToScreen(location, intersects[0]),
+                _ => location
+            };
+
         }
 
-        private void MoveToScreen(Point location, Rectangle screen)
+        private Point MoveToClosestScreen(Point location, Point clockPt)
+        {
+            var screens = _target.Screens.Select(s => (Screen: s, Distance: FindDistanceSquared(s, clockPt)));
+            return MoveToScreen(location, screens.OrderBy(s => s.Distance).First().Screen);
+        }
+
+        private Point MoveToScreen(Point location, Rectangle screen)
         {
             if (location.X < screen.Left)
             {
@@ -70,7 +66,7 @@ namespace CodeMade.Clock.LocationMoving
                 location.Y = screen.Bottom - _target.Size.Height;
             }
 
-            _target.Location = location;
+            return location;
         }
 
         private Point FindCenter(Rectangle bounds)

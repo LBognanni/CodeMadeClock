@@ -6,7 +6,7 @@ using System.Drawing;
 namespace CodeMade.Clock.Tests
 {
     [TestFixture]
-    public class LocationSetterTest
+    public class LocationFixerTest
     {
         [Test]
         public void WhenSettingLocationInsideScreen_DoesNothing()
@@ -16,10 +16,9 @@ namespace CodeMade.Clock.Tests
                 PrimaryScreen = new Rectangle(0, 0, 1000, 1000),
                 Screens = new[] { new Rectangle(0, 0, 1000, 1000) }
             };
-            var setter = new LocationSetter(receiver);
+            var setter = new LocationFixer(receiver);
             var targetLocation = new Point(50, 50);
-            setter.SetLocation(targetLocation);
-            Assert.AreEqual(receiver.Location, targetLocation);
+            Assert.AreEqual(targetLocation, setter.FixLocation(targetLocation));
         }
 
         [Test]
@@ -29,10 +28,9 @@ namespace CodeMade.Clock.Tests
             {
                 Screens = new[] { new Rectangle(0, 0, 1000, 1000), new Rectangle(1000, 0, 1000, 1000) }
             };
-            var setter = new LocationSetter(receiver);
+            var setter = new LocationFixer(receiver);
             var targetLocation = new Point(950, 50);
-            setter.SetLocation(targetLocation);
-            Assert.AreEqual(receiver.Location, targetLocation);
+            Assert.AreEqual(targetLocation, setter.FixLocation(targetLocation));
         }
 
         private static IEnumerable<object[]> TestCasesForClosestScreen()
@@ -64,9 +62,8 @@ namespace CodeMade.Clock.Tests
             {
                 Screens = screens
             };
-            var setter = new LocationSetter(receiver);
-            setter.SetLocation(location);
-            Assert.AreEqual(expected, receiver.Location);
+            var setter = new LocationFixer(receiver);
+            Assert.AreEqual(expected, setter.FixLocation(location));
         }
 
         class TestLocationReceiver : ILocationReceiver
