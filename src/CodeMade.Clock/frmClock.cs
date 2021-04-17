@@ -59,7 +59,6 @@ namespace CodeMade.Clock
             });
         }
 
-
         protected override void OnLoad(EventArgs e)
         {
             ControlBox = false;
@@ -68,7 +67,6 @@ namespace CodeMade.Clock
             SetStyle(ControlStyles.ResizeRedraw, true);
             base.OnLoad(e);
         }
-
 
         protected override void OnMouseDown(MouseEventArgs e)
         {

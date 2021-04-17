@@ -119,6 +119,7 @@ namespace CodeMade.Clock
             }
             _renderCanvas.Update();
 
+            _image?.Dispose();
             Image = _renderCanvas.Render(ratio);
         }
 
