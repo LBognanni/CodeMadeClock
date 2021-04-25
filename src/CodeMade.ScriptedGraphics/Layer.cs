@@ -4,11 +4,26 @@ using System.Drawing.Drawing2D;
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// Represents the base container of Shapes.
+    /// Because a Layer is also a Shape, layers can contain other layers.
+    /// </summary>
     public class Layer : IShape
     {
+        /// <summary>
+        /// A list of all the shapes contained in this layer
+        /// </summary>
         public List<IShape> Shapes { get; }
 
+        /// <summary>
+        /// Layer rotation, in degrees
+        /// </summary>
         public float Rotate { get; set; }
+
+        /// <summary>
+        /// Layer offset in Canvas Units
+        /// </summary>
+        /// <see cref="CodeMade.ScriptedGraphics.Canvas"/>
         public Vertex Offset { get; set; }
 
         private GraphicsContainer originalTransform;

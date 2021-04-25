@@ -32,7 +32,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.70.0")]
-[assembly: AssemblyVersion("1.0.70.0")]
-[assembly: AssemblyFileVersion("1.0.70.0")]
-[assembly: AssemblyInformationalVersion("1.0.70-add-nuke-build.28+Branch.add-nuke-build.Sha.be5890aa553c6d159a6710158e9f001a0f1ac341")]
+// [assembly: AssemblyVersion("1.3.2.0")]
+[assembly: AssemblyVersion("1.3.2.0")]
+[assembly: AssemblyFileVersion("1.3.2.0")]
+[assembly: AssemblyInformationalVersion("1.3.2+4.Branch.master.Sha.ee33e4fb7ec7825bd622fe61340cfede034132a8")]

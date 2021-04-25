@@ -8,11 +8,36 @@ using Newtonsoft.Json;
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// This is the starting block of any rendered image. It contains one or more layers, which in turn contain various shapes
+    /// that make up the final image.
+    /// 
+    /// There is no need to specify $type because Canvas is only to be used as the root element.
+    /// </summary>
+    /// <example>
+    /// {
+    ///     "Width": 101,
+    ///     "Height": 101,
+    ///     "Layers": [
+    ///        // ... layers ...
+    ///     ]
+    /// }
+    /// </example>
     public class Canvas
     {
+        /// <summary>
+        /// Suggested output width
+        /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// Suggested output height
+        /// </summary>
         public int Height { get; set; }
 
+        /// <summary>
+        /// A collection of layers that make up the image
+        /// </summary>
         public List<Layer> Layers { get; set; }
 
         public Canvas(int width, int height, string backgroundColor)

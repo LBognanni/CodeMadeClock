@@ -2,14 +2,29 @@
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// A layer whose contents will get drawn rotated at various angles.
+    /// 
+    /// It's especially useful for repeating hour and minute ticks on a clock face.
+    /// 
+    /// For example, you could have a rectangle at (-1, -20) with size(2, 10), when setting 
+    /// the value of RepeatCount to 12 and the value of RepeatRotate to 30 you will have drawn the hour ticks on a clock.
+    /// This is because the rectangle will be drawn 12 times, each time rotated by 30 degrees more than the previous.
+    /// </summary>
     public class RotateRepeatLayer : Layer
     {
         public RotateRepeatLayer()
         {
         }
 
+        /// <summary>
+        /// Number of times the content will be repeated
+        /// </summary>
         public int RepeatCount { get; set; }
 
+        /// <summary>
+        /// The angle at which to repeat the contents
+        /// </summary>
         public float RepeatRotate { get; set; }
 
         private int _repeatCounter;

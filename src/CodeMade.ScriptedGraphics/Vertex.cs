@@ -2,6 +2,9 @@
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// A point
+    /// </summary>
     public struct Vertex
     {
         public Vertex(float x, float y)
@@ -10,7 +13,14 @@ namespace CodeMade.ScriptedGraphics
             Y = y;
         }
 
+        /// <summary>
+        /// X Coordinate
+        /// </summary>
         public float X { get; set; }
+
+        /// <summary>
+        /// Y Coordinate
+        /// </summary>
         public float Y { get; set; }
 
         internal PointF AsPointF(float scaleFactor)

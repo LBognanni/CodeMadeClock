@@ -2,8 +2,14 @@
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// A gaussian blur layer. Anything contained in this layer will be blurred
+    /// </summary>
     public class GaussianBlurLayer : Layer
     {
+        /// <summary>
+        /// The blur radius
+        /// </summary>
         public float BlurRadius { get; set; }
 
         public GaussianBlurLayer()
