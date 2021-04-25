@@ -199,27 +199,7 @@ class Build : NukeBuild
             md.AppendLine();
             md.AppendLine(cls.SanitizedSummary);
 
-            var props = allProps.Where(p => p.ClassName == cls.ClassName).ToArray();
-            if(props.Any())
-            {
-                md.AppendLine();
-                md.AppendLine("## Properties");
-
-                foreach(var prop in props)
-                {
-                    md.AppendLine($"### {prop.PropertyName}");
-                    md.AppendLine();
-                    md.AppendLine(prop.SanitizedSummary);
-                    md.AppendLine();
-                    
-                    if (prop.See != null)
-                    {
-                        Console.WriteLine($"\t -> {prop.See.To}");
-                        var reference = doc.Members.First(x => x.Name == prop.See.To);
-                        md.AppendLine($"See [{reference.ClassName}]({reference.ClassName}.md)");
-                    }
-                }
-            }
+            WriteProperties(doc, allProps, cls, md);
 
             if (!string.IsNullOrWhiteSpace(cls.Example))
             {
@@ -228,7 +208,9 @@ class Build : NukeBuild
                 md.AppendLine();
                 md.AppendLine("## Example");
                 md.AppendLine();
+                md.AppendLine("```json");
                 md.Append(cls.SanitizedExample);
+                md.AppendLine("```");
             }
 
             var fileName = $"docs\\{cls.ClassName}.md";
@@ -236,6 +218,44 @@ class Build : NukeBuild
             File.WriteAllText(fileName, md.ToString());
         }
 
+    }
+
+    private static void WriteProperties(XmlDoc doc, IEnumerable<Member> allProps, Member cls, StringBuilder md, bool header = true)
+    {
+        var props = allProps.Where(p => p.ClassName == cls.ClassName).ToArray();
+        if (props.Any())
+        {
+            if (header)
+            {
+                md.AppendLine();
+                md.AppendLine("## Properties");
+            }
+
+            foreach (var prop in props)
+            {
+                md.AppendLine($"### {prop.PropertyName}");
+                md.AppendLine();
+                md.AppendLine(prop.SanitizedSummary);
+                md.AppendLine();
+
+                if (prop.See != null)
+                {
+                    var references = prop.See.Select(see =>
+                    {
+                        var reference = doc.Members.First(x => x.Name == see.To);
+                        return $"[{reference.ClassName}]({reference.ClassName}.md)";
+                    });
+
+                    md.AppendLine($"See { string.Join(", ", references) }");
+                }
+            }
+        }
+
+        if(cls.Inherits != null)
+        {
+            var parent = doc.Members.First(x => x.Name == cls.Inherits.To);
+            WriteProperties(doc, allProps, parent, md, false);
+        }
     }
 }
 
@@ -270,7 +290,10 @@ public class Member
     public string Example { get; set; }
 
     [XmlElement("see")]
-    public Reference See { get; set; }
+    public Reference[] See { get; set; }
+
+    [XmlElement("inheritdoc")]
+    public Reference Inherits { get; set; }
 
     public string Type => Name.Split(':')[0];
 
@@ -291,7 +314,7 @@ public class Member
 
     public string SanitizedSummary => BaseLineString(Summary);
 
-    public string SanitizedExample => BaseLineString(Example, 4);
+    public string SanitizedExample => BaseLineString(Example);
 
     private static string BaseLineString(string text, int minSpaces = 0)
     {

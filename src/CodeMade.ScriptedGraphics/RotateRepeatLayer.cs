@@ -11,6 +11,7 @@ namespace CodeMade.ScriptedGraphics
     /// the value of RepeatCount to 12 and the value of RepeatRotate to 30 you will have drawn the hour ticks on a clock.
     /// This is because the rectangle will be drawn 12 times, each time rotated by 30 degrees more than the previous.
     /// </summary>
+    /// <inheritdoc cref="Layer"/>
     public class RotateRepeatLayer : Layer
     {
         public RotateRepeatLayer()

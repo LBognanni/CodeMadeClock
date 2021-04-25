@@ -7,6 +7,16 @@ namespace CodeMade.ScriptedGraphics
     /// <summary>
     /// Draws a rectangle containing the specified image
     /// </summary>
+    /// <example>
+    /// {
+    ///     "$type": "BitmapShape",
+    ///     "Path": "inner-shadow.png",
+    ///     "Left": 6,
+    ///     "Top": 6,
+    ///     "Width": 86,
+    ///     "Height": 86
+    /// }
+    /// </example>
     public class BitmapShape : RectangleShape
     {
         private readonly IFileReader _fileReader;

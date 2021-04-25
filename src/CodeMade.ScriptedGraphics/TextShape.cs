@@ -10,6 +10,20 @@ namespace CodeMade.ScriptedGraphics
     /// Draws a string of text at the specified coordinates.
     /// The text will be either printed using a system font specified in `Font` or a specific .ttf font file specified in `FontFile`
     /// </summary>
+    /// <example>       
+    /// {
+    ///     "$type": "TextShape",
+    ///     "Text": "codemade.net",
+    ///     "FontName": "Tahoma",
+    ///     "FontSizePx": 6,
+    ///     "Color": "#cefc",
+    ///     "Centered": true,
+    ///     "Position": {
+    ///         "X": 50,
+    ///         "Y": 67
+    ///     }
+    /// }
+    /// </example>
     public class TextShape : IShape, IDisposable
     {
         private readonly PrivateFontCollection _fontCollection;

@@ -35,4 +35,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.3.2.0")]
 [assembly: AssemblyFileVersion("1.3.2.0")]
 [assembly:InternalsVisibleTo("CodeMade.Clock.Tests")]
-[assembly: AssemblyInformationalVersion("1.3.2+4.Branch.master.Sha.ee33e4fb7ec7825bd622fe61340cfede034132a8")]
+[assembly: AssemblyInformationalVersion("1.3.2-scripting-docs.1+5.Branch.scripting-docs.Sha.9d0daf862a94a10ae72fc13b0cf08988843e4e23")]

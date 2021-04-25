@@ -5,6 +5,12 @@ namespace CodeMade.ScriptedGraphics
     /// <summary>
     /// A point
     /// </summary>
+    /// <example>
+    /// {
+    ///     "X": 20,
+    ///     "Y": 33.5
+    /// }
+    /// </example>
     public struct Vertex
     {
         public Vertex(float x, float y)

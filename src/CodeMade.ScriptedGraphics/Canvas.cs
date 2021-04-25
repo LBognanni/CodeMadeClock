@@ -26,18 +26,24 @@ namespace CodeMade.ScriptedGraphics
     public class Canvas
     {
         /// <summary>
-        /// Suggested output width
+        /// Suggested output width.
+        /// Should be an integer value greater than zero.
         /// </summary>
         public int Width { get; set; }
 
         /// <summary>
         /// Suggested output height
+        /// Should be an integer value greater than zero.
         /// </summary>
         public int Height { get; set; }
 
         /// <summary>
         /// A collection of layers that make up the image
         /// </summary>
+        /// <see cref="Layer" />
+        /// <see cref="SolidLayer"/>
+        /// <see cref="GaussianBlurLayer"/>
+        /// <see cref="RotateRepeatLayer"/>
         public List<Layer> Layers { get; set; }
 
         public Canvas(int width, int height, string backgroundColor)

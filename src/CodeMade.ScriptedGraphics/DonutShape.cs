@@ -6,6 +6,19 @@ namespace CodeMade.ScriptedGraphics
     /// <summary>
     /// A donut shape: a circle shape with an inner circle blanked out
     /// </summary>
+    /// <inheritdoc cref="CircleShape" />
+    /// <example>
+	/// {
+	/// 	"$type": "DonutShape",
+	/// 	"Position": {
+	/// 		"X": 52,
+	/// 		"Y": 52
+	/// 	},
+	/// 	"Radius": 49,
+	/// 	"Color": "30-#bbb-#777",
+	/// 	"InnerRadius": 46
+	/// }
+    /// </example>
     public class DonutShape : CircleShape
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace CodeMade.ScriptedGraphics
     /// A layer that is filled with a solid color
     /// This is the same as a normal Layer, but it is filled with one color instead of being transparent
     /// </summary>
+    /// <inheritdoc cref="Layer"/>
     public class SolidLayer : Layer
     {
         /// <summary>
