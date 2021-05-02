@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -8,36 +10,78 @@ namespace CodeMade.ScriptedGraphics
     {
         public static Brush ParseBrush(this string s, RectangleF rect)
         {
+            // conic gradient: something like c-(.5,.5)-#fff-#000
+            if(s.StartsWith("c-"))
+            {
+                return ParseConicGradient(s, rect);
+            }
+
+            // linear gradient brush: something like #fff-#000 or 30-#fff-000
             if(s.Contains("-"))
             {
-                Color color1, color2;
-                float angle;
+                return ParseLinearGradient(s, rect);
+            }
 
-                string[] parts = s.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                if(parts.Length == 2)
-                {
-                    color1 = parts[0].ToColor();
-                    color2 = parts[1].ToColor();
-                    angle = 0;
-                }
-                else if(parts.Length == 3)
-                {
-                    angle = float.Parse(parts[0]);
-                    color1 = parts[1].ToColor();
-                    color2 = parts[2].ToColor();
-                }
-                else
-                {
-                    throw new FormatException($"'{s}' is not a valid gradient.");
-                }
+            return new SolidBrush(s.ToColor());
+        }
 
-                return new LinearGradientBrush(rect, color1, color2, angle);
+        private static Brush ParseLinearGradient(string s, RectangleF rect)
+        {
+            Color color1, color2;
+            float angle;
+
+            string[] parts = s.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                color1 = parts[0].ToColor();
+                color2 = parts[1].ToColor();
+                angle = 0;
+            }
+            else if (parts.Length == 3)
+            {
+                angle = float.Parse(parts[0]);
+                color1 = parts[1].ToColor();
+                color2 = parts[2].ToColor();
             }
             else
             {
-                return new SolidBrush(s.ToColor());
+                throw new FormatException($"'{s}' is not a valid gradient.");
             }
+
+            return new LinearGradientBrush(rect, color1, color2, angle);
         }
+
+        private static Brush ParseConicGradient(string s, RectangleF rect)
+        {
+            var colors = new List<Color>();
+            var angle = 0.0f;
+            var cx = 0.5f;
+            var cy = 0.5f;
+            var splits = s.Substring(1).Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var split in splits)
+            {
+                if (split.StartsWith("("))
+                {
+                    var parts = split.Split(", ()".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length == 2)
+                    {
+                        cx = float.Parse(parts[0]);
+                        cy = float.Parse(parts[1]);
+                    }
+                    continue;
+                }
+                if (float.TryParse(split, out var a))
+                {
+                    angle = a;
+                    continue;
+                }
+                colors.Add(split.ToColor());
+            }
+
+            return ConicGradient.Create(rect, colors.ToArray(), cx, cy, angle);
+        }
+
 
         public static Color ToColor(this string s)
         {
