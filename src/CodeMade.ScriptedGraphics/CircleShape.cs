@@ -42,7 +42,7 @@ namespace CodeMade.ScriptedGraphics
         public float Radius { get; set; }
 
         /// <summary>
-        /// Circle color
+        /// Circle color. Can be a solid color or a gradient.
         /// </summary>
         /// <see cref="CodeMade.ScriptedGraphics.Colors" />
         public string Color { get; set; }
