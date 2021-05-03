@@ -12,6 +12,12 @@
     <Authors>Loris Bognanni</Authors>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <DocumentationFile>CodeMade.Clock.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="publish\**" />
     <EmbeddedResource Remove="publish\**" />

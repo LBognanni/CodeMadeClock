@@ -9,3 +9,5 @@ publish
 launchSettings.json
 .tmp
 Output
+/src/CodeMade.Clock/CodeMade.Clock.xml
+/src/CodeMade.ScriptedGraphics/CodeMade.ScriptedGraphics.xml

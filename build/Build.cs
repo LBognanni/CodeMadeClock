@@ -175,23 +175,29 @@ class Build : NukeBuild
 
     private void GenerateDocs()
     {
-        var xmlFile = @"src\CodeMade.ScriptedGraphics\CodeMade.ScriptedGraphics.xml";
-        using var fs = File.OpenRead(xmlFile);
-        var serializer = new XmlSerializer(typeof(XmlDoc));
-        var doc = (XmlDoc)serializer.Deserialize(fs);
-        if(!Directory.Exists("docs"))
+        var members = LoadDocsFile(@"src\CodeMade.ScriptedGraphics\CodeMade.ScriptedGraphics.xml")
+            .Union(LoadDocsFile(@"src\CodeMade.Clock\CodeMade.Clock.xml")
+                .Where(x => !x.Name.Contains("CodeMade.Clock.Properties"))
+                .Where(x => !x.Name.Contains("Dispose"))
+            )
+            .ToArray();
+
+        if (!Directory.Exists("docs"))
         {
             Directory.CreateDirectory("docs");
         }
 
         Console.WriteLine(Path.GetFullPath(".\\"));
-        Console.WriteLine($"{doc.Members.Count} annotations found.");
-        
-        var classes = doc.Members.Where(x => x.Type == "T");
-        var allProps = doc.Members.Where(x => x.Type == "P");
+        Console.WriteLine($"{members.Length} annotations found.");
 
-        foreach(var cls in classes)
+        var classes = members.Where(x => x.Type == "T").ToList();
+        var allProps = members.Where(x => x.Type == "P").ToList();
+
+        foreach (var cls in classes)
         {
+            if (cls.Name == "T:CodeMade.Clock.TimedLayer")
+                continue;
+
             Console.WriteLine(cls.Name);
 
             var md = new StringBuilder();
@@ -199,7 +205,7 @@ class Build : NukeBuild
             md.AppendLine();
             md.AppendLine(cls.SanitizedSummary);
 
-            WriteProperties(doc, allProps, cls, md);
+            WriteProperties(members, allProps, cls, md);
 
             if (!string.IsNullOrWhiteSpace(cls.Example))
             {
@@ -220,7 +226,15 @@ class Build : NukeBuild
 
     }
 
-    private static void WriteProperties(XmlDoc doc, IEnumerable<Member> allProps, Member cls, StringBuilder md, bool header = true)
+    private static List<Member> LoadDocsFile(string xmlFile)
+    {
+        using var fs = File.OpenRead(xmlFile);
+        var serializer = new XmlSerializer(typeof(XmlDoc));
+        var doc = (XmlDoc)serializer.Deserialize(fs);
+        return doc.Members;
+    }
+
+    private static void WriteProperties(IReadOnlyCollection<Member> members, IReadOnlyCollection<Member> allProps, Member cls, StringBuilder md, bool header = true)
     {
         var props = allProps.Where(p => p.ClassName == cls.ClassName).ToArray();
         if (props.Any())
@@ -242,7 +256,7 @@ class Build : NukeBuild
                 {
                     var references = prop.See.Select(see =>
                     {
-                        var reference = doc.Members.First(x => x.Name == see.To);
+                        var reference = members.First(x => x.Name == see.To);
                         return $"[{reference.ClassName}]({reference.ClassName}.md)";
                     });
 
@@ -253,8 +267,8 @@ class Build : NukeBuild
 
         if(cls.Inherits != null)
         {
-            var parent = doc.Members.First(x => x.Name == cls.Inherits.To);
-            WriteProperties(doc, allProps, parent, md, false);
+            var parent = members.First(x => x.Name == cls.Inherits.To);
+            WriteProperties(members, allProps, parent, md, false);
         }
     }
 }

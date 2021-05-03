@@ -42,3 +42,27 @@ Layer offset in Canvas Units
 
 
 See [Canvas](Canvas.md)
+
+---
+
+## Example
+
+```json
+{
+    "$type": "RotateRepeatLayer",
+    "Shapes": [
+        {
+            "$type": "Shape",
+            "Color": "#aefe",
+            "Path": "0,-42 1.5,-40 0,-35 -1.5,-40"
+        }
+    ],
+    "Offset": {
+        "X": 49,
+        "Y": 49
+    },
+    "RepeatRotate": 30,
+    "RepeatCount": 12
+}
+
+```

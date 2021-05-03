@@ -26,7 +26,7 @@ Circle radius
 
 ### Color
 
-Circle color
+Circle color. Can be a solid color or a gradient.
 
 
 

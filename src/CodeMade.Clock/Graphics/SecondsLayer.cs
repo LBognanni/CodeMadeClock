@@ -2,8 +2,16 @@
 
 namespace CodeMade.Clock
 {
+
+    /// <summary>
+    /// A layer that rotates every second
+    /// </summary>
+    /// <inheritdoc cref="TimedLayer"/>
     public class SecondsLayer : TimedLayer
     {
+        /// <summary>
+        /// [Optional] the angle of rotation
+        /// </summary>
         public float? Angle { get; set; }
 
         public override void Update(LocalTime time)

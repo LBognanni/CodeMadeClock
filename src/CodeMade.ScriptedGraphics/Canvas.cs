@@ -12,6 +12,9 @@ namespace CodeMade.ScriptedGraphics
     /// This is the starting block of any rendered image. It contains one or more layers, which in turn contain various shapes
     /// that make up the final image.
     /// 
+    /// Most importantly, it defines the Width and Height properties, which represent the Canvas Units that are used everywhere else. 
+    /// Canvas Units don't necessarily match with pixels because, being skins can be rendered at any size.
+    /// 
     /// There is no need to specify $type because Canvas is only to be used as the root element.
     /// </summary>
     /// <example>
