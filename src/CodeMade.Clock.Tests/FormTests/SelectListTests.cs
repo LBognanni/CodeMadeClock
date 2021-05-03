@@ -38,7 +38,7 @@ namespace CodeMade.Clock.Tests.FormTests
         public void Setup()
         {
             var filereader = TestHelpers.GetFakeFileReader();
-            var skinPack = new SkinPackCollection(filereader, null);
+            var skinPack = new SkinPackCollection(filereader, null, Array.Empty<Type>());
 
             _getSut = (s) => {
                 var sut = new SettingsViewModel(new FakeSettings() { SelectedSkinpack = "test", SelectedSkin = "Black" }, skinPack, s);

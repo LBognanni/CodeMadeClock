@@ -152,7 +152,7 @@
 				},
 
 				{
-					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"$type": "NumbersLayer",
 					"Numbers": [1,2,3,9,10,11,12],
 					"Color": "#000a",
 					"FontName": "Times New Roman Bold",
@@ -166,7 +166,7 @@
 				},
 
 				{
-					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"$type": "NumbersLayer",
 					"Numbers": [4,5,6,7,8],
 					"Color": "#000a",
 					"FontName": "Times New Roman Bold",
@@ -182,7 +182,7 @@
 		},
 
 		{
-			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"$type": "HoursLayer",
 			"Offset": {
 				"X": 101,
 				"Y": 102
@@ -197,7 +197,7 @@
 		},
 
 		{
-			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"$type": "HoursLayer",
 			"Offset": {
 				"X": 101,
 				"Y": 101
@@ -212,7 +212,7 @@
 		},
 
 		{
-			"$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+			"$type": "MinutesLayer",
 			"Offset": {
 				"X": 101,
 				"Y": 102
@@ -228,7 +228,7 @@
 		},
 
 		{
-			"$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+			"$type": "MinutesLayer",
 			"Offset": {
 				"X": 101,
 				"Y": 101

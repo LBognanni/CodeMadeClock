@@ -74,7 +74,7 @@
 					"RepeatCount": 12
 				},
 				{
-					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"$type": "NumbersLayer",
 					"Numbers": [1,2,3,4,5,6,7,8,9,10,11,12],
 					"NumbersText":["I", "II", "III", "IV", "V", "VI", 
 								  "VII", "VIII", "IX", "X", "XI", "XII"],
@@ -89,7 +89,7 @@
 					}
 				},
 				{
-					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"$type": "NumbersLayer",
 					"Numbers": [1,2,3,4,5,6,7,8,9,10,11,12],
 					"NumbersText":["05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "00"],
 					"Color": "#fecc",
@@ -184,7 +184,7 @@
 			]
 		},
 		{
-			"$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+			"$type": "SecondsLayer",
 			"Offset": {
 				"X": 30,
 				"Y": 60.4
@@ -199,7 +199,7 @@
 
 		},
 		{
-			"$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+			"$type": "SecondsLayer",
 			"Offset": {
 				"X": 30,
 				"Y": 60
@@ -287,7 +287,7 @@
 		},
 
 		{
-			"$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+			"$type": "SecondsLayer",
 			"Offset": {
 				"X": 74,
 				"Y": 60
@@ -321,7 +321,7 @@
 		},
 
 		{
-			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"$type": "HoursLayer",
 			"Offset": {
 				"X": 74,
 				"Y": 60
@@ -366,7 +366,7 @@
 
 		// Hours
 		{
-			"$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+			"$type": "HoursLayer",
 			"Smooth": true,
 			"Offset": {
 				"X": 52,
@@ -414,7 +414,7 @@
 
 		// Minutes
 		{
-			"$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+			"$type": "MinutesLayer",
 			"Smooth": true,
 			"Offset": {
 				"X": 52,
@@ -460,7 +460,7 @@
 			]
 		},
 		//{
-		//    "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+		//    "$type": "SecondsLayer",
 		//    "Offset": {
 		//        "X": 52,
 		//        "Y": 52

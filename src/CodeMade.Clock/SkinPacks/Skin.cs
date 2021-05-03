@@ -1,4 +1,5 @@
 ﻿using CodeMade.ScriptedGraphics;
+using System;
 using System.Collections.Generic;
 
 namespace CodeMade.Clock.SkinPacks
@@ -19,13 +20,13 @@ namespace CodeMade.Clock.SkinPacks
         public Dictionary<string, object> Variables { get; }
         public Canvas Canvas { get; private set; }
 
-        internal void Load(IFileReader fileReader)
+        internal void Load(IFileReader fileReader, params Type[] knownTypes)
         {
             if (!string.IsNullOrEmpty(Definition))
             {
                 if (fileReader.FileExists(Definition))
                 {
-                    Canvas = Canvas.Load(Definition, new VariableReplacingFileReader(fileReader, Variables));
+                    Canvas = Canvas.Load(Definition, new VariableReplacingFileReader(fileReader, Variables), knownTypes);
                 }
             }
         }

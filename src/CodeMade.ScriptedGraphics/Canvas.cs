@@ -95,15 +95,15 @@ namespace CodeMade.ScriptedGraphics
             Layers.Last().Shapes.Add(shape);
         }
 
-        public static Canvas Load(string fileName) =>
-            Load(fileName, new FileReader(Path.GetDirectoryName(fileName)));
+        public static Canvas Load(string fileName, params Type[] knownTypes) =>
+            Load(fileName, new FileReader(Path.GetDirectoryName(fileName)), knownTypes);
 
-        public static Canvas Load(string fileName, IFileReader fileReader)
+        public static Canvas Load(string fileName, IFileReader fileReader, params Type[] knownTypes)
         {
             string json = "";
             TryAgain<IOException>(() => json = fileReader.GetString(fileName));
 
-            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(fileReader));
+            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(fileReader, knownTypes));
 
             return canvas;
         }
@@ -135,13 +135,13 @@ namespace CodeMade.ScriptedGraphics
             File.WriteAllText(fileName, json);
         }
 
-        internal static JsonSerializerSettings GetSerializerSettings(IFileReader fileReader)
+        internal static JsonSerializerSettings GetSerializerSettings(IFileReader fileReader, params Type[]knownTypes)
         {
             return new JsonSerializerSettings
             {
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = new KnownTypesBinder(),
+                SerializationBinder = new KnownTypesBinder(knownTypes),
                 ContractResolver = new FileReaderContractResolver(fileReader)
             };
         }

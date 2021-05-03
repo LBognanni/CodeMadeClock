@@ -2,7 +2,7 @@
 	"Width": 105,
 	"Height": 105,
 	"Layers": [
-		{
+		{	
 			"$type": "GaussianBlurLayer",
             "BlurRadius": 0.85,
             "Shapes": [
@@ -72,7 +72,7 @@
 					"RepeatCount": 12
 				},
 				{
-					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"$type": "NumbersLayer",
 					"Numbers": [
 						3,
 						6,
@@ -89,7 +89,7 @@
 					}
 				},
 				{
-					"$type": "CodeMade.Clock.NumbersLayer, CodeMade.Clock",
+					"$type": "NumbersLayer",
 					"Numbers": [
 						1,2,
 						4,5,
@@ -116,7 +116,7 @@
 			]
 		},
         {
-            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+            "$type": "HoursLayer",
             "Smooth": true,
             "Offset": {
                 "X": 52,
@@ -136,7 +136,7 @@
             ]
         },
         {
-            "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+            "$type": "MinutesLayer",
             "Smooth": true,
             "Offset": {
                 "X": 52,
@@ -156,7 +156,7 @@
             ]
         },
         {
-            "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+            "$type": "SecondsLayer",
             "Offset": {
                 "X": 52,
                 "Y": 52

@@ -28,11 +28,11 @@ namespace CodeMade.Clock.Tests.FormTests
                 s.SelectedSkin == "Red" &&
                 s.Size == new Size(100, 100) &&
                 s.Location == new Point(200, 200));
-            _skinpacks = new SkinPackCollection(TestHelpers.GetFakeFileReader(), null);
+            _skinpacks = new SkinPackCollection(TestHelpers.GetFakeFileReader(), null, Array.Empty<Type>());
             _timer = Mock.Of<ITimer>();
             
             _locationFixer = Mock.Of<ILocationFixer>();
-            Mock.Get<ILocationFixer>(_locationFixer).Setup(x => x.FixLocation(It.IsAny<Point>())).Returns<Point>(x => x);
+            Mock.Get(_locationFixer).Setup(x => x.FixLocation(It.IsAny<Point>())).Returns<Point>(x => x);
 
             _sut = new frmClockViewModel(_settings, _skinpacks, _timer, _locationFixer, throttleTimeInMs: 50);
         }
