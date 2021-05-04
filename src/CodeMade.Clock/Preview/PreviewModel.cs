@@ -31,6 +31,7 @@ namespace CodeMade.Clock
         private DateTime _specificTime;
         private int _renderWidth;
         private int _renderHeight;
+        private readonly Type[] _knownTypes;
         private BackgroundStyles _backgroundStyle;
         private ObservableAsPropertyHelper<Image> _backgroundImage;
         private ObservableAsPropertyHelper<Color> _backgroundColor;
@@ -104,11 +105,12 @@ namespace CodeMade.Clock
             set => this.RaiseAndSetIfChanged(ref _backgroundStyle, value); 
         }
 
-        public PreviewModel(string fileToWatch, int renderWidth, int renderHeight)
+        public PreviewModel(string fileToWatch, int renderWidth, int renderHeight, Type []knownTypes)
         {
             _specificTime = DateTime.Now;
             _renderWidth = renderWidth;
             _renderHeight = renderHeight;
+            _knownTypes = knownTypes;
             _fsw = new FileSystemWatcher(Path.GetDirectoryName(fileToWatch));
             var created = Observable.FromEventPattern<FileSystemEventHandler, FileSystemEventArgs>(x => _fsw.Created += x, y => _fsw.Created -= y).Select(x => x.EventArgs.FullPath);
             var changed = Observable.FromEventPattern<FileSystemEventHandler, FileSystemEventArgs>(x => _fsw.Changed += x, y => _fsw.Changed -= y).Select(x => x.EventArgs.FullPath);
@@ -188,7 +190,7 @@ namespace CodeMade.Clock
         {
             try
             {
-                _canvas = Canvas.Load(_fileToWatch);
+                _canvas = Canvas.Load(_fileToWatch, _knownTypes);
                 if (_canvas == null)
                 {
                     return;

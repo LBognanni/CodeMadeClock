@@ -91,7 +91,7 @@
             "RepeatCount": 12
         },
         {
-            "$type": "CodeMade.Clock.HoursLayer, CodeMade.Clock",
+            "$type": "HoursLayer",
             "Smooth": true,
             "Offset": {
                 "X": 49,
@@ -111,7 +111,7 @@
             ]
         },
         {
-            "$type": "CodeMade.Clock.MinutesLayer, CodeMade.Clock",
+            "$type": "MinutesLayer",
             "Smooth": true,
             "Offset": {
                 "X": 49,
@@ -131,7 +131,7 @@
             ]
         },
         {
-            "$type": "CodeMade.Clock.SecondsLayer, CodeMade.Clock",
+            "$type": "SecondsLayer",
             "Offset": {
                 "X": 49,
                 "Y": 49

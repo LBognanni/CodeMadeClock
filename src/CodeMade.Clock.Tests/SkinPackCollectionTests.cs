@@ -21,7 +21,7 @@ namespace CodeMade.Clock.Tests
                 { "skinpacks.json", $"[ \"{skinpackname}\" ]" },
                 { $"{skinpackname}/skinpack.json", "{ \"Name\": \"" + skinpackname + "\" }" }
             };
-            _sut = new SkinPackCollection(new FakeFileReader(files), new FakeFileWriter());
+            _sut = new SkinPackCollection(new FakeFileReader(files), new FakeFileWriter(), Array.Empty<Type>());
         }
 
         [Test]

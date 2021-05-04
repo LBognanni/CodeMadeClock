@@ -2,8 +2,17 @@
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// A layer that is filled with a solid color
+    /// This is the same as a normal Layer, but it is filled with one color instead of being transparent
+    /// </summary>
+    /// <inheritdoc cref="Layer"/>
     public class SolidLayer : Layer
     {
+        /// <summary>
+        /// A color name or string. Cannot be a gradient
+        /// </summary>
+        /// <see cref="Colors"/>
         public string BackgroundColor { get; set; }
         
         public SolidLayer(string backgroundColor)

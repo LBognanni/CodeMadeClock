@@ -27,15 +27,23 @@ namespace CodeMade.Clock
             Application.SetCompatibleTextRenderingDefault(false);
             var settingsPath = Directory.GetParent(Application.LocalUserAppDataPath).FullName;
 
+            var knownTypes = new[]
+            {
+                typeof(HoursLayer),
+                typeof(MinutesLayer),
+                typeof(SecondsLayer),
+                typeof(NumbersLayer),
+            };
+
             var settings = Settings.Load(Path.Combine(settingsPath, "settings.json"));
-            var skinpacks = SkinPackCollection.Load(Path.Combine(settingsPath, "skinpacks"), Path.Combine(Application.StartupPath, "clocks"));
+            var skinpacks = SkinPackCollection.Load(Path.Combine(settingsPath, "skinpacks"), Path.Combine(Application.StartupPath, "clocks"), knownTypes);
 
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(options =>
                 {
                     if (!string.IsNullOrEmpty(options.PreviewFile) && File.Exists(options.PreviewFile))
                     {
-                            Application.Run(new frmPreview(options.PreviewFile));
+                            Application.Run(new frmPreview(options.PreviewFile, knownTypes));
                     }
                     else
                     {

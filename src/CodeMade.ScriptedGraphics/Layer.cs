@@ -4,14 +4,43 @@ using System.Drawing.Drawing2D;
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// Represents the base container of Shapes.
+    /// 
+    /// Because a Layer is also a Shape, layers can contain other layers.
+    /// </summary>
+    /// <example>
+    /// {
+    ///     "$type": "Layer",
+    ///     "Rotate": 45.2,
+    ///     "Offset": {
+    ///         "X": 30,
+    ///         "Y": 0
+    ///     },
+    ///     "Shapes": [
+    ///         // ... shapes ...
+    ///     ]
+    /// }
+    /// </example>
     public class Layer : IShape
     {
+        /// <summary>
+        /// A list of all the shapes contained in this layer
+        /// </summary>
         public List<IShape> Shapes { get; }
 
+        /// <summary>
+        /// Layer rotation, in degrees
+        /// </summary>
         public float Rotate { get; set; }
+
+        /// <summary>
+        /// Layer offset in Canvas Units
+        /// </summary>
+        /// <see cref="CodeMade.ScriptedGraphics.Canvas"/>
         public Vertex Offset { get; set; }
 
-        private GraphicsContainer originalTransform;
+        private GraphicsContainer _originalTransform;
 
         public bool ShouldSerializeTransformRotate()
         {
@@ -60,7 +89,7 @@ namespace CodeMade.ScriptedGraphics
 
         protected virtual void BeforeTransform(Graphics g, float scaleFactor)
         {
-            originalTransform = g.BeginContainer();
+            _originalTransform = g.BeginContainer();
             g.SmoothingMode = SmoothingMode.HighQuality;
         }
 
@@ -82,8 +111,8 @@ namespace CodeMade.ScriptedGraphics
 
         protected virtual void AfterResetTransform(Graphics g, float scaleFactor)
         {
-            if (originalTransform != null)
-                g.EndContainer(originalTransform);
+            if (_originalTransform != null)
+                g.EndContainer(_originalTransform);
         }
     }
 }

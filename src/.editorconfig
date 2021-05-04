@@ -209,3 +209,6 @@ dotnet_naming_style.prefix_underscore.required_prefix = _
 
 # Default severity for analyzer diagnostics with category 'Interoperability'
 dotnet_analyzer_diagnostic.category-Interoperability.severity = none
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none

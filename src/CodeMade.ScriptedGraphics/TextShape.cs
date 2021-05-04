@@ -6,22 +6,62 @@ using System.Linq;
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// Draws a string of text at the specified coordinates.
+    /// The text will be either printed using a system font specified in `Font` or a specific .ttf font file specified in `FontFile`
+    /// </summary>
+    /// <example>       
+    /// {
+    ///     "$type": "TextShape",
+    ///     "Text": "codemade.net",
+    ///     "FontName": "Tahoma",
+    ///     "FontSizePx": 6,
+    ///     "Color": "#cefc",
+    ///     "Centered": true,
+    ///     "Position": {
+    ///         "X": 50,
+    ///         "Y": 67
+    ///     }
+    /// }
+    /// </example>
     public class TextShape : IShape, IDisposable
     {
         private readonly PrivateFontCollection _fontCollection;
         private readonly IFileReader _fileReader;
 
+        /// <summary>
+        /// Text to print
+        /// </summary>
         public string Text { get; set; }
+
         public string FontName { get; set; }
         public float FontSizePx { get; set; }
         public Vertex Position { get; set; }
-        public string Color { get; set; }
-        public bool Centered { get; set; }
 
+        /// <summary>
+        /// Color of the text. It should be a simple color, gradients are not supported.
+        /// </summary>
+        /// <see cref="Colors"/>
+        public string Color { get; set; }
+        /// <summary>
+        /// `true` if the text should be centered at `Position`, false if it shoud begin at `Position`
+        /// </summary>
+        public bool Centered { get; set; }
+        /// <summary>
+        /// Name of the font. It should be a font that is installed in the system
+        /// If `FontFile` is specified, this will be ignored.
+        /// </summary>
         public string Font { get => FontName; set => FontName = value; }
 
+        /// <summary>
+        /// Font size
+        /// </summary>
         public float FontSize { get => FontSizePx; set => FontSizePx = value; }
 
+        /// <summary>
+        /// Name of a custom font file that should be redistributed with this skin.
+        /// If using this, the `Font` property is ignored
+        /// </summary>
         public string FontFile { get; set; }
 
         public TextShape(IFileReader fileReader)
@@ -69,7 +109,6 @@ namespace CodeMade.ScriptedGraphics
             return GetInstalledFont(scaleFactor);
         }
 
-
         protected Font GetCustomFont(float scaleFactor)
         {
             if (_fontCollection.Families.Length == 0)
@@ -79,7 +118,6 @@ namespace CodeMade.ScriptedGraphics
 
             return new Font(_fontCollection.Families.First(), FontSize * scaleFactor);
         }
-
 
         protected Font GetInstalledFont(float scaleFactor)
         {

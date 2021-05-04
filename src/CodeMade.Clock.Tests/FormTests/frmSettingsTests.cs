@@ -1,10 +1,7 @@
-﻿using CodeMade.Clock.SkinPacks;
-using CodeMade.ScriptedGraphics;
+﻿using System;
+using CodeMade.Clock.SkinPacks;
 using NUnit.Framework;
-using System.Linq;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using CodeMade.Clock.Controls;
 
 namespace CodeMade.Clock.Tests.FormTests
 {
@@ -22,9 +19,8 @@ namespace CodeMade.Clock.Tests.FormTests
         {
             _settings = new FakeSettings() { SelectedSkinpack = "test", SelectedSkin = "Black" };
             var filereader = TestHelpers.GetFakeFileReader();
-            var skinPack = new SkinPackCollection(filereader, null);
+            var skinPack = new SkinPackCollection(filereader, null, Array.Empty<Type>());
             _form = new frmSettings(skinPack, _settings);
-            //_form.ShowVirtual();
         }
 
         [TearDown]

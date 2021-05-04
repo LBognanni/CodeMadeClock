@@ -8,11 +8,45 @@ using Newtonsoft.Json;
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// This is the starting block of any rendered image. It contains one or more layers, which in turn contain various shapes
+    /// that make up the final image.
+    /// 
+    /// Most importantly, it defines the Width and Height properties, which represent the Canvas Units that are used everywhere else. 
+    /// Canvas Units don't necessarily match with pixels because, being skins can be rendered at any size.
+    /// 
+    /// There is no need to specify $type because Canvas is only to be used as the root element.
+    /// </summary>
+    /// <example>
+    /// {
+    ///     "Width": 101,
+    ///     "Height": 101,
+    ///     "Layers": [
+    ///        // ... layers ...
+    ///     ]
+    /// }
+    /// </example>
     public class Canvas
     {
+        /// <summary>
+        /// Suggested output width.
+        /// Should be an integer value greater than zero.
+        /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// Suggested output height
+        /// Should be an integer value greater than zero.
+        /// </summary>
         public int Height { get; set; }
 
+        /// <summary>
+        /// A collection of layers that make up the image
+        /// </summary>
+        /// <see cref="Layer" />
+        /// <see cref="SolidLayer"/>
+        /// <see cref="GaussianBlurLayer"/>
+        /// <see cref="RotateRepeatLayer"/>
         public List<Layer> Layers { get; set; }
 
         public Canvas(int width, int height, string backgroundColor)
@@ -64,15 +98,15 @@ namespace CodeMade.ScriptedGraphics
             Layers.Last().Shapes.Add(shape);
         }
 
-        public static Canvas Load(string fileName) =>
-            Load(fileName, new FileReader(Path.GetDirectoryName(fileName)));
+        public static Canvas Load(string fileName, params Type[] knownTypes) =>
+            Load(fileName, new FileReader(Path.GetDirectoryName(fileName)), knownTypes);
 
-        public static Canvas Load(string fileName, IFileReader fileReader)
+        public static Canvas Load(string fileName, IFileReader fileReader, params Type[] knownTypes)
         {
             string json = "";
             TryAgain<IOException>(() => json = fileReader.GetString(fileName));
 
-            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(fileReader));
+            var canvas = JsonConvert.DeserializeObject<Canvas>(json, GetSerializerSettings(fileReader, knownTypes));
 
             return canvas;
         }
@@ -104,13 +138,13 @@ namespace CodeMade.ScriptedGraphics
             File.WriteAllText(fileName, json);
         }
 
-        internal static JsonSerializerSettings GetSerializerSettings(IFileReader fileReader)
+        internal static JsonSerializerSettings GetSerializerSettings(IFileReader fileReader, params Type[]knownTypes)
         {
             return new JsonSerializerSettings
             {
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 TypeNameHandling = TypeNameHandling.Auto,
-                SerializationBinder = new KnownTypesBinder(),
+                SerializationBinder = new KnownTypesBinder(knownTypes),
                 ContractResolver = new FileReaderContractResolver(fileReader)
             };
         }

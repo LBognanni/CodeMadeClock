@@ -7,20 +7,24 @@ namespace CodeMade.Clock.SkinPacks
 {
     public class SkinPack
     {
+        private readonly Type[] _knownTypes;
+
+
         public IReadOnlyList<Skin> Skins { get; }
 
         public string Name { get; set; }
         public string Description { get; set; }
         public Version Version { get; set; }
 
-        internal SkinPack()
+        internal SkinPack(params Type[] knownTypes)
         {
+            _knownTypes = knownTypes;
             Skins = new List<Skin>();
         }
 
-        public static SkinPack Load(string path) => Load(new FileReader(path));
+        public static SkinPack Load(string path, params Type[] knownTypes) => Load(new FileReader(path), knownTypes);
        
-        public static SkinPack Load(IFileReader fileReader)
+        public static SkinPack Load(IFileReader fileReader, params Type[] knownTypes)
         {
             const string skinPackFileName = "skinpack.json";
 
@@ -29,7 +33,7 @@ namespace CodeMade.Clock.SkinPacks
                 throw new EntryPointNotFoundException("File skinpack.json is missing in container.");
             }
 
-            var skinPack = new SkinPack();
+            var skinPack = new SkinPack(knownTypes);
             JsonConvert.PopulateObject(fileReader.GetString(skinPackFileName), skinPack);
 
             skinPack.LoadSkins(fileReader);
@@ -43,7 +47,7 @@ namespace CodeMade.Clock.SkinPacks
         {
             foreach(var skin in Skins)
             {
-                skin.Load(fileReader);
+                skin.Load(fileReader, _knownTypes);
             }
         }
 

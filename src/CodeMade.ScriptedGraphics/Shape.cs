@@ -7,11 +7,31 @@ using System.Xml.Serialization;
 
 namespace CodeMade.ScriptedGraphics
 {
+    /// <summary>
+    /// A generic shape composed of a series of points
+    /// </summary>
+    /// <example>
+    /// {
+    ///     "$type": "Shape",
+    ///     "Color": "#8bf",
+    ///     "Path": "-1.75,6.5 -1.75,-20.5 1.75,-20.5 1.75,6.5"
+    /// }
+    /// </example>
     public class Shape : IShape
     {
         [XmlIgnore]
         public IEnumerable<Vertex> Vertices { get; set; }
+
+        /// <summary>
+        /// Fill color or gradient
+        /// </summary>
+        /// <see cref="Colors"/>
         public string Color { get; set; }
+
+        /// <summary>
+        /// A string value containing all the x and y positions for each point separated by space or comma.
+        /// Example: `"0,1 1,1 1,0 0,0"` will be a rectangle 1 point in size
+        /// </summary>
         public string Path
         {
             get

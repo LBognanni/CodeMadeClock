@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using Nuke.Common.Tools.NUnit;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Xml.Serialization;
+using System.Text;
+using System.Security.Cryptography.Xml;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -80,6 +83,10 @@ class Build : NukeBuild
                 .SetProjectFile("src/CodeMade.Clock.sln")
             );
         });
+
+    Target Docs => _ => _
+        .DependsOn(Compile)
+        .Executes(GenerateDocs);
 
 
     Target Setup => _ => _
@@ -165,6 +172,105 @@ class Build : NukeBuild
             var asset = await client.Repository.Release.UploadAsset(release, assetUpload);
         }
     }
+
+    private void GenerateDocs()
+    {
+        var members = LoadDocsFile(@"src\CodeMade.ScriptedGraphics\CodeMade.ScriptedGraphics.xml")
+            .Union(LoadDocsFile(@"src\CodeMade.Clock\CodeMade.Clock.xml")
+                .Where(x => !x.Name.Contains("CodeMade.Clock.Properties"))
+                .Where(x => !x.Name.Contains("Dispose"))
+            )
+            .ToArray();
+
+        if (!Directory.Exists("docs"))
+        {
+            Directory.CreateDirectory("docs");
+        }
+
+        Console.WriteLine(Path.GetFullPath(".\\"));
+        Console.WriteLine($"{members.Length} annotations found.");
+
+        var classes = members.Where(x => x.Type == "T").ToList();
+        var allProps = members.Where(x => x.Type == "P").ToList();
+
+        foreach (var cls in classes)
+        {
+            if (cls.Name == "T:CodeMade.Clock.TimedLayer")
+                continue;
+
+            Console.WriteLine(cls.Name);
+
+            var md = new StringBuilder();
+            md.AppendLine($"# {cls.ClassName}");
+            md.AppendLine();
+            md.AppendLine(cls.SanitizedSummary);
+
+            WriteProperties(members, allProps, cls, md);
+
+            if (!string.IsNullOrWhiteSpace(cls.Example))
+            {
+                md.AppendLine();
+                md.AppendLine("---");
+                md.AppendLine();
+                md.AppendLine("## Example");
+                md.AppendLine();
+                md.AppendLine("```json");
+                md.Append(cls.SanitizedExample);
+                md.AppendLine("```");
+            }
+
+            var fileName = $"docs\\{cls.ClassName}.md";
+            Console.WriteLine($"Writing: {fileName}");
+            File.WriteAllText(fileName, md.ToString());
+        }
+
+    }
+
+    private static List<Member> LoadDocsFile(string xmlFile)
+    {
+        using var fs = File.OpenRead(xmlFile);
+        var serializer = new XmlSerializer(typeof(XmlDoc));
+        var doc = (XmlDoc)serializer.Deserialize(fs);
+        return doc.Members;
+    }
+
+    private static void WriteProperties(IReadOnlyCollection<Member> members, IReadOnlyCollection<Member> allProps, Member cls, StringBuilder md, bool header = true)
+    {
+        var props = allProps.Where(p => p.ClassName == cls.ClassName).ToArray();
+        if (props.Any())
+        {
+            if (header)
+            {
+                md.AppendLine();
+                md.AppendLine("## Properties");
+            }
+
+            foreach (var prop in props)
+            {
+                md.AppendLine($"### {prop.PropertyName}");
+                md.AppendLine();
+                md.AppendLine(prop.SanitizedSummary);
+                md.AppendLine();
+
+                if (prop.See != null)
+                {
+                    var references = prop.See.Select(see =>
+                    {
+                        var reference = members.First(x => x.Name == see.To);
+                        return $"[{reference.ClassName}]({reference.ClassName}.md)";
+                    });
+
+                    md.AppendLine($"See { string.Join(", ", references) }");
+                }
+            }
+        }
+
+        if(cls.Inherits != null)
+        {
+            var parent = members.First(x => x.Name == cls.Inherits.To);
+            WriteProperties(members, allProps, parent, md, false);
+        }
+    }
 }
 
 internal class FileNameComparer : IEqualityComparer<AbsolutePath>
@@ -178,4 +284,89 @@ internal class FileNameComparer : IEqualityComparer<AbsolutePath>
     {
         return obj.GetHashCode();
     }
+}
+
+public class Reference
+{
+    [XmlAttribute("cref")]
+    public string To { get; set; }
+}
+
+public class Member
+{
+    [XmlAttribute("name")]
+    public string Name { get; set; }
+
+    [XmlElement("summary")]
+    public string Summary { get; set; }
+
+    [XmlElement("example")]
+    public string Example { get; set; }
+
+    [XmlElement("see")]
+    public Reference[] See { get; set; }
+
+    [XmlElement("inheritdoc")]
+    public Reference Inherits { get; set; }
+
+    public string Type => Name.Split(':')[0];
+
+    public string ClassName
+    {
+        get
+        {
+            var typeClass = Name.Split(':');
+            var classSplit = typeClass[1].Split('.');
+            return typeClass[0] switch
+            {
+                "T" => classSplit[^1],
+                "P" => classSplit[^2],
+                _ => throw new NotImplementedException()
+            };
+        }
+    }
+
+    public string SanitizedSummary => BaseLineString(Summary);
+
+    public string SanitizedExample => BaseLineString(Example);
+
+    private static string BaseLineString(string text, int minSpaces = 0)
+    {
+        var prepend = new String(' ', minSpaces);
+        var lines = text.Split("\r\n".ToCharArray()).Skip(1).ToArray();
+        if (lines.Length == 1)
+        {
+            return prepend + text.TrimStart();
+        }
+
+        StringBuilder sbLines = new StringBuilder();
+        var spaces = lines[0].TakeWhile(Char.IsWhiteSpace).Count();
+        foreach (var line in lines)
+        {
+            sbLines.AppendLine(prepend + line.Substring(spaces));
+        }
+
+        return sbLines.ToString();
+    }
+
+    public string PropertyName
+    {
+        get
+        {
+            if(Type == "P")
+            {
+                return Name.Split('.').Last();
+            }
+
+            return "";
+        }
+    }
+}
+
+[XmlRoot("doc")]
+public class XmlDoc
+{
+    [XmlArray("members")]
+    [XmlArrayItem("member")]
+    public List<Member> Members { get; set; }
 }

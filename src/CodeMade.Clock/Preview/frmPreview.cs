@@ -19,12 +19,12 @@ namespace CodeMade.Clock
         public PreviewModel ViewModel { get; set; }
         object IViewFor.ViewModel { get => ViewModel; set => ViewModel = (PreviewModel)value; }
 
-        public frmPreview(string fileToWatch)
+        public frmPreview(string fileToWatch, Type[] knownTypes)
         {
             InitializeComponent();
             AutoScaleMode = AutoScaleMode.Dpi;
 
-            ViewModel = new PreviewModel(fileToWatch, pbCanvas.Width, pbCanvas.Height);
+            ViewModel = new PreviewModel(fileToWatch, pbCanvas.Width, pbCanvas.Height, knownTypes);
 
             this.WhenActivated(disposable =>
             {

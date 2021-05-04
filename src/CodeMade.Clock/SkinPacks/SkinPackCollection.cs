@@ -12,26 +12,28 @@ namespace CodeMade.Clock.SkinPacks
         private const string SkinpacksIndex = "skinpacks.json";
         private readonly IFileReader _fileReader;
         private readonly IFileWriter _fileWriter;
+        private readonly Type[] _knownTypes;
 
         public IDictionary<string, SkinPack> Packs { get; }
 
-        internal SkinPackCollection(IFileReader fileReader, IFileWriter fileWriter)
+        internal SkinPackCollection(IFileReader fileReader, IFileWriter fileWriter, Type[] knownTypes)
         {
             Packs = new Dictionary<string, SkinPack>();
             _fileReader = fileReader;
             _fileWriter = fileWriter;
+            _knownTypes = knownTypes;
             var skinPacks = JsonConvert.DeserializeObject<string[]>(_fileReader.GetString(SkinpacksIndex));
 
-            foreach(var pack in skinPacks)
+            foreach (var pack in skinPacks)
             {
-                if(_fileReader.PackExists(pack))
+                if (_fileReader.PackExists(pack))
                 {
-                    Packs.Add(pack, SkinPack.Load(_fileReader.GetPack(pack)));
+                    Packs.Add(pack, SkinPack.Load(_fileReader.GetPack(pack), knownTypes));
                 }
             }
         }
 
-        public static SkinPackCollection Load(string localUserSkinPacksFolder, string fallbackPath)
+        public static SkinPackCollection Load(string localUserSkinPacksFolder, string fallbackPath, Type[] knownTypes)
         {
             var writer = new FileWriter(localUserSkinPacksFolder);
             if(!File.Exists(Path.Combine(localUserSkinPacksFolder, SkinpacksIndex)))
@@ -41,22 +43,29 @@ namespace CodeMade.Clock.SkinPacks
             }
             else
             {
-                ImportDefaultSkinpack(fallbackPath, Path.Combine(localUserSkinPacksFolder, "default"));
+                ImportDefaultSkinpack(fallbackPath, Path.Combine(localUserSkinPacksFolder, "default"), knownTypes);
             }
 
-            return new SkinPackCollection(new CombinedFileReader(localUserSkinPacksFolder), writer);
+            return new SkinPackCollection(new CombinedFileReader(localUserSkinPacksFolder), writer, knownTypes);
         }
 
-        private static void ImportDefaultSkinpack(string fallbackPath, string localPath)
+        private static void ImportDefaultSkinpack(string fallbackPath, string localPath, Type[] knownTypes)
         {
             var fallbackFileReader = new FileReader(fallbackPath);
             var localFileReader = new FileReader(localPath);
-            var fallbackSP = JsonConvert.DeserializeObject<SkinPack>(fallbackFileReader.GetString("skinpack.json"));
-            var localSP = JsonConvert.DeserializeObject<SkinPack>(localFileReader.GetString("skinpack.json"));
-            if(fallbackSP.Version> localSP.Version)
+            var fallbackSP = LoadSkinPack(knownTypes, fallbackFileReader);
+            var localSP = LoadSkinPack(knownTypes, localFileReader);
+            if (fallbackSP.Version > localSP.Version)
             {
                 FileWriter.CopyFolder(fallbackPath, localPath);
             }
+        }
+
+        private static SkinPack LoadSkinPack(Type[] knownTypes, FileReader reader)
+        {
+            var sp = new SkinPack(knownTypes);
+            JsonConvert.PopulateObject(reader.GetString("skinpack.json"), sp);
+            return sp;
         }
 
         internal void Import(IFileReader fileReader, string packFileName)
@@ -67,7 +76,7 @@ namespace CodeMade.Clock.SkinPacks
             }
 
             var packFileReader = fileReader.GetPack(packFileName);
-            var pack = SkinPack.Load(packFileReader);
+            var pack = SkinPack.Load(packFileReader, _knownTypes);
 
             var installedPack = Packs.FirstOrDefault(p => p.Value.Name == pack.Name);
             if (installedPack.Key != null)

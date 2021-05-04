@@ -6,17 +6,99 @@ using System.Linq;
 
 namespace CodeMade.Clock
 {
+    /// <summary>
+    /// Use this layer to draw the hours numbers on your clock
+    /// </summary>
+    /// <example>
+    /// {
+    /// 	"$type": "NumbersLayer",
+    /// 	"Numbers": [
+    /// 		3,
+    /// 		6,
+    /// 		9,
+    /// 		12
+    /// 	],
+    /// 	"NumbersText": [
+    /// 	    "III",
+    /// 	    "VI",
+    /// 	    "IX",
+    /// 	    "XII"
+    /// 	],
+    /// 	"Color": "#cedf",
+    /// 	"FontName": "Times New Roman",
+    /// 	"FontSize": 16,
+    /// 	"Radius": 35,
+    /// 	"Offset": {
+    /// 		"X": 52,
+    /// 		"Y": 52.5
+    /// 	}
+    /// }
+    /// </example>
     public class NumbersLayer : Layer
     {
+        /// <summary>
+        /// [Optional] An array of numbers that will be drawn. Default value is all hours (`[1,2,3,4,5,6,7,8,9,10,11,12]`)
+        /// </summary>
         public int[] Numbers { get; set; }
+
+        /// <summary>
+        /// [Optional] An array of strings that corresponds to the text shown for each hour defined in `Numbers`.
+        /// Default value is the same as `Numbers`
+        /// </summary>
         public string[] NumbersText { get; set; }
-        public bool RotateNumbers { get; set; }
+        
+        /// <summary>
+        /// Name of the font to be used to render `NumbersText`
+        /// </summary>
         public string FontName { get; set; }
+
+        /// <summary>
+        /// Size of the font
+        /// </summary>
         public int FontSize { get; set; }
+
+        /// <summary>
+        /// Text color. Cannot be a gradient.
+        /// </summary>
+        /// <see cref="Colors"/>
         public string Color { get; set; }
+
+        /// <summary>
+        /// The radius 
+        /// ```
+        ///           12
+        ///          /|    1
+        ///    radius |     
+        ///         \ |       2
+        ///          \|
+        /// 9---------+---------3
+        ///           |
+        ///           |
+        ///           |
+        ///           |
+        ///           6
+        /// 
+        /// ```
+        /// </summary>
         public float Radius { get; set; }
+
+        /// <summary>
+        /// [Optional] How the text is rotated. Can be one of the following values:
+        ///  - `0` (default) - No rotation
+        ///  - `1` - Text is rotated so that it faces inside the center
+        ///  - `2` - Text is rotated so that it faces outside the center
+        /// </summary>
         public RotateTextMode RotateMode { get; set; } = RotateTextMode.None;
+
+        /// <summary>
+        /// `true` if you want to have a 24-hour dial
+        /// </summary>
         public bool Is24Hours { get; set; }
+
+        /// <summary>
+        /// [Optional] Alternative to `FontName`, you can specify a custom .ttf font file
+        /// </summary>
+        /// <see cref="TextShape"></see>
         public string FontFile { get; set; }
 
         private Lazy<TextShapeWithRotation[]> _textShapes;
