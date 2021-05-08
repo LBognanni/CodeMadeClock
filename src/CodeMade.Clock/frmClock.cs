@@ -1,11 +1,9 @@
 ﻿using CodeMade.Clock.LocationMoving;
 using CodeMade.Clock.SkinPacks;
-using CodeMade.ScriptedGraphics;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows.Forms;
@@ -14,7 +12,6 @@ namespace CodeMade.Clock
 {
     public partial class frmClock : Form, ILocationReceiver, IViewFor<frmClockViewModel>
     {
-        private ITimer _timer;
         private readonly ISettings _settings;
         private readonly SkinPackCollection _skinpacks;
 
