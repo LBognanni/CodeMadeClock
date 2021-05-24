@@ -17,8 +17,15 @@ namespace CodeMade.ScriptedGraphics
         
         public SolidLayer(string backgroundColor)
         {
-            this.BackgroundColor = backgroundColor;
+            BackgroundColor = backgroundColor;
         }
+
+        public override Layer Copy()
+            => new SolidLayer(BackgroundColor)
+            {
+                Offset = Offset,
+                Rotate = Rotate
+            };
 
         protected override void BeforeTransform(Graphics g, float scaleFactor)
         {

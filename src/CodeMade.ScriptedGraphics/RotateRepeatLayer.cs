@@ -46,6 +46,16 @@ namespace CodeMade.ScriptedGraphics
         /// </summary>
         public float RepeatRotate { get; set; }
 
+        public override Layer Copy()
+            => new RotateRepeatLayer
+            {
+                Offset = Offset,
+                Rotate = Rotate,
+                RepeatCount = RepeatCount,
+                RepeatRotate = RepeatRotate
+            };
+
+
         private int _repeatCounter;
 
         public override void Render(Graphics g, float scaleFactor = 1)

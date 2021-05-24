@@ -1,12 +1,8 @@
-﻿using CodeMade.Clock.Controls;
-using CodeMade.Clock.SkinPacks;
+﻿using CodeMade.Clock.SkinPacks;
 using ReactiveUI;
 using System;
-using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Disposables;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock

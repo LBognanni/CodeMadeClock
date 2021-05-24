@@ -59,6 +59,13 @@ namespace CodeMade.ScriptedGraphics
             Offset = new Vertex(0, 0);
         }
 
+        public virtual Layer Copy() 
+            => new Layer
+            {
+                Offset = Offset,
+                Rotate = Rotate
+            };
+
         public virtual void Render(Graphics g, float scaleFactor = 1)
         {
             BeforeTransform(g, scaleFactor);

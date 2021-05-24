@@ -26,6 +26,14 @@ namespace CodeMade.ScriptedGraphics
         {
         }
 
+        public override Layer Copy()
+            => new GaussianBlurLayer
+            {
+                Offset = Offset,
+                Rotate = Rotate,
+                BlurRadius = BlurRadius
+            };
+
         public GaussianBlurLayer(float blurRadius)
         {
             BlurRadius = blurRadius;

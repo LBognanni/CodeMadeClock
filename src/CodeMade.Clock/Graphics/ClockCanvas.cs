@@ -8,25 +8,28 @@ namespace CodeMade.Clock
 {
     public class ClockCanvas : Canvas
     {
-        protected ITimer _timer;
-        protected Canvas _canvas;
+        protected readonly ITimer _timer;
+        protected readonly Canvas _canvas;
+        private readonly List<Layer> _layers;
 
         public ClockCanvas(ITimer timer, Canvas canvas) : base(canvas.Width, canvas.Height, "")
         {
             _timer = timer;
             _canvas = canvas;
-            _hasSmoothSeconds = new Lazy<bool>(() =>
+            _layers = FindLayers(canvas.Layers).ToList();
+            _hasSmoothSeconds = new Lazy<bool>(() => _layers.OfType<SecondsLayer>().Any(x => x.Smooth));
+        }
+
+        private IEnumerable<Layer> FindLayers(IEnumerable<Layer> layers)
+        {
+            foreach(var layer in layers)
             {
-                foreach (var layer in _canvas.Layers)
+                foreach (var subLayer in FindLayers(layer.Shapes.Where(x => x.GetType().IsAssignableTo(typeof(Layer))).Cast<Layer>()))
                 {
-                    if (layer is SecondsLayer secondsLayer)
-                    {
-                        if (secondsLayer.Smooth)
-                            return true;
-                    }
+                    yield return subLayer;
                 }
-                return false;
-            });
+                yield return layer;
+            }
         }
 
         private Lazy<bool> _hasSmoothSeconds;
@@ -36,7 +39,7 @@ namespace CodeMade.Clock
         public void Update()
         {
             var time = _timer.GetTime();
-            foreach (var layer in _canvas.Layers)
+            foreach (var layer in _layers)
             {
                 LayerExtensions.UpdateLayer(layer, time);
             }
@@ -49,15 +52,15 @@ namespace CodeMade.Clock
 
         public ClockCanvas OptimizeFor(float scaleFactor)
         {
-            Type[] skipLayers =
-            {
+            var grouper = new LayerSlicer(
                 typeof(HoursLayer),
                 typeof(MinutesLayer),
                 typeof(SecondsLayer)
-            };
+            );
+
             var newCanvas = new Canvas(_canvas.Width, _canvas.Height, "#0000");
 
-            var layerGroups = GroupLayers(skipLayers);
+            var layerGroups = grouper.GroupLayers(_canvas.Layers);
 
             foreach (var (isSkipLayerGroup, layerList) in layerGroups)
             {
@@ -74,7 +77,7 @@ namespace CodeMade.Clock
             return new ClockCanvas(_timer, newCanvas);
         }
 
-        private Layer MergeLayers(float scaleFactor, Canvas newCanvas, List<Layer> layerList)
+        private Layer MergeLayers(float scaleFactor, Canvas newCanvas, IEnumerable<Layer> layerList)
         {
             var bmp = new Bitmap((int)(_canvas.Width * scaleFactor), (int)(_canvas.Height * scaleFactor));
             using (var g = Graphics.FromImage(bmp))
@@ -95,23 +98,6 @@ namespace CodeMade.Clock
                 Height = newCanvas.Height
             });
             return wrap;
-        }
-
-
-        private List<(bool, List<Layer>)> GroupLayers(Type[] skipLayers)
-        {
-            var layerGroups = new List<(bool, List<Layer>)>();
-            foreach (var layer in _canvas.Layers)
-            {
-                var isSkipLayer = skipLayers.Contains(layer.GetType());
-                if (!layerGroups.Any() || (isSkipLayer != layerGroups.Last().Item1))
-                {
-                    layerGroups.Add((isSkipLayer, new List<Layer>()));
-                }
-                layerGroups.Last().Item2.Add(layer);
-            }
-
-            return layerGroups;
         }
     }
 }
