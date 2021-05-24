@@ -5,6 +5,7 @@ packages
 .vs
 *.user
 *.suo
+*.DotSettings
 publish
 launchSettings.json
 .tmp
