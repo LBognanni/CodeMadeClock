@@ -47,12 +47,12 @@ namespace CodeMade.Clock
                     }
                     else
                     {
-                        Application.Run(new frmClock(settings, skinpacks, options.DisplayFile));
+                        Application.Run(new frmClock(settings, skinpacks, options.DisplayFile, knownTypes));
                     }
                 })
                 .WithNotParsed(errors =>
                 {
-                    Application.Run(new frmClock(settings, skinpacks));
+                    Application.Run(new frmClock(settings, skinpacks, knownTypes: knownTypes));
                 });
         }
     }

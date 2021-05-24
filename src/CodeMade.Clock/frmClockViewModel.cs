@@ -50,14 +50,14 @@ namespace CodeMade.Clock
             set => this.RaiseAndSetIfChanged(ref _location, value); 
         }
 
-        public frmClockViewModel(ISettings settings, SkinPackCollection skinpacks, ITimer timer, ILocationFixer locationFixer, string skinOverride = null, IScheduler scheduler = null, int throttleTimeInMs = 500)
+        public frmClockViewModel(ISettings settings, SkinPackCollection skinpacks, ITimer timer, ILocationFixer locationFixer, string skinOverride = null, IScheduler scheduler = null, int throttleTimeInMs = 500, params Type[] knownTypes)
         {
             _settings = settings;
             _skinpacks = skinpacks;
             _timer = timer;
             _locationFixer = locationFixer;
             scheduler ??= RxApp.MainThreadScheduler;
-            LoadSkin(skinOverride);
+            LoadSkin(skinOverride, knownTypes);
             LoadSize();
 
             this.WhenAnyValue(x => x.Width, x => x.Height)
@@ -123,7 +123,7 @@ namespace CodeMade.Clock
             Image = _renderCanvas.Render(ratio);
         }
 
-        public void LoadSkin(string skinOverride)
+        public void LoadSkin(string skinOverride, Type[] knownTypes)
         {
             Canvas canvas;
             if (string.IsNullOrEmpty(skinOverride) || !File.Exists(skinOverride))
@@ -138,7 +138,7 @@ namespace CodeMade.Clock
             }
             else
             {
-                canvas = Canvas.Load(skinOverride);
+                canvas = Canvas.Load(skinOverride, knownTypes);
             }
             _canvas = new ClockCanvas(_timer, canvas);
             _renderCanvas = null;

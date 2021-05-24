@@ -14,8 +14,9 @@ namespace CodeMade.Clock
     {
         private readonly ISettings _settings;
         private readonly SkinPackCollection _skinpacks;
+        private Type[] _knownTypes;
 
-        public frmClock(ISettings settings, SkinPackCollection skinpacks, string skinOverride = null)
+        public frmClock(ISettings settings, SkinPackCollection skinpacks, string skinOverride = null, params Type []knownTypes)
         {
             _settings = settings;
             _skinpacks = skinpacks;
@@ -26,8 +27,9 @@ namespace CodeMade.Clock
             TopMost = true;
             tsmClose.Image = il24.Images[0];
             ShowInTaskbar = false;
+            _knownTypes = knownTypes;
 
-            ViewModel = new frmClockViewModel(settings, skinpacks, new ClockTimer(), new LocationFixer(this) , skinOverride);
+            ViewModel = new frmClockViewModel(settings, skinpacks, new ClockTimer(), new LocationFixer(this) , skinOverride, knownTypes: knownTypes);
 
 
             this.WhenActivated(disposable =>
@@ -87,7 +89,6 @@ namespace CodeMade.Clock
         }
 
         public IEnumerable<Rectangle> Screens => Screen.AllScreens.Select(s => s.Bounds);
-
         public frmClockViewModel ViewModel { get; set; }
         object IViewFor.ViewModel { get => ViewModel; set => ViewModel = value as frmClockViewModel; }
 
@@ -113,7 +114,7 @@ namespace CodeMade.Clock
             form.TopMost = this.TopMost;
             if(form.ShowDialog() == DialogResult.OK)
             {
-                ViewModel.LoadSkin(null);
+                ViewModel.LoadSkin(null, _knownTypes);
                 _settings.Save();
             }
         }
