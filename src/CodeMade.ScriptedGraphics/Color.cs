@@ -59,7 +59,16 @@ namespace CodeMade.ScriptedGraphics
             }
             else
             {
-                throw new FormatException($"'{s}' is not a valid gradient.");
+                angle = float.Parse(parts[0]);
+                var colors = parts.Skip(1).Select(x => x.ToColor()).ToArray();
+                return new LinearGradientBrush(rect, Color.DeepPink, Color.DeepPink, angle)
+                {
+                    InterpolationColors = new ColorBlend()
+                    {
+                        Positions = colors.Select((c, i) => ((float)i / (float)(colors.Length - 1))).ToArray(),
+                        Colors = colors
+                    }
+                };
             }
 
             return new LinearGradientBrush(rect, color1, color2, angle);
