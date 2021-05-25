@@ -39,8 +39,15 @@ namespace CodeMade.Clock
 
 
                 this.Bind(ViewModel,
-                    vm => vm.SpecificTimeEnabled,
-                    frm => frm.cbSpecificTime.Checked)
+                        vm => vm.SpecificTimeEnabled,
+                        frm => frm.cbSpecificTime.Checked,
+                        cbSpecificTime.Events().CheckedChanged)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel,
+                        vm => vm.OptimizePreview,
+                        frm => frm.cbOptimize.Checked,
+                        cbOptimize.Events().CheckedChanged)
                     .DisposeWith(disposable);
 
                 this.Bind(ViewModel,
@@ -50,7 +57,8 @@ namespace CodeMade.Clock
 
                 this.Bind(ViewModel,
                     vm => vm.SpecificTime,
-                    frm => frm.dpTime.Value)
+                    frm => frm.dpTime.Value,
+                    dpTime.Events().ValueChanged)
                     .DisposeWith(disposable);
 
                 this.OneWayBind(ViewModel,

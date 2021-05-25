@@ -35,6 +35,7 @@ namespace CodeMade.Clock
         private BackgroundStyles _backgroundStyle;
         private ObservableAsPropertyHelper<Image> _backgroundImage;
         private ObservableAsPropertyHelper<Color> _backgroundColor;
+        private bool _optimize;
 
         public enum BackgroundStyles
         {
@@ -90,6 +91,11 @@ namespace CodeMade.Clock
             get => _renderHeight;
             set => this.RaiseAndSetIfChanged(ref _renderHeight, value);
         }
+        public bool OptimizePreview
+        {
+            get => _optimize;
+            set => this.RaiseAndSetIfChanged(ref _optimize, value);
+        }
         public Image BackgroundImage => _backgroundImage.Value;
         public Color BackgroundColor => _backgroundColor.Value;
 
@@ -127,12 +133,20 @@ namespace CodeMade.Clock
                 .Select(GetNearbyFiles)
                 .ToProperty(this, x => x.Files);
 
-            whenFileToWatchChanges.Where(x => x == FileToWatch).Subscribe(ReloadCanvas);
+            whenFileToWatchChanges
+                .Where(x => x == FileToWatch)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(ReloadCanvas);
 
-            this.WhenAnyValue(x => x.ClockCanvas, x => x.ScaleFactor, x => x.SpecificTime, x => x.SpecificTimeEnabled)
+            this.WhenAnyValue(
+                    x => x.ClockCanvas, 
+                    x => x.ScaleFactor, 
+                    x => x.SpecificTime, 
+                    x => x.SpecificTimeEnabled,
+                    x => x.OptimizePreview)
                 .Where(x => (x.Item1 != null && x.Item2 > 0))
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(x => UpdateImage(x.Item1, x.Item2));
+                .Subscribe(x => UpdateImage(x.Item1, x.Item2, x.Item5));
 
             this.WhenAnyValue(x => x.RenderWidth, x => x.RenderHeight).Throttle(TimeSpan.FromMilliseconds(300))
                 .Where(x => _canvas != null)
@@ -145,7 +159,7 @@ namespace CodeMade.Clock
             FileToWatch = fileToWatch;
             BackgroundStyle = BackgroundStyles.Checkers;
 
-            UpdateImageCommand = ReactiveCommand.Create<MouseEventArgs>(_ => UpdateImage(_clockCanvas, _scaleFactor));
+            UpdateImageCommand = ReactiveCommand.Create<MouseEventArgs>(_ => UpdateImage(_clockCanvas, _scaleFactor, _optimize));
         }
 
         private Image GetBackgroundImage(BackgroundStyles style) => 
@@ -169,11 +183,16 @@ namespace CodeMade.Clock
         private void UpdateScale() =>
             ScaleFactor = Math.Min((float)RenderWidth / (float)_canvas.Width, (float)RenderHeight / (float)_canvas.Height);
 
-        private void UpdateImage(ClockCanvas clock, float scaleFactor)
+        private void UpdateImage(ClockCanvas clock, float scaleFactor, bool optimize)
         {
             try
             {
                 var oldImg = _image;
+                if (optimize)
+                {
+                    clock = clock.OptimizeFor(scaleFactor);
+                }
+
                 clock.Update();
                 Image = clock.Render(scaleFactor);
                 Log = "OK";
