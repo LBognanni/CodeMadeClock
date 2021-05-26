@@ -65,8 +65,8 @@ namespace CodeMade.Clock
                         foreach (var subLayer in subLayers)
                         {
                             var newLayer = layer.Copy();
-                            newLayer.Shapes.AddRange(shapes.TakeWhile(s => !IsSameLayerAs(s, subLayer.layer)));
-                            shapes = shapes.SkipWhile(s => !IsSameLayerAs(s, subLayer.layer)).Skip(1);
+                            newLayer.Shapes.AddRange(shapes.TakeWhile(s => !AreTheSameLayer(s, subLayer.layer)));
+                            shapes = shapes.SkipWhile(s => !AreTheSameLayer(s, subLayer.layer)).Skip(1);
                             if (!subLayer.isSkip)
                             {
                                 newLayer.Shapes.Add(subLayer.layer);
@@ -94,7 +94,7 @@ namespace CodeMade.Clock
             }
         }
         
-        private static bool IsSameLayerAs(IShape first, IShape second)
+        private static bool AreTheSameLayer(IShape first, IShape second)
         {
             if ((first is Layer firstLayer) && (second is Layer secondLayer))
             {

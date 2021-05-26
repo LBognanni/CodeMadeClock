@@ -204,13 +204,38 @@ namespace CodeMade.Clock.Tests
             {
                 var slicer = new LayerSlicer(typeof(HoursLayer));
                 var result = slicer.SliceLayers(layers).ToArray();
-                result.Should().BeEquivalentTo(expected, options=> options.Excluding(x=>x.Item2.Id));
+                result.Should().BeEquivalentTo(expected, options => options.Excluding(x => x.Item2.Id));
             }
 
             public static IEnumerable<object[]> GenerateTestCases
             {
                 get
                 {
+                    yield return new object[]
+                    {
+                        new[]
+                        {
+                            MakeLayer(
+                            MakeLayer(
+                                new CircleShape(),
+                                MakeLayer(
+                                    new HoursLayer(),
+                                    new HoursLayer()
+                                ),
+                                new RectangleShape()
+                            ))
+                        },
+                        new[]
+                        {
+                            (false, (MakeLayer(new CircleShape()))),
+                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
+                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
+                            (false, (MakeLayer(new RectangleShape())))
+                        }
+                    };
+
+                    yield break;
+
                     yield return new object[]
                     {
                         new[]
@@ -255,8 +280,8 @@ namespace CodeMade.Clock.Tests
                         {
                             MakeLayer(),
                             MakeLayer(
-                    MakeLayer(
-                        new HoursLayer(),
+                                MakeLayer(
+                                    new HoursLayer(),
                                     new HoursLayer(),
                                     new CircleShape()
                                 )
@@ -349,7 +374,6 @@ namespace CodeMade.Clock.Tests
                         },
                         new []
                         {
-                            (false, MakeLayer()),
                             (false, MakeLayer()),
                             (false, MakeLayer()),
                             (true, MakeLayer(MakeLayer(new HoursLayer()))),
