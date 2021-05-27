@@ -234,8 +234,6 @@ namespace CodeMade.Clock.Tests
                         }
                     };
 
-                    yield break;
-
                     yield return new object[]
                     {
                         new[]

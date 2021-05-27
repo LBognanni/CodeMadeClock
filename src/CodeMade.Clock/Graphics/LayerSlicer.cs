@@ -51,7 +51,7 @@ namespace CodeMade.Clock
                 }
                 else
                 {
-                    var subLayers = SliceLayers(layer.Shapes.OfType<Layer>()).ToArray();
+                    var subLayers = SliceLayers(layer.Shapes.OfType<Layer>()).ToList();
                     if (!subLayers.Any(x => x.isSkip))
                     {
                         // this is a regular layer with no skips inside
@@ -62,31 +62,40 @@ namespace CodeMade.Clock
                         // this is a regular layer with skips inside
                         IEnumerable<IShape> shapes = layer.Shapes;
 
-                        foreach (var subLayer in subLayers)
+                        var newLayer = layer.Copy();
+                        foreach (var shape in shapes)
                         {
-                            var newLayer = layer.Copy();
-                            newLayer.Shapes.AddRange(shapes.TakeWhile(s => !AreTheSameLayer(s, subLayer.layer)));
-                            shapes = shapes.SkipWhile(s => !AreTheSameLayer(s, subLayer.layer)).Skip(1);
-                            if (!subLayer.isSkip)
+                            if (shape is Layer layerShape)
                             {
-                                newLayer.Shapes.Add(subLayer.layer);
-                            }
-                            if (newLayer.Shapes.Any())
-                            {
-                                yield return (false, newLayer);
-                            }
+                                var subTuples = subLayers.Where(x => AreTheSameLayer(x.layer, layerShape));
+                                foreach (var subTuple in subTuples)
+                                {
+                                    if (subTuple.isSkip)
+                                    {
+                                        if (newLayer.Shapes.Any())
+                                        {
+                                            yield return (false, newLayer);
+                                        }
 
-                            if (subLayer.isSkip)
+                                        newLayer = layer.Copy();
+                                        newLayer.Shapes.Add(shape);
+                                        yield return (true, newLayer);
+                                        newLayer = layer.Copy();
+
+                                    }
+                                    else
+                                    {
+                                        newLayer.Shapes.Add(subTuple.layer);
+                                    }
+                                }
+                            }
+                            else
                             {
-                                newLayer = layer.Copy();
-                                newLayer.Shapes.Add(subLayer.layer);
-                                yield return (true, newLayer);
+                                newLayer.Shapes.Add(shape);
                             }
                         }
-                        if (shapes.Any())
+                        if (newLayer.Shapes.Any())
                         {
-                            var newLayer = layer.Copy();
-                            newLayer.Shapes.AddRange(shapes);
                             yield return (false, newLayer);
                         }
                     }
