@@ -1,8 +1,11 @@
 ﻿using CodeMade.ScriptedGraphics;
 using FluentAssertions;
+using FluentAssertions.Equivalency;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 
 namespace CodeMade.Clock.Tests
 {
@@ -200,42 +203,54 @@ namespace CodeMade.Clock.Tests
         {
             [Test]
             [TestCaseSource(nameof(GenerateTestCases))]
-            public void It_ShouldSplitAsExpected(IEnumerable<Layer> layers, IEnumerable<(bool, Layer)> expected)
+            public void It_ShouldSplitAsExpected(int n, IEnumerable<Layer> layers, IEnumerable<(bool, Layer)> expected)
             {
-                var slicer = new LayerSlicer(typeof(HoursLayer));
+                var slicer = new LayerSlicer(typeof(HoursLayer), typeof(MinutesLayer));
                 var result = slicer.SliceLayers(layers).ToArray();
-                result.Should().BeEquivalentTo(expected, options => options.Excluding(x => x.Item2.Id));
+                result.Should().BeEquivalentTo(expected, options => options
+                    .Excluding(mi => ExcludeId(mi)) 
+                    .WithStrictOrdering()
+                    , JsonConvert.SerializeObject(result, Formatting.Indented,  new JsonSerializerSettings{ TypeNameHandling = TypeNameHandling.Objects, TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple})
+                    );
             }
+
+            private bool ExcludeId(IMemberInfo mi) => mi.SelectedMemberPath.EndsWith(".Id");
 
             public static IEnumerable<object[]> GenerateTestCases
             {
                 get
                 {
+
                     yield return new object[]
                     {
+                        1,
                         new[]
                         {
+                            MakeLayer(new RectangleShape()),
                             MakeLayer(
-                            MakeLayer(
-                                new CircleShape(),
+                                MakeLayer(new CircleShape()),
                                 MakeLayer(
-                                    new HoursLayer(),
-                                    new HoursLayer()
-                                ),
-                                new RectangleShape()
+                                    new CircleShape(),
+                                    MakeLayer(
+                                        new HoursLayer(),
+                                        new MinutesLayer()
+                                    ),
+                                    new RectangleShape()
                             ))
                         },
                         new[]
                         {
-                            (false, (MakeLayer(new CircleShape()))),
-                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
-                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
-                            (false, (MakeLayer(new RectangleShape())))
+                            (false, MakeLayer(new RectangleShape())),
+                            (false, MakeLayer(MakeLayer(new CircleShape()), new CircleShape())),
+                            (true, MakeLayer(MakeLayer(MakeLayer(new HoursLayer())))),
+                            (true, MakeLayer(MakeLayer(MakeLayer(new MinutesLayer())))),
+                            (false, MakeLayer(MakeLayer(new RectangleShape())))
                         }
                     };
 
                     yield return new object[]
                     {
+                        2,
                         new[]
                         {
                             MakeLayer()
@@ -248,6 +263,7 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        3,
                         new Layer[]
                         {
                             new HoursLayer()
@@ -260,6 +276,7 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        4,
                         new[]
                         {
                             new Layer(),
@@ -274,6 +291,7 @@ namespace CodeMade.Clock.Tests
 
                     yield return  new object[]
                     {
+                        5,
                         new []
                         {
                             MakeLayer(),
@@ -296,6 +314,7 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        6,
                         new []
                         {
                             MakeLayer(
@@ -325,13 +344,14 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        7,
                         new []
                         {
                             MakeLayer(
                                 new Vertex(11,22),33,
                                 MakeLayer(new Vertex(1,2), 3,
-                                    new CircleShape(),
-                                    new HoursLayer()
+                                    new HoursLayer(),
+                                    new CircleShape()
                                 )
                             )
                         },
@@ -354,6 +374,7 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        8,
                         new []
                         {
                             MakeLayer(),
@@ -392,7 +413,7 @@ namespace CodeMade.Clock.Tests
             [SetUp]
             public void Setup()
             {
-                var layers = new []
+                var layers = new[]
                 {
                     MakeLayer(),
                     MakeLayer(),
@@ -404,7 +425,7 @@ namespace CodeMade.Clock.Tests
                         MakeLayer(),
                         new HoursLayer(),
                         MakeLayer()
-                        ),
+                    ),
                     MakeLayer(),
                     MakeLayer(),
                 };
@@ -421,7 +442,48 @@ namespace CodeMade.Clock.Tests
                 _groups.Select(x => x.isSkip).Should().BeEquivalentTo(new[]
                 {
                     false, true, false, true, false
-                });
+                }, opts => opts.WithStrictOrdering());
+        }
+
+
+        public class WhenGroupingWithContiguousSkips
+        {
+            private IEnumerable<(bool isSkip, IEnumerable<Layer> layers)> _groups;
+
+            [SetUp]
+            public void Setup()
+            {
+                var layers = new[]
+                {
+                    MakeLayer(),
+                    MakeLayer(),
+                    MakeLayer(),
+                    MakeLayer(),
+                    new HoursLayer(),
+                    MakeLayer(),
+                    MakeLayer(
+                        MakeLayer(),
+                        new HoursLayer(),
+                        new HoursLayer(),
+                        MakeLayer()
+                    ),
+                    MakeLayer(),
+                    MakeLayer(),
+                };
+
+                _groups = (new LayerSlicer(typeof(HoursLayer)).GroupLayers(layers));
+            }
+
+            [Test]
+            public void It_ShouldCreate6Groups() =>
+                _groups.Count().Should().Be(6);
+
+            [Test]
+            public void It_ShouldCreateTheRightTypeOfGroups() =>
+                _groups.Select(x => x.isSkip).Should().BeEquivalentTo(new[]
+                {
+                    false, true, false, true, true, false
+                }, opts => opts.WithStrictOrdering());
         }
 
         private static Layer MakeLayer(params IShape[] shapes)

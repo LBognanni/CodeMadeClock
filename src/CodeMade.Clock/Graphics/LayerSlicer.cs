@@ -16,27 +16,30 @@ namespace CodeMade.Clock
 
         public IEnumerable<(bool isSkip, IEnumerable<Layer> layers)> GroupLayers(IEnumerable<Layer> layers)
         {
-            var slices = SliceLayers(layers);
-            var currentSkip = false;
+            var slices = SliceLayers(layers).ToList();
             var currentLayers = new List<Layer>();
 
             foreach (var slice in slices)
             {
-                if (slice.isSkip != currentSkip)
+                if (slice.isSkip)
                 {
                     if (currentLayers.Any())
                     {
-                        yield return (currentSkip, currentLayers);
+                        yield return (false, currentLayers);
+                        currentLayers = new List<Layer>();
                     }
-                    currentSkip = slice.isSkip;
-                    currentLayers = new List<Layer>();
+
+                    yield return (true, new[] { slice.layer });
                 }
-                currentLayers.Add(slice.layer);
+                else
+                {
+                    currentLayers.Add(slice.layer);
+                }
             }
 
             if (currentLayers.Any())
             {
-                yield return (currentSkip, currentLayers);
+                yield return (false, currentLayers);
             }
         }
 
@@ -67,7 +70,7 @@ namespace CodeMade.Clock
                         {
                             if (shape is Layer layerShape)
                             {
-                                var subTuples = subLayers.Where(x => AreTheSameLayer(x.layer, layerShape));
+                                var subTuples = subLayers.Where(x => AreTheSameLayer(x.layer, layerShape)).ToList();
                                 foreach (var subTuple in subTuples)
                                 {
                                     if (subTuple.isSkip)
@@ -78,7 +81,7 @@ namespace CodeMade.Clock
                                         }
 
                                         newLayer = layer.Copy();
-                                        newLayer.Shapes.Add(shape);
+                                        newLayer.Shapes.Add(subTuple.layer);
                                         yield return (true, newLayer);
                                         newLayer = layer.Copy();
 
@@ -87,6 +90,8 @@ namespace CodeMade.Clock
                                     {
                                         newLayer.Shapes.Add(subTuple.layer);
                                     }
+
+                                    subLayers.Remove(subTuple);
                                 }
                             }
                             else

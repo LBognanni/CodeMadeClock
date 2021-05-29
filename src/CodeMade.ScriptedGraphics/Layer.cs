@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -27,6 +28,8 @@ namespace CodeMade.ScriptedGraphics
     public class Layer : IShape//, IEquatable<Layer>, IEquatable<IShape>
     {
         private static int _counter = 0;
+
+        [JsonIgnore]
         public int Id { get; private set; } = Interlocked.Increment(ref _counter);
 
         /// <summary>
