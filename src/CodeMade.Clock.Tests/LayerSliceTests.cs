@@ -1,8 +1,11 @@
 ﻿using CodeMade.ScriptedGraphics;
 using FluentAssertions;
+using FluentAssertions.Equivalency;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 
 namespace CodeMade.Clock.Tests
 {
@@ -76,7 +79,9 @@ namespace CodeMade.Clock.Tests
                         new Vertex(10, 20),
                         33,
                         new CircleShape(),
-                        MakeLayer(),
+                        MakeLayer(
+                            new CircleShape()
+                            ),
                         new HoursLayer(),
                         new RectangleShape()
                         ),
@@ -157,8 +162,12 @@ namespace CodeMade.Clock.Tests
             }
 
             [Test]
-            public void It_Generates4Slices() =>
-                Assert.AreEqual(4, _result.Count());
+            public void It_Generates5Slices() =>
+                Assert.AreEqual(5, _result.Count());
+
+            [Test]
+            public void TheLastSlice_ShouldHave2Shapes() =>
+                Assert.AreEqual(2, _result.Last().layer.Shapes.Count);
 
             [Test]
             public void It_ShouldSplitTheBlurLayer()
@@ -177,7 +186,7 @@ namespace CodeMade.Clock.Tests
                             new RectangleShape()
                         )
                     );
-                blur1.Should().BeEquivalentTo(expected1);
+                blur1.Should().BeEquivalentTo(expected1, options => options.Excluding(x => x.Id));
 
                 var expected2 =
                     MakeBlurLayer(
@@ -186,7 +195,7 @@ namespace CodeMade.Clock.Tests
                             new HoursLayer()
                         )
                     );
-                blur2.Should().BeEquivalentTo(expected2);
+                blur2.Should().BeEquivalentTo(expected2, options => options.Excluding(x => x.Id));
             }
         }
 
@@ -194,19 +203,54 @@ namespace CodeMade.Clock.Tests
         {
             [Test]
             [TestCaseSource(nameof(GenerateTestCases))]
-            public void It_ShouldSplitAsExpected(IEnumerable<Layer> layers, IEnumerable<(bool, Layer)> expected)
+            public void It_ShouldSplitAsExpected(int n, IEnumerable<Layer> layers, IEnumerable<(bool, Layer)> expected)
             {
-                var slicer = new LayerSlicer(typeof(HoursLayer));
-                var result = slicer.SliceLayers(layers);
-                result.Should().BeEquivalentTo(expected);
+                var slicer = new LayerSlicer(typeof(HoursLayer), typeof(MinutesLayer));
+                var result = slicer.SliceLayers(layers).ToArray();
+                result.Should().BeEquivalentTo(expected, options => options
+                    .Excluding(mi => ExcludeId(mi)) 
+                    .WithStrictOrdering()
+                    , JsonConvert.SerializeObject(result, Formatting.Indented,  new JsonSerializerSettings{ TypeNameHandling = TypeNameHandling.Objects, TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple})
+                    );
             }
+
+            private bool ExcludeId(IMemberInfo mi) => mi.SelectedMemberPath.EndsWith(".Id");
 
             public static IEnumerable<object[]> GenerateTestCases
             {
                 get
                 {
+
                     yield return new object[]
                     {
+                        1,
+                        new[]
+                        {
+                            MakeLayer(new RectangleShape()),
+                            MakeLayer(
+                                MakeLayer(new CircleShape()),
+                                MakeLayer(
+                                    new CircleShape(),
+                                    MakeLayer(
+                                        new HoursLayer(),
+                                        new MinutesLayer()
+                                    ),
+                                    new RectangleShape()
+                            ))
+                        },
+                        new[]
+                        {
+                            (false, MakeLayer(new RectangleShape())),
+                            (false, MakeLayer(MakeLayer(new CircleShape()), new CircleShape())),
+                            (true, MakeLayer(MakeLayer(MakeLayer(new HoursLayer())))),
+                            (true, MakeLayer(MakeLayer(MakeLayer(new MinutesLayer())))),
+                            (false, MakeLayer(MakeLayer(new RectangleShape())))
+                        }
+                    };
+
+                    yield return new object[]
+                    {
+                        2,
                         new[]
                         {
                             MakeLayer()
@@ -219,6 +263,7 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        3,
                         new Layer[]
                         {
                             new HoursLayer()
@@ -231,6 +276,7 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        4,
                         new[]
                         {
                             new Layer(),
@@ -243,8 +289,32 @@ namespace CodeMade.Clock.Tests
                         }
                     };
 
+                    yield return  new object[]
+                    {
+                        5,
+                        new []
+                        {
+                            MakeLayer(),
+                            MakeLayer(
+                                MakeLayer(
+                                    new HoursLayer(),
+                                    new HoursLayer(),
+                                    new CircleShape()
+                                )
+                            )
+                        },
+                        new []
+                        {
+                            (false, MakeLayer()),
+                            (true,  MakeLayer(MakeLayer(new HoursLayer()))),
+                            (true,  MakeLayer(MakeLayer(new HoursLayer()))),
+                            (false, MakeLayer(MakeLayer(new CircleShape())))
+                        }
+                    };
+
                     yield return new object[]
                     {
+                        6,
                         new []
                         {
                             MakeLayer(
@@ -274,13 +344,14 @@ namespace CodeMade.Clock.Tests
 
                     yield return new object[]
                     {
+                        7,
                         new []
                         {
                             MakeLayer(
                                 new Vertex(11,22),33,
                                 MakeLayer(new Vertex(1,2), 3,
-                                    new CircleShape(),
-                                    new HoursLayer()
+                                    new HoursLayer(),
+                                    new CircleShape()
                                 )
                             )
                         },
@@ -300,6 +371,37 @@ namespace CodeMade.Clock.Tests
                             ),
                         }
                     };
+
+                    yield return new object[]
+                    {
+                        8,
+                        new []
+                        {
+                            MakeLayer(),
+                            MakeLayer(),
+                            MakeLayer(
+                                MakeLayer(
+                                    new HoursLayer(),
+                                    new HoursLayer()
+                                    ),
+                                MakeLayer(
+                                    new HoursLayer(),
+                                    new HoursLayer()
+                                ),
+                                new CircleShape()
+                            ),
+                        },
+                        new []
+                        {
+                            (false, MakeLayer()),
+                            (false, MakeLayer()),
+                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
+                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
+                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
+                            (true, MakeLayer(MakeLayer(new HoursLayer()))),
+                            (false, MakeLayer(new CircleShape())),
+                        }
+                    };
                 }
             }
         }
@@ -311,7 +413,7 @@ namespace CodeMade.Clock.Tests
             [SetUp]
             public void Setup()
             {
-                var layers = new []
+                var layers = new[]
                 {
                     MakeLayer(),
                     MakeLayer(),
@@ -323,7 +425,7 @@ namespace CodeMade.Clock.Tests
                         MakeLayer(),
                         new HoursLayer(),
                         MakeLayer()
-                        ),
+                    ),
                     MakeLayer(),
                     MakeLayer(),
                 };
@@ -333,14 +435,55 @@ namespace CodeMade.Clock.Tests
 
             [Test]
             public void It_ShouldCreate5Groups() =>
-                _groups.Count().Should().Be(6);
+                _groups.Count().Should().Be(5);
 
             [Test]
             public void It_ShouldCreateTheRightTypeOfGroups() =>
                 _groups.Select(x => x.isSkip).Should().BeEquivalentTo(new[]
                 {
                     false, true, false, true, false
-                });
+                }, opts => opts.WithStrictOrdering());
+        }
+
+
+        public class WhenGroupingWithContiguousSkips
+        {
+            private IEnumerable<(bool isSkip, IEnumerable<Layer> layers)> _groups;
+
+            [SetUp]
+            public void Setup()
+            {
+                var layers = new[]
+                {
+                    MakeLayer(),
+                    MakeLayer(),
+                    MakeLayer(),
+                    MakeLayer(),
+                    new HoursLayer(),
+                    MakeLayer(),
+                    MakeLayer(
+                        MakeLayer(),
+                        new HoursLayer(),
+                        new HoursLayer(),
+                        MakeLayer()
+                    ),
+                    MakeLayer(),
+                    MakeLayer(),
+                };
+
+                _groups = (new LayerSlicer(typeof(HoursLayer)).GroupLayers(layers));
+            }
+
+            [Test]
+            public void It_ShouldCreate6Groups() =>
+                _groups.Count().Should().Be(6);
+
+            [Test]
+            public void It_ShouldCreateTheRightTypeOfGroups() =>
+                _groups.Select(x => x.isSkip).Should().BeEquivalentTo(new[]
+                {
+                    false, true, false, true, true, false
+                }, opts => opts.WithStrictOrdering());
         }
 
         private static Layer MakeLayer(params IShape[] shapes)

@@ -60,7 +60,7 @@ namespace CodeMade.Clock
 
             var newCanvas = new Canvas(_canvas.Width, _canvas.Height, "#0000");
 
-            var layerGroups = grouper.GroupLayers(_canvas.Layers);
+            var layerGroups = grouper.GroupLayers(_canvas.Layers).ToList();
 
             foreach (var (isSkipLayerGroup, layerList) in layerGroups)
             {

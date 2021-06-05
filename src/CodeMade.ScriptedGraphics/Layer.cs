@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -22,8 +25,13 @@ namespace CodeMade.ScriptedGraphics
     ///     ]
     /// }
     /// </example>
-    public class Layer : IShape
+    public class Layer : IShape//, IEquatable<Layer>, IEquatable<IShape>
     {
+        private static int _counter = 0;
+
+        [JsonIgnore]
+        public int Id { get; private set; } = Interlocked.Increment(ref _counter);
+
         /// <summary>
         /// A list of all the shapes contained in this layer
         /// </summary>
@@ -63,8 +71,36 @@ namespace CodeMade.ScriptedGraphics
             => new Layer
             {
                 Offset = Offset,
-                Rotate = Rotate
+                Rotate = Rotate,
+                Id = Id
             };
+
+        //public bool Equals(Layer other)
+        //{
+        //    if (other == null)
+        //        return false;
+        //
+        //    return other.Offset.Equals(Offset) && other.Rotate.Equals(Rotate) && other._id.Equals(_id);
+        //}
+        //
+        //public bool Equals(IShape other)
+        //{
+        //    if (other is Layer layer)
+        //    {
+        //        return Equals(layer);
+        //    }
+        //
+        //    return false;
+        //}
+        //
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj is Layer layer)
+        //    {
+        //        return Equals(layer);
+        //    }
+        //    return base.Equals(obj);
+        //}
 
         public virtual void Render(Graphics g, float scaleFactor = 1)
         {
