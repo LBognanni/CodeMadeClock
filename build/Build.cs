@@ -78,6 +78,7 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
+            Console.WriteLine($"Version {GitVersion.AssemblySemVer}");
             DotNetTest(s => s
                 .SetConfiguration(Configuration)
                 .SetNoBuild(true)
@@ -146,14 +147,14 @@ class Build : NukeBuild
         return await client.Git.Tag.Create(GIT_OWNER, GIT_REPO, newTag);
     }
 
-    private async Task<Release> CreateRelease(GitHubClient client, string version)
+    private async Task<Release> CreateRelease(GitHubClient client, string version, bool isBeta = false)
     {
         var newRelease = new NewRelease(version)
         {
             Name = $"Version {version}",
             Body = "Please see [the official page](https://www.codemade.co.uk/clock) for release notes.",
             Draft = true,
-            Prerelease = false
+            Prerelease = isBeta
         };
 
         Logger.Normal($"Creating release {version}");
