@@ -37,7 +37,7 @@ class Build : NukeBuild
     [Solution] 
     readonly Solution Solution;
 
-    [GitVersion(Framework = "net5.0", UpdateAssemblyInfo = true, UpdateBuildNumber = true)]
+    [GitVersion(Framework = "net6.0", UpdateAssemblyInfo = true, UpdateBuildNumber = true)]
     readonly GitVersion GitVersion;
     private readonly string GIT_OWNER = "LBognanni";
     private readonly string GIT_REPO = "CodeMadeClock";
@@ -62,14 +62,16 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            MSBuildTasks.MSBuild(s => s
+            DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-                .DisableRestore());
+                .SetVerbosity(DotNetVerbosity.Minimal)
+                .SetNoRestore(true)
+                .SetNoIncremental(true)
+            );
         });
 
     Target Test => _ => _
