@@ -62,6 +62,16 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
+            DotNetBuild(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetVerbosity(DotNetVerbosity.Minimal)
+                .SetNoRestore(true)
+            );
+
             DotNetPublish(s => s
                 .SetProject(Solution.GetProject("CodeMade.Clock"))
                 .SetConfiguration(Configuration)
@@ -134,7 +144,7 @@ class Build : NukeBuild
             await UploadRelease(client, release, tag);
         });
 
-    Target BetaRelease => _ => _
+    Target ReleaseBeta => _ => _
         .DependsOn(Setup)
         .Executes(async () =>
         {
