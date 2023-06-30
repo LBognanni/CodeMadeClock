@@ -62,15 +62,15 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            DotNetBuild(s => s
-                .SetProjectFile(Solution)
+            DotNetPublish(s => s
+                .SetProject(Solution.GetProject("CodeMade.Clock"))
                 .SetConfiguration(Configuration)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetVerbosity(DotNetVerbosity.Minimal)
                 .SetNoRestore(true)
-                .SetNoIncremental(true)
+                .SetOutput(OutputDirectory)
             );
         });
 

@@ -6,6 +6,9 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
   <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -61,6 +64,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /E /Y &quot;$(SolutionDir)..\clocks&quot; &quot;$(TargetDir)clocks\&quot;" />
+    <Exec Command="if &quot;$(ConfigurationName)&quot; == &quot;Debug&quot; (xcopy /E /Y &quot;$(SolutionDir)..\clocks&quot; &quot;$(TargetDir)clocks\&quot;)" />
   </Target>
 </Project>

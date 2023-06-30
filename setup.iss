@@ -34,9 +34,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "src\CodeMade.Clock\bin\Release\net5.0-windows\CodeMade.Clock.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src\CodeMade.Clock\bin\Release\net5.0-windows\CodeMade.Clock.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src\CodeMade.Clock\bin\Release\net5.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "output\CodeMade.Clock.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "output\CodeMade.Clock.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "output\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "clocks\*"; DestDir: "{app}\clocks"; Flags: ignoreversion
 
 
