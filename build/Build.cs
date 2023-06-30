@@ -134,6 +134,21 @@ class Build : NukeBuild
             await UploadRelease(client, release, tag);
         });
 
+    Target BetaRelease => _ => _
+        .DependsOn(Setup)
+        .Executes(async () =>
+        {
+            var githubToken = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+            var tokenAuth = new Credentials(githubToken);
+            var client = new GitHubClient(new ProductHeaderValue("build"));
+            client.Credentials = tokenAuth;
+
+            var tag = $"v{GitVersion.AssemblySemVer}-beta";
+            var release = await CreateRelease(client, tag, true);
+            await UploadRelease(client, release, tag);
+        });
+
+
     private async Task<GitTag> CreateTag(GitHubClient client)
     {
         var tag = $"v{GitVersion.AssemblySemVer}";

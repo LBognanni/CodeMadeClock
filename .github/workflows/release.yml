@@ -36,7 +36,7 @@ jobs:
       with:
         dotnet-version: 6.x
 
-    # Execute all unit tests in the solution
+    # Build, test & publish
     - name: Create github release
       run: .\build.ps1 Release
       env:

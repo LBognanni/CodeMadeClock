@@ -20,6 +20,8 @@ jobs:
       with:
         dotnet-version: 6.x
 
-    # Execute all unit tests in the solution
+    # Build, test & publish beta
     - name: Execute unit tests
-      run: .\build.ps1 test
+      run: .\build.ps1 ReleaseBeta
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
