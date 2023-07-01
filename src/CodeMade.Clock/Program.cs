@@ -25,6 +25,7 @@ namespace CodeMade.Clock
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             var settingsPath = Directory.GetParent(Application.LocalUserAppDataPath).FullName;
 
             var knownTypes = new[]
