@@ -37,7 +37,7 @@ class Build : NukeBuild
     [Solution] 
     readonly Solution Solution;
 
-    [GitVersion(Framework = "net5.0", UpdateAssemblyInfo = true, UpdateBuildNumber = true)]
+    [GitVersion(Framework = "net6.0", UpdateAssemblyInfo = true, UpdateBuildNumber = true)]
     readonly GitVersion GitVersion;
     private readonly string GIT_OWNER = "LBognanni";
     private readonly string GIT_REPO = "CodeMadeClock";
@@ -62,20 +62,33 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
-            MSBuildTasks.MSBuild(s => s
+            DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
                 .SetInformationalVersion(GitVersion.InformationalVersion)
-                .SetVerbosity(MSBuildVerbosity.Minimal)
-                .DisableRestore());
+                .SetVerbosity(DotNetVerbosity.Minimal)
+                .SetNoRestore(true)
+            );
+
+            DotNetPublish(s => s
+                .SetProject(Solution.GetProject("CodeMade.Clock"))
+                .SetConfiguration(Configuration)
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetVerbosity(DotNetVerbosity.Minimal)
+                .SetNoRestore(true)
+                .SetOutput(OutputDirectory)
+            );
         });
 
     Target Test => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
+            Console.WriteLine($"Version {GitVersion.AssemblySemVer}");
             DotNetTest(s => s
                 .SetConfiguration(Configuration)
                 .SetNoBuild(true)
@@ -131,6 +144,21 @@ class Build : NukeBuild
             await UploadRelease(client, release, tag);
         });
 
+    Target ReleaseBeta => _ => _
+        .DependsOn(Setup)
+        .Executes(async () =>
+        {
+            var githubToken = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+            var tokenAuth = new Credentials(githubToken);
+            var client = new GitHubClient(new ProductHeaderValue("build"));
+            client.Credentials = tokenAuth;
+
+            var tag = $"v{GitVersion.AssemblySemVer}-beta";
+            var release = await CreateRelease(client, tag, true);
+            await UploadRelease(client, release, tag);
+        });
+
+
     private async Task<GitTag> CreateTag(GitHubClient client)
     {
         var tag = $"v{GitVersion.AssemblySemVer}";
@@ -144,14 +172,14 @@ class Build : NukeBuild
         return await client.Git.Tag.Create(GIT_OWNER, GIT_REPO, newTag);
     }
 
-    private async Task<Release> CreateRelease(GitHubClient client, string version)
+    private async Task<Release> CreateRelease(GitHubClient client, string version, bool isBeta = false)
     {
         var newRelease = new NewRelease(version)
         {
             Name = $"Version {version}",
             Body = "Please see [the official page](https://www.codemade.co.uk/clock) for release notes.",
             Draft = true,
-            Prerelease = false
+            Prerelease = isBeta
         };
 
         Logger.Normal($"Creating release {version}");

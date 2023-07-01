@@ -16,14 +16,12 @@ jobs:
 
     # Install the .NET Core workload
     - name: Install .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 5.0.100
+        dotnet-version: 6.x
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
-
-    # Execute all unit tests in the solution
+    # Build, test & publish beta
     - name: Execute unit tests
-      run: .\build.ps1 test
+      run: .\build.ps1 ReleaseBeta
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
