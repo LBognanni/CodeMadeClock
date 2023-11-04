@@ -192,7 +192,7 @@ class Build : NukeBuild
         { 
             var assetUpload = new ReleaseAssetUpload()
             {
-                FileName = $"clock-setup-{version}.exe",
+                FileName = $"clock-setup.exe",
                 ContentType = "application/vnd.microsoft.portable-executable",
                 RawData = archiveContents
             };
