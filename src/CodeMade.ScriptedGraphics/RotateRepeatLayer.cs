@@ -42,9 +42,14 @@ namespace CodeMade.ScriptedGraphics
         public int RepeatCount { get; set; }
 
         /// <summary>
-        /// The angle at which to repeat the contents
+        /// The angle(deg) at which to repeat the contents
         /// </summary>
         public float RepeatRotate { get; set; }
+
+        /// <summary>
+        /// The angle(deg) at which to start repeating the contents 
+        /// </summary>
+        public float Start { get; set; }
 
         public override Layer Copy()
             => new RotateRepeatLayer
@@ -52,7 +57,8 @@ namespace CodeMade.ScriptedGraphics
                 Offset = Offset,
                 Rotate = Rotate,
                 RepeatCount = RepeatCount,
-                RepeatRotate = RepeatRotate
+                RepeatRotate = RepeatRotate,
+                Start = Start,
             };
 
 
@@ -69,7 +75,7 @@ namespace CodeMade.ScriptedGraphics
         protected override void ApplyTransform(Graphics g, float scaleFactor)
         {
             base.ApplyTransform(g, scaleFactor);
-            g.RotateTransform(RepeatRotate * (float)_repeatCounter, System.Drawing.Drawing2D.MatrixOrder.Prepend);
+            g.RotateTransform(Start + RepeatRotate * (float)_repeatCounter, System.Drawing.Drawing2D.MatrixOrder.Prepend);
         }
     }
 }
