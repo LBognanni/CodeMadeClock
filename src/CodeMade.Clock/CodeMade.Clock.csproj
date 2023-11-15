@@ -27,9 +27,6 @@
     <None Remove="publish\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Controls\SelectList.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <SupportedPlatform Include="windows" />
   </ItemGroup>
   <ItemGroup>
