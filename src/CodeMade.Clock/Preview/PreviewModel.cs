@@ -113,7 +113,7 @@ namespace CodeMade.Clock
 
         public PreviewModel(string fileToWatch, int renderWidth, int renderHeight, Type []knownTypes)
         {
-            _specificTime = DateTime.Now;
+            _specificTime = DateTime.Today.AddHours(10).AddMinutes(10).AddSeconds(33);
             _renderWidth = renderWidth;
             _renderHeight = renderHeight;
             _knownTypes = knownTypes;
