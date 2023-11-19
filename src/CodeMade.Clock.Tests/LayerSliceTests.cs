@@ -214,7 +214,7 @@ namespace CodeMade.Clock.Tests
                     );
             }
 
-            private bool ExcludeId(IMemberInfo mi) => mi.SelectedMemberPath.EndsWith(".Id");
+            private bool ExcludeId(IMemberInfo mi) => mi.Path.EndsWith(".Id");
 
             public static IEnumerable<object[]> GenerateTestCases
             {

@@ -19,7 +19,6 @@ using System.Xml.Serialization;
 using System.Text;
 using System.Security.Cryptography.Xml;
 
-[CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
 class Build : NukeBuild
 {
