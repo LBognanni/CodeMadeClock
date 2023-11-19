@@ -47,7 +47,7 @@ class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
         {
-            EnsureCleanDirectory(OutputDirectory);
+            OutputDirectory.CreateOrCleanDirectory();
         });
 
     Target Restore => _ => _
@@ -167,7 +167,7 @@ class Build : NukeBuild
             Tag = tag,
             Tagger = new Committer("Loris Bognanni", "loris@codemade.co.uk", DateTimeOffset.Now)
         };
-        Logger.Normal($"Creating tag {tag} for commit {sha}");
+        Serilog.Log.Information($"Creating tag {tag} for commit {sha}");
         return await client.Git.Tag.Create(GIT_OWNER, GIT_REPO, newTag);
     }
 
@@ -181,7 +181,7 @@ class Build : NukeBuild
             Prerelease = isBeta
         };
 
-        Logger.Normal($"Creating release {version}");
+        Serilog.Log.Information($"Creating release {version}");
         return await client.Repository.Release.Create(GIT_OWNER, GIT_REPO, newRelease);
     }
 
@@ -195,7 +195,7 @@ class Build : NukeBuild
                 ContentType = "application/vnd.microsoft.portable-executable",
                 RawData = archiveContents
             };
-            Logger.Normal($"Uploading release");
+            Serilog.Log.Information($"Uploading release");
             var asset = await client.Repository.Release.UploadAsset(release, assetUpload);
         }
     }
