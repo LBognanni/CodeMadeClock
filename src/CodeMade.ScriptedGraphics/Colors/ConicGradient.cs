@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 
-namespace CodeMade.ScriptedGraphics
+namespace CodeMade.ScriptedGraphics.Colors
 {
     internal static class ConicGradient
     {
@@ -36,7 +36,7 @@ namespace CodeMade.ScriptedGraphics
         {
             var allTheColors = (colors.Length switch
             {
-                2 => Enumerable.Range(0, 10).Select(n => MixColors(1.0f - (float)n / 10.0f, colors[0], colors[1])).ToArray(),
+                2 => Enumerable.Range(0, 10).Select(n => MixColors(1.0f - n / 10.0f, colors[0], colors[1])).ToArray(),
                 3 => new[]{
                 colors[0],
                 MixColors(0.5f, colors[0], colors[1]),
@@ -51,7 +51,7 @@ namespace CodeMade.ScriptedGraphics
             var radius = sz * (Math.Max(cx, cy) + 1.0);
             startAngle = (float)(startAngle / 180.0 * Math.PI);
 
-            using var pth = CreatePolygonPath(rect.Left + cx * sz, rect.Top + cy * sz, startAngle, allTheColors, radius);
+            using var pth = CreatePolygonPath(rect.Left + cx * sz, rect.Top + cy * sz, startAngle, allTheColors.Count, radius);
             return new PathGradientBrush(pth)
             {
                 SurroundColors = allTheColors.ToArray(),
@@ -65,11 +65,11 @@ namespace CodeMade.ScriptedGraphics
             };
         }
 
-        static GraphicsPath CreatePolygonPath(float cx, float cy, double startAngle, IList<Color> colors, double radius)
+        static GraphicsPath CreatePolygonPath(float cx, float cy, double startAngle, int vertexCount, double radius)
         {
-            var pts = colors.Count - 1;
+            var pts = vertexCount - 1;
             var polyPoints = new List<PointF>();
-            var increment = (Math.PI * 2) * (1.0 / (double)pts);
+            var increment = Math.PI * 2 * (1.0 / pts);
             var angle = startAngle - Math.PI / 2;
 
             polyPoints.Add(PlotPoint(angle, radius, cx, cy));

@@ -12,3 +12,5 @@ launchSettings.json
 Output
 /src/CodeMade.Clock/CodeMade.Clock.xml
 /src/CodeMade.ScriptedGraphics/CodeMade.ScriptedGraphics.xml
+ignored
+TestResult.xml

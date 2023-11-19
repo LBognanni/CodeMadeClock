@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -25,7 +26,7 @@ namespace CodeMade.ScriptedGraphics
         /// <summary>
         /// Fill color or gradient
         /// </summary>
-        /// <see cref="Colors"/>
+        /// <see cref="CodeMade.ScriptedGraphics.Colors.Colors"/>
         public string Color { get; set; }
 
         /// <summary>
@@ -69,16 +70,34 @@ namespace CodeMade.ScriptedGraphics
         {
             var points = GetPoints(scaleFactor);
             RectangleF rect = GetBounds(points);
-            using (var brush = Color.ParseBrush(rect))
+            var brushes = Color.ParseBrush(rect);
+            try
             {
                 var state = g.BeginContainer();
 
                 g.PixelOffsetMode = PixelOffsetMode.Half;
                 g.SmoothingMode = SmoothingMode.HighQuality;
 
-                g.FillPath(brush, new GraphicsPath(points, GetPointTypes(), FillMode.Alternate));
+                foreach(var thing in brushes)
+                {
+                    thing.Match(
+                        brush =>
+                        {
+                            g.FillPath(brush, new GraphicsPath(points, GetPointTypes(), FillMode.Alternate));
+                        },
+                        coloredRegion =>
+                        {
+                            coloredRegion.Region.Intersect(new GraphicsPath(points, GetPointTypes(), FillMode.Alternate));
+                            g.FillRegion(coloredRegion.Color, coloredRegion.Region);
+                        }
+                    );
+                }
 
                 g.EndContainer(state);
+            }
+            finally
+            {
+                brushes.Dispose();
             }
         }
 

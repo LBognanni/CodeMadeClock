@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using NUnit.Framework;
 using System;
 using System.Drawing;
 

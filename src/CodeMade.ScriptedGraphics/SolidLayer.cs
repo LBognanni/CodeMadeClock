@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using System.Drawing;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -12,7 +13,7 @@ namespace CodeMade.ScriptedGraphics
         /// <summary>
         /// A color name or string. Cannot be a gradient
         /// </summary>
-        /// <see cref="Colors"/>
+        /// <see cref="CodeMade.ScriptedGraphics.Colors.Colors"/>
         public string BackgroundColor { get; set; }
         
         public SolidLayer(string backgroundColor)

@@ -19,7 +19,13 @@ Number of times the content will be repeated
 
 ### RepeatRotate
 
-The angle at which to repeat the contents
+The angle(deg) at which to repeat the contents
+
+
+
+### Start
+
+The angle(deg) at which to start repeating the contents 
 
 
 
