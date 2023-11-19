@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using System.Drawing;
 
 namespace CodeMade.ScriptedGraphics
 {
@@ -63,9 +64,19 @@ namespace CodeMade.ScriptedGraphics
 
             using (var smoothing = new SmoothingOption(g, Smooth? System.Drawing.Drawing2D.SmoothingMode.AntiAlias : System.Drawing.Drawing2D.SmoothingMode.Default))
             {
-                using (var brush = Color.ParseBrush(rect))
+                var brushes = Color.ParseBrush(rect);
+                try
                 {
-                    g.FillRectangle(brush, rect);
+                    foreach (var brush in brushes)
+                    {
+                        brush.Match(
+                            b => g.FillRectangle(b, rect),
+                            r => g.FillRegion(r.Color, r.Region));
+                    }
+                }
+                finally
+                {
+                    brushes.Dispose();
                 }
             }
         }

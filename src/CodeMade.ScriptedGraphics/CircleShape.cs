@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace CodeMade.ScriptedGraphics
@@ -44,7 +45,7 @@ namespace CodeMade.ScriptedGraphics
         /// <summary>
         /// Circle color. Can be a solid color or a gradient.
         /// </summary>
-        /// <see cref="CodeMade.ScriptedGraphics.Colors" />
+        /// <see cref="Colors" />
         public string Color { get; set; }
 
         public virtual void Render(Graphics g, float scaleFactor = 1)
@@ -58,17 +59,38 @@ namespace CodeMade.ScriptedGraphics
 
         protected virtual void RenderCircle(Graphics g, float diameter, float left, float top)
         {
-            using (var brush = Color.ParseBrush(new RectangleF(left, top, diameter, diameter)))
+            var state = g.BeginContainer();
+
+            g.PixelOffsetMode = PixelOffsetMode.Half;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            var brushes = Color.ParseBrush(new RectangleF(left, top, diameter, diameter));
+            try
             {
-                var state = g.BeginContainer();
-
-                g.PixelOffsetMode = PixelOffsetMode.Half;
-                g.SmoothingMode = SmoothingMode.HighQuality;
-
-                g.FillEllipse(brush, left, top, diameter, diameter);
-
-                g.EndContainer(state);
+                foreach (var thing in brushes)
+                {
+                    thing.Match(
+                        brush =>
+                        {
+                            g.FillEllipse(brush, left, top, diameter, diameter);
+                        },
+                        coloredRegion =>
+                        {
+                            var ellipse = new GraphicsPath();
+                            ellipse.AddEllipse(left, top, diameter, diameter);
+                            coloredRegion.Region.Intersect(ellipse);
+    
+                            g.FillRegion(coloredRegion.Color, coloredRegion.Region);
+                        }
+                    );
+                }
             }
+            finally
+            {
+                brushes.Dispose();
+            }
+            
+            g.EndContainer(state);
         }
+
     }
 }

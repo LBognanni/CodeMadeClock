@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using System.Drawing;
 
 namespace CodeMade.ScriptedGraphics
 {

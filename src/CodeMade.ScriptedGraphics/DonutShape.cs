@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace CodeMade.ScriptedGraphics
@@ -32,23 +33,33 @@ namespace CodeMade.ScriptedGraphics
 
         public override void Render(Graphics g, float scaleFactor = 1)
         {
-            using (var path = new GraphicsPath())
+            using var path = new GraphicsPath();
+            var rect = AddEllipse(path, Radius, scaleFactor);
+            AddEllipse(path, InnerRadius, scaleFactor);
+
+            var state = g.BeginContainer();
+
+            g.PixelOffsetMode = PixelOffsetMode.Half;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+
+            foreach (var thing in Color.ParseBrush(rect))
             {
-                var rect = AddEllipse(path, Radius, scaleFactor);
-                AddEllipse(path, InnerRadius, scaleFactor);
-
-                using (var brush = Color.ParseBrush(rect))
-                {
-                    var state = g.BeginContainer();
-
-                    g.PixelOffsetMode = PixelOffsetMode.Half;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-
-                    g.FillPath(brush, path);
-
-                    g.EndContainer(state);
-                }
+                thing.Match(
+                    brush =>
+                    {
+                        g.FillPath(brush, path);
+                        brush.Dispose();
+                    },
+                    coloredRegion =>
+                    {
+                        coloredRegion.Region.Intersect(path);
+                        g.FillRegion(coloredRegion.Color, coloredRegion.Region);
+                        coloredRegion.Dispose();
+                    }
+                );
             }
+
+            g.EndContainer(state);
         }
 
         private RectangleF AddEllipse(GraphicsPath path, float radius, float scaleFactor)

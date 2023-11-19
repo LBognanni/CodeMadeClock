@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeMade.ScriptedGraphics.Colors;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;

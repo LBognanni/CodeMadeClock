@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Text.RegularExpressions;
 
-namespace CodeMade.ScriptedGraphics
+namespace CodeMade.ScriptedGraphics.Colors
 {
     /// <summary>
     /// ## 🎨 Solid colors
@@ -20,31 +21,56 @@ namespace CodeMade.ScriptedGraphics
     /// It's also possible to specify linear gradients by using the format `angle-color1-color2` where `angle` is the angle in degrees, and `color1` and `color2` are the colors in any of the formats above.
     /// For example a 30 degrees gray gradient could be `30-#ccc-gray`
     /// </summary>
-    internal static class Colors
+    public static class Colors
     {
-        public static Brush ParseBrush(this string s, RectangleF rect)
+        public static IEnumerable<BrushOrColoredRegion> ParseBrush(this string s, RectangleF rect)
         {
             // conic gradient: something like c-(.5,.5)-#fff-#000
-            if(s.StartsWith("c-"))
+            if (s.StartsWith("c-"))
             {
-                return ParseConicGradient(s, rect);
+                return new[] { ParseConicGradient(s, rect) };
+            }
+
+            if (s.StartsWith("("))
+            {
+                return ParseRadialGradient(s, rect);
             }
 
             // linear gradient brush: something like #fff-#000 or 30-#fff-000
-            if(s.Contains("-"))
+            if (s.Contains("-"))
             {
-                return ParseLinearGradient(s, rect);
+                return new[] { ParseLinearGradient(s, rect) };
             }
 
-            return new SolidBrush(s.ToColor());
+            return new[] { new BrushOrColoredRegion(new SolidBrush(s.ToColor())) };
         }
 
-        private static Brush ParseLinearGradient(string s, RectangleF rect)
+        private static IEnumerable<BrushOrColoredRegion> ParseRadialGradient(string s, RectangleF rect)
+        {
+            var matches = Regex.Match(s, @"\(([0-9,\.\-\s]+)\)((?:-[\w#]+)+)");
+            if (matches.Groups.Count != 3)
+            {
+                throw new FormatException($"Invalid radial gradient format: `{s}`");
+            }
+            var coords = matches.Groups[1].Value.Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var x = float.Parse(coords[0]);
+            var y = float.Parse(coords[1]);
+            var sz = 1.0f;
+            if(coords.Length == 3)
+            {
+                sz = float.Parse(coords[2]);
+            }
+            var colors = matches.Groups[2].Value.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            return RadialGradient.Create(rect, (float)x, (float)y, (float)sz, colors);
+        }
+
+        private static BrushOrColoredRegion ParseLinearGradient(string s, RectangleF rect)
         {
             Color color1, color2;
             float angle;
 
-            string[] parts = s.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var parts = s.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 2)
             {
                 color1 = parts[0].ToColor();
@@ -61,20 +87,22 @@ namespace CodeMade.ScriptedGraphics
             {
                 angle = float.Parse(parts[0]);
                 var colors = parts.Skip(1).Select(x => x.ToColor()).ToArray();
-                return new LinearGradientBrush(rect, Color.DeepPink, Color.DeepPink, angle)
+                var multiColorBrush = new LinearGradientBrush(rect, Color.DeepPink, Color.DeepPink, angle)
                 {
                     InterpolationColors = new ColorBlend()
                     {
-                        Positions = colors.Select((c, i) => ((float)i / (float)(colors.Length - 1))).ToArray(),
+                        Positions = colors.Select((c, i) => i / (float)(colors.Length - 1)).ToArray(),
                         Colors = colors
                     }
                 };
+                return new BrushOrColoredRegion(multiColorBrush);
             }
 
-            return new LinearGradientBrush(rect, color1, color2, angle);
+            var brush = new LinearGradientBrush(rect, color1, color2, angle);
+            return new BrushOrColoredRegion(brush);
         }
 
-        private static Brush ParseConicGradient(string s, RectangleF rect)
+        private static BrushOrColoredRegion ParseConicGradient(string s, RectangleF rect)
         {
             var colors = new List<Color>();
             var angle = 0.0f;
@@ -102,13 +130,13 @@ namespace CodeMade.ScriptedGraphics
                 colors.Add(split.ToColor());
             }
 
-            return ConicGradient.Create(rect, colors.ToArray(), cx, cy, angle);
+            return new BrushOrColoredRegion(ConicGradient.Create(rect, colors.ToArray(), cx, cy, angle));
         }
 
 
         public static Color ToColor(this string s)
         {
-            if(s.StartsWith("#"))
+            if (s.StartsWith("#"))
             {
                 return ParseHtmlColor(s.Substring(1));
             }
