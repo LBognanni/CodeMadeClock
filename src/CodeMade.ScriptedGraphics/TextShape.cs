@@ -42,7 +42,7 @@ namespace CodeMade.ScriptedGraphics
         /// <summary>
         /// Color of the text. It should be a simple color, gradients are not supported.
         /// </summary>
-        /// <see cref="Colors"/>
+        /// <see cref="CodeMade.ScriptedGraphics.Colors.Colors"/>
         public string Color { get; set; }
         /// <summary>
         /// `true` if the text should be centered at `Position`, false if it shoud begin at `Position`

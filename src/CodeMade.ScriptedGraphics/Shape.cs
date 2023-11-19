@@ -26,7 +26,7 @@ namespace CodeMade.ScriptedGraphics
         /// <summary>
         /// Fill color or gradient
         /// </summary>
-        /// <see cref="Colors"/>
+        /// <see cref="CodeMade.ScriptedGraphics.Colors.Colors"/>
         public string Color { get; set; }
 
         /// <summary>

@@ -45,7 +45,7 @@ namespace CodeMade.ScriptedGraphics
         /// <summary>
         /// Circle color. Can be a solid color or a gradient.
         /// </summary>
-        /// <see cref="Colors" />
+        /// <see cref="CodeMade.ScriptedGraphics.Colors.Colors"/>
         public string Color { get; set; }
 
         public virtual void Render(Graphics g, float scaleFactor = 1)

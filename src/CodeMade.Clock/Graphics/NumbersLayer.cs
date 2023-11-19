@@ -61,7 +61,7 @@ namespace CodeMade.Clock
         /// <summary>
         /// Text color. Cannot be a gradient.
         /// </summary>
-        /// <see cref="Colors"/>
+        /// <see cref="CodeMade.ScriptedGraphics.Colors.Colors"/>
         public string Color { get; set; }
 
         /// <summary>
