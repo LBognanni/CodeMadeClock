@@ -1,7 +1,10 @@
 ﻿using CodeMade.Clock.SkinPacks;
+using CodeMade.GithubUpdateChecker;
 using CommandLine;
 using System;
 using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock
@@ -27,6 +30,16 @@ namespace CodeMade.Clock
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             var settingsPath = Directory.GetParent(Application.LocalUserAppDataPath).FullName;
+
+
+            try
+            {
+                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                var checker = VersionChecker.Create("LBognanni", "CodeMadeClock", currentVersion, "CodeMade Clock");
+                Task.Run(() => checker.NotifyIfNewVersion());
+            }
+            catch{ }
+
 
             var knownTypes = new[]
             {

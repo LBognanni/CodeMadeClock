@@ -14,3 +14,4 @@ Output
 /src/CodeMade.ScriptedGraphics/CodeMade.ScriptedGraphics.xml
 ignored
 TestResult.xml
+.nuke/temp
