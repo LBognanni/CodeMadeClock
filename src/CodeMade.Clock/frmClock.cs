@@ -53,9 +53,14 @@ namespace CodeMade.Clock
 
                 ViewModel.WhenAnyValue(x => x.Image)
                     .WhereNotNull()
-                    .Subscribe(img => WinAPI.SetFormBackground(this, img));
+                    .Subscribe(UpdateBackground);
 
             });
+        }
+
+        private void UpdateBackground(Bitmap bitmap)
+        {
+            WinAPI.SetFormBackground(this, bitmap);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -64,6 +69,7 @@ namespace CodeMade.Clock
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.ResizeRedraw, true);
+            TopMost = true;
             base.OnLoad(e);
         }
 
