@@ -55,7 +55,7 @@ namespace CodeMade.ScriptedGraphics
                 lastPath = path;
                 lastRadius = thisRadius;
             }
-            lastPath.Dispose();
+            lastPath?.Dispose();
 
 
             using var pth = CreateCirclePath(rect.Left + cx * rect.Width, rect.Top + cy * rect.Height, (Math.Max(rect.Width, rect.Height) / 2) * sz);

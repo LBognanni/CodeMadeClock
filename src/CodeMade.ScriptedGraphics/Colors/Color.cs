@@ -56,6 +56,11 @@ namespace CodeMade.ScriptedGraphics.Colors
     {
         public static IEnumerable<BrushOrColoredRegion> ParseBrush(this string s, RectangleF rect)
         {
+            if (string.IsNullOrEmpty(s))
+            {
+                return new[] { new BrushOrColoredRegion(new SolidBrush(Color.Transparent)) };
+            }
+
             // conic gradient: something like c-(.5,.5)-#fff-#000
             if (s.StartsWith("c-"))
             {
