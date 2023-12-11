@@ -38,7 +38,7 @@
     <ProjectReference Include="..\CodeMade.ScriptedGraphics\CodeMade.ScriptedGraphics.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CodeMade.GithubUpdateChecker" Version="0.1.8" />
+    <PackageReference Include="CodeMade.GithubUpdateChecker" Version="0.1.11" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NodaTime" Version="3.1.9" />

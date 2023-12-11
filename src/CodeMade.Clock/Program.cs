@@ -11,6 +11,8 @@ namespace CodeMade.Clock
 {
     static class Program
     {
+        public static IVersionGetter VersionGetter { get; private set; }
+
         class Options
         {
             [Value(0, Required = false)]
@@ -35,7 +37,8 @@ namespace CodeMade.Clock
             try
             {
                 var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-                var checker = VersionChecker.Create("LBognanni", "CodeMadeClock", currentVersion, "CodeMade Clock");
+                VersionGetter = new GitHubVersionGetter("LBognanni", "CodeMadeClock", "v", v => v.ToString());
+                var checker = new VersionChecker(VersionGetter, currentVersion, new WindowsNotification(), new FileBasedTempData("CodeMade.Clock.tmp"), "CodeMade Clock");
                 Task.Run(() => checker.NotifyIfNewVersion());
             }
             catch{ }
