@@ -32,7 +32,7 @@ namespace CodeMade.Clock.Tests.FormTests
             _timer = Mock.Of<ITimer>();
             
             _locationFixer = Mock.Of<ILocationFixer>();
-            Mock.Get(_locationFixer).Setup(x => x.FixLocation(It.IsAny<Point>())).Returns<Point>(x => x);
+            Mock.Get(_locationFixer).Setup(x => x.FixLocation(It.IsAny<Point>(), It.IsAny<Size>())).Returns<Point, Size>((x,s) => x);
 
             _sut = new frmClockViewModel(_settings, _skinpacks, _timer, _locationFixer, throttleTimeInMs: 50);
         }

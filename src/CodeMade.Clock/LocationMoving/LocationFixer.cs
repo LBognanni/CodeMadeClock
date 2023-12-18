@@ -6,16 +6,16 @@ namespace CodeMade.Clock.LocationMoving
 {
     public class LocationFixer : ILocationFixer
     {
-        private readonly ILocationReceiver _target;
+        private readonly IScreens _target;
 
-        public LocationFixer(ILocationReceiver target)
+        public LocationFixer(IScreens target)
         {
             _target = target;
         }
 
-        public Point FixLocation(Point location)
+        public Point FixLocation(Point location, Size size)
         {
-            var clockRect = new Rectangle(location, _target.Size);
+            var clockRect = new Rectangle(location, size);
             var clockPt = FindCenter(clockRect);
             var intersects = new List<Rectangle>();
 
@@ -33,37 +33,37 @@ namespace CodeMade.Clock.LocationMoving
 
             return intersects.Count switch
             {
-                0 => MoveToClosestScreen(location, clockPt),
-                1 => MoveToScreen(location, intersects[0]),
+                0 => MoveToClosestScreen(location, clockPt, size),
+                1 => MoveToScreen(location, intersects[0], size),
                 _ => location
             };
 
         }
 
-        private Point MoveToClosestScreen(Point location, Point clockPt)
+        private Point MoveToClosestScreen(Point location, Point clockPt, Size size)
         {
             var screens = _target.Screens.Select(s => (Screen: s, Distance: FindDistanceSquared(s, clockPt)));
-            return MoveToScreen(location, screens.OrderBy(s => s.Distance).First().Screen);
+            return MoveToScreen(location, screens.OrderBy(s => s.Distance).First().Screen, size);
         }
 
-        private Point MoveToScreen(Point location, Rectangle screen)
+        private Point MoveToScreen(Point location, Rectangle screen, Size size)
         {
             if (location.X < screen.Left)
             {
                 location.X = screen.Left;
             }
-            else if (location.X + _target.Size.Width > screen.Right)
+            else if (location.X + size.Width > screen.Right)
             {
-                location.X = screen.Right - _target.Size.Width;
+                location.X = screen.Right - size.Width;
             }
 
             if (location.Y < screen.Top)
             {
                 location.Y = screen.Top;
             }
-            else if (location.Y + _target.Size.Height > screen.Bottom)
+            else if (location.Y + size.Height > screen.Bottom)
             {
-                location.Y = screen.Bottom - _target.Size.Height;
+                location.Y = screen.Bottom - size.Height;
             }
 
             return location;

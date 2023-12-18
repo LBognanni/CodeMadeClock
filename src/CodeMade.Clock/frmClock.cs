@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace CodeMade.Clock
 {
-    public partial class frmClock : Form, ILocationReceiver, IViewFor<frmClockViewModel>
+    public partial class frmClock : Form, IScreens, IViewFor<frmClockViewModel>
     {
         private readonly ISettings _settings;
         private readonly SkinPackCollection _skinpacks;
@@ -31,7 +31,6 @@ namespace CodeMade.Clock
             _knownTypes = knownTypes;
 
             ViewModel = new frmClockViewModel(settings, skinpacks, new ClockTimer(), new LocationFixer(this), skinOverride, knownTypes: knownTypes);
-
 
             this.WhenActivated(disposable =>
             {

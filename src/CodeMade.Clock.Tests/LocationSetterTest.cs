@@ -18,7 +18,7 @@ namespace CodeMade.Clock.Tests
             };
             var setter = new LocationFixer(receiver);
             var targetLocation = new Point(50, 50);
-            Assert.AreEqual(targetLocation, setter.FixLocation(targetLocation));
+            Assert.AreEqual(targetLocation, setter.FixLocation(targetLocation, receiver.Size));
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace CodeMade.Clock.Tests
             };
             var setter = new LocationFixer(receiver);
             var targetLocation = new Point(950, 50);
-            Assert.AreEqual(targetLocation, setter.FixLocation(targetLocation));
+            Assert.AreEqual(targetLocation, setter.FixLocation(targetLocation, receiver.Size));
         }
 
         private static IEnumerable<object[]> TestCasesForClosestScreen()
@@ -63,10 +63,10 @@ namespace CodeMade.Clock.Tests
                 Screens = screens
             };
             var setter = new LocationFixer(receiver);
-            Assert.AreEqual(expected, setter.FixLocation(location));
+            Assert.AreEqual(expected, setter.FixLocation(location, receiver.Size));
         }
 
-        class TestLocationReceiver : ILocationReceiver
+        class TestLocationReceiver : IScreens
         {
             public Point Location { get; set; }
             public Size Size => new Size(100, 100);

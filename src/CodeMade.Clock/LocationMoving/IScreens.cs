@@ -3,9 +3,8 @@ using System.Drawing;
 
 namespace CodeMade.Clock.LocationMoving
 {
-    public interface ILocationReceiver
+    public interface IScreens
     {
-        public Size Size { get; }
         public IEnumerable<Rectangle> Screens { get; }
     }
 }

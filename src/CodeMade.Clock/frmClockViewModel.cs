@@ -99,7 +99,7 @@ namespace CodeMade.Clock
             {
                 Width = _settings.Size.Width;
                 Height = _settings.Size.Height;
-                Location = _locationFixer.FixLocation(_settings.Location);
+                Location = _locationFixer.FixLocation(_settings.Location, _settings.Size);
             }
             else
             {
@@ -128,11 +128,11 @@ namespace CodeMade.Clock
             Canvas canvas;
             if (string.IsNullOrEmpty(skinOverride) || !File.Exists(skinOverride))
             {
-                var skin = _skinpacks.Packs[_settings.SelectedSkinpack]?.Skins
+                var skin = _skinpacks.Find(_settings.SelectedSkinpack)?.Skins
                                 .FirstOrDefault(s => s.Name.Equals(_settings.SelectedSkin, StringComparison.OrdinalIgnoreCase));
                 if (skin == null)
                 {
-                    skin = _skinpacks.Packs.First().Value.Skins.First();
+                    skin = _skinpacks.DefaultSkin;
                 }
                 canvas = skin.Canvas;
             }

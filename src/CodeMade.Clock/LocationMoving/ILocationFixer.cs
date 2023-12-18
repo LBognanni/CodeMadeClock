@@ -4,6 +4,6 @@ namespace CodeMade.Clock.LocationMoving
 {
     public interface ILocationFixer
     {
-        Point FixLocation(Point location);
+        Point FixLocation(Point location, Size size);
     }
 }
