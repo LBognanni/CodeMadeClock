@@ -12,6 +12,11 @@ using System.Collections.ObjectModel;
 using System.Reactive.Concurrency;
 using System.Reactive;
 using System.Windows.Forms;
+using CodeMade.ScriptedGraphics;
+using System.IO;
+using NodaTime;
+using System.Drawing;
+using NodaTime.Extensions;
 
 namespace CodeMade.Clock
 {
@@ -19,7 +24,6 @@ namespace CodeMade.Clock
     {
         private readonly ISettings _settings;
         private readonly SkinPackCollection _skinPacks;
-        private readonly IEnumerable<string> _skinPackList;
         private string _selectedSkinPack;
         private string _selectedSkin;
         private ObservableAsPropertyHelper<IEnumerable<SelectListItemViewModel>> _skins;
@@ -38,15 +42,15 @@ namespace CodeMade.Clock
                 .Select(sp => GetSkins(sp).ToList())
                 .ToProperty(this, x => x.Skins);
 
-            _skinPackList = _skinPacks.Packs.Keys;
-
             this.WhenAnyValue(x => x.SelectedSkin).ObserveOn(customMainThreadScheduler).Subscribe(UpdateSelectedSkin);
 
         }
 
-        public void AddSkinPack(Func<(string Title, string Filter), FileOpenResult> browser)
+        public void AddSkinPack(string filePath)
         {
-            throw new NotImplementedException();
+            var directory  = Path.GetDirectoryName(filePath);
+            var fileName = Path.GetFileName(filePath);
+            _skinPacks.Import(new CombinedFileReader(directory), fileName);
         }
 
         public void SaveChanges()
@@ -72,13 +76,16 @@ namespace CodeMade.Clock
 
         private IEnumerable<SelectListItemViewModel> GetSkins(string packName)
         {
-            foreach(var x in _skinPacks.Packs[packName].Skins)
+            var pack = _skinPacks.Find(packName);
+
+            var fixedTime = new FakeTimer();
+            foreach (var x in pack.Skins)
             {
                 var skin = new SelectListItemViewModel
                 {
                     Title = x.Name,
                     Description = x.Description,
-                    Image = x.Canvas.RenderAt(128, 128),
+                    Image = RenderFakeTime(fixedTime, x),
                     Selected = x.Name == SelectedSkin
                 };
                 skin.WhenAnyValue(x => x.Selected).Where(x => x).Subscribe(x =>
@@ -89,7 +96,21 @@ namespace CodeMade.Clock
             }
         }
 
-        public IEnumerable<string> SkinPackList => _skinPackList;
+        private Image RenderFakeTime(FakeTimer fixedTime, Skin x)
+        {
+            var canvas = new ClockCanvas(fixedTime, x.Canvas);
+            canvas.Update();
+            return canvas.RenderAt(128, 128);
+        }
+
+        class FakeTimer : ITimer
+        {
+            public Instant GetTime() =>
+                DateTime.Today.AddHours(10).AddMinutes(10).AddSeconds(33).ToUniversalTime().ToInstant();
+        }
+
+        public ObservableCollection<string> SkinPackList => new ObservableCollection<string>(_skinPacks.PackNames);
+
         public string SelectedSkinPack
         {
             get => _selectedSkinPack;

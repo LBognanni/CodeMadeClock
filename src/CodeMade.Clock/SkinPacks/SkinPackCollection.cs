@@ -14,7 +14,7 @@ namespace CodeMade.Clock.SkinPacks
         private readonly IFileWriter _fileWriter;
         private readonly Type[] _knownTypes;
 
-        public IDictionary<string, SkinPack> Packs { get; }
+        private IDictionary<string, SkinPack> Packs { get; }
 
         internal SkinPackCollection(IFileReader fileReader, IFileWriter fileWriter, Type[] knownTypes)
         {
@@ -32,6 +32,13 @@ namespace CodeMade.Clock.SkinPacks
                 }
             }
         }
+
+        public SkinPack Find(string name) => 
+            Packs.FirstOrDefault(p => p.Value.Name.Equals(name, StringComparison.OrdinalIgnoreCase) || p.Key.Equals(name, StringComparison.OrdinalIgnoreCase)).Value;
+
+        public IEnumerable<string> PackNames => Packs.Select(p => p.Value.Name);
+
+        public Skin DefaultSkin => Packs.First().Value.Skins.First();
 
         public static SkinPackCollection Load(string localUserSkinPacksFolder, string fallbackPath, Type[] knownTypes)
         {

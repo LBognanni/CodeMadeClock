@@ -56,7 +56,7 @@ namespace CodeMade.Clock.Tests
             };
 
             _sut.Import(new FakeFileReader(files), "other pack");
-            CollectionAssert.Contains(_sut.Packs.Keys, "other pack");
+            CollectionAssert.Contains(_sut.PackNames, "other pack");
         }
     }
 }

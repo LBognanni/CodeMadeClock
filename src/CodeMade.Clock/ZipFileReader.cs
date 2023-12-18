@@ -1,6 +1,7 @@
 ﻿using CodeMade.ScriptedGraphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -34,7 +35,15 @@ namespace CodeMade.Clock
         {
             var tempFile = Path.GetTempFileName();
             _filesToDelete.Add(tempFile);
-            _zipFile.GetEntry(fontFile).ExtractToFile(tempFile);
+            var entry = _zipFile.Entries.FirstOrDefault(x => x.Name.Equals(fontFile, StringComparison.OrdinalIgnoreCase));
+            if (entry != null)
+            {
+                entry.ExtractToFile(tempFile, true);
+            }
+            else
+            {
+                Debugger.Break();
+            }
             return tempFile;
         }
 

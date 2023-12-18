@@ -22,7 +22,7 @@ namespace CodeMade.Clock
 
             this.WhenActivated(disposable =>
             {
-                cmbSkinPack.DataSource = ViewModel.SkinPackList.ToList();
+                cmbSkinPack.DataSource = ViewModel.SkinPackList;
                 cmbSkinPack.DropDownStyle = ComboBoxStyle.DropDownList;
 
                 this.Bind(ViewModel,
@@ -59,8 +59,7 @@ namespace CodeMade.Clock
                 {
                     try
                     {
-                        //_skinPacks.Import(new CombinedFileReader(Path.GetDirectoryName(dialog.FileName)), Path.GetFileName(dialog.FileName));
-                        //LoadSkinpackList();
+                        ViewModel.AddSkinPack(dialog.FileName);
                     }
                     catch (Exception ex)
                     {
