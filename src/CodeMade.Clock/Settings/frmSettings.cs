@@ -62,6 +62,12 @@ namespace CodeMade.Clock
                     try
                     {
                         ViewModel.AddSkinPack(dialog.FileName);
+                        cmbSkinPack.DataSource = ViewModel.SkinPackList;
+                        try
+                        {
+                            this.cmbSkinPack.SelectedIndex = this.cmbSkinPack.Items.Count - 1;
+                        }
+                        catch { }
                     }
                     catch (Exception ex)
                     {
