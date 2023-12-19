@@ -1,8 +1,10 @@
 ﻿using CodeMade.Clock.SkinPacks;
 using ReactiveUI;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Security.Policy;
 using System.Windows.Forms;
 
 namespace CodeMade.Clock
@@ -66,6 +68,22 @@ namespace CodeMade.Clock
                         MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
+            }
+        }
+
+        private void picDownload_Click(object sender, EventArgs e)
+        {
+            string url = "https://www.buymeacoffee.com/codemade/e/194709";
+
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(url);
+                psi.UseShellExecute = true;
+                System.Diagnostics.Process.Start(psi);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening link: {ex.Message}.\r\n Visit {url}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

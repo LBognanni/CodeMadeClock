@@ -205,6 +205,12 @@ namespace CodeMade.Clock
             }
         }
 
+        public void CopyImage()
+        {
+            var img = _clockCanvas.Render(_scaleFactor);
+            Clipboard.SetImage(img);
+        }
+
         private void ReloadCanvas(string fileName)
         {
             try
