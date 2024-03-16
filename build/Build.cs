@@ -220,10 +220,14 @@ class Build : NukeBuild
         var classes = members.Where(x => x.Type == "T").ToList();
         var allProps = members.Where(x => x.Type == "P").ToList();
 
+        var ignoredClasses = new[] { "T:CodeMade.Clock.TimedLayer", "T:CodeMade.Clock.TimedText" };
+
         foreach (var cls in classes)
         {
-            if (cls.Name == "T:CodeMade.Clock.TimedLayer")
+            if (ignoredClasses.Contains(cls.Name))
+            {
                 continue;
+            }
 
             Console.WriteLine(cls.Name);
 

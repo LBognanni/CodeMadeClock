@@ -25,7 +25,7 @@ namespace CodeMade.ScriptedGraphics
     ///     }
     /// }
     /// </example>
-    public class TextShape : IShape, IDisposable
+    public class TextShape : IShape, IDisposable, ITextShape
     {
         private readonly PrivateFontCollection _fontCollection;
         private readonly IFileReader _fileReader;
@@ -102,7 +102,7 @@ namespace CodeMade.ScriptedGraphics
 
         protected Font GetFont(float scaleFactor)
         {
-            if(!string.IsNullOrEmpty(FontFile))
+            if (!string.IsNullOrEmpty(FontFile))
             {
                 return GetCustomFont(scaleFactor);
             }
