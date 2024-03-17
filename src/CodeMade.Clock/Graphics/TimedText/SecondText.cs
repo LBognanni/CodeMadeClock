@@ -3,7 +3,26 @@ using NodaTime;
 
 namespace CodeMade.Clock
 {
-    internal class SecondText : TimedText
+    /// <summary>
+    /// A text shape that displays the current second
+    /// 
+    /// Shares the same properties as the TextShape, however the `Text` property is ignored.
+    /// </summary>
+    /// <see cref="CodeMade.ScriptedGraphics.TextShape"/>"/>
+    /// <example>
+	///	{	
+	///	    "$type": "SecondText",
+    ///     "FontName": "Tahoma",
+    ///     "FontSize": 6,
+    ///     "Color": "#cefc",
+    ///     "Centered": true,
+    ///     "Position": {
+    ///         "X": 50,
+    ///         "Y": 67
+    ///     }
+	///	},
+    /// </example>
+    public class SecondText : TimedText
     {
         public SecondText(IFileReader fileReader) : base(fileReader)
         {

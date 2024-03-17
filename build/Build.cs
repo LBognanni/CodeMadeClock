@@ -236,6 +236,17 @@ class Build : NukeBuild
             md.AppendLine();
             md.AppendLine(cls.SanitizedSummary);
 
+            if (cls.See != null)
+            {
+                var references = cls.See.Select(see =>
+                {
+                    var reference = members.First(x => x.Name == see.To);
+                    return $"[{reference.ClassName}]({reference.ClassName}.md)";
+                });
+
+                md.AppendLine($"See {string.Join(", ", references)}");
+            }
+
             WriteProperties(members, allProps, cls, md);
 
             if (!string.IsNullOrWhiteSpace(cls.Example))

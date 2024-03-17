@@ -3,6 +3,25 @@ using NodaTime;
 
 namespace CodeMade.Clock
 {
+    /// <summary>
+    /// A text shape that displays the current hour
+    /// 
+    /// Shares the same properties as the TextShape, however the `Text` property is ignored.
+    /// </summary>
+    /// <see cref="CodeMade.ScriptedGraphics.TextShape"/>"/>
+    /// <example>
+	///	{	
+	///	    "$type": "HourText",
+    ///     "FontName": "Tahoma",
+    ///     "FontSize": 6,
+    ///     "Color": "#cefc",
+    ///     "Centered": true,
+    ///     "Position": {
+    ///         "X": 50,
+    ///         "Y": 67
+    ///     }
+	///	},
+    /// </example>
     public class HourText : TimedText
     {
         public HourText(IFileReader fileReader) : base(fileReader)

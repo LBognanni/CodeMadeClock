@@ -15,8 +15,8 @@ namespace CodeMade.ScriptedGraphics
     /// {
     ///     "$type": "TextShape",
     ///     "Text": "codemade.net",
-    ///     "FontName": "Tahoma",
-    ///     "FontSizePx": 6,
+    ///     "Font": "Tahoma",
+    ///     "FontSize": 6,
     ///     "Color": "#cefc",
     ///     "Centered": true,
     ///     "Position": {
@@ -35,8 +35,17 @@ namespace CodeMade.ScriptedGraphics
         /// </summary>
         public string Text { get; set; }
 
+        /// <summary>
+        /// Name of the font. It should be a font that is installed in the system.
+        /// 
+        /// If `FontFile` is specified, this will be ignored.
+        /// </summary>
         public string FontName { get; set; }
         public float FontSizePx { get; set; }
+
+        /// <summary>
+        /// Location of the text, in canvas units
+        /// </summary>
         public Vertex Position { get; set; }
 
         /// <summary>
@@ -44,13 +53,14 @@ namespace CodeMade.ScriptedGraphics
         /// </summary>
         /// <see cref="CodeMade.ScriptedGraphics.Colors.Colors"/>
         public string Color { get; set; }
+        
         /// <summary>
         /// `true` if the text should be centered at `Position`, false if it shoud begin at `Position`
         /// </summary>
         public bool Centered { get; set; }
+
         /// <summary>
-        /// Name of the font. It should be a font that is installed in the system
-        /// If `FontFile` is specified, this will be ignored.
+        /// Alias of FontName
         /// </summary>
         public string Font { get => FontName; set => FontName = value; }
 
