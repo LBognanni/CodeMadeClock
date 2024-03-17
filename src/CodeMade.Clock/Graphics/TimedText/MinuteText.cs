@@ -34,7 +34,7 @@ namespace CodeMade.Clock
 
         public override void Update(LocalTime time)
         {
-            Text = time.Minute.ToString();
+            Text = time.Minute.ToString(Format);
         }
     }
 }

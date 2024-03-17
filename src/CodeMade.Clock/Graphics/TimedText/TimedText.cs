@@ -49,6 +49,8 @@ namespace CodeMade.Clock
 
         public string Text { get => _textShape.Text; set => _textShape.Text = value; }
 
+        public string Format { get; set; } = "00";
+
         public override void Render(System.Drawing.Graphics g, float scaleFactor = 1) => _textShape.Render(g, scaleFactor);
 
         public void Dispose() => _textShape.Dispose();
