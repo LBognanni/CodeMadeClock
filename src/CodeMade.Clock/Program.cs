@@ -53,6 +53,7 @@ namespace CodeMade.Clock
                 typeof(HourText),
                 typeof(MinuteText),
                 typeof(SecondText),
+                typeof(BlinkLayer),
             };
 
             var settings = Settings.Load(Path.Combine(settingsPath, "settings.json"));
