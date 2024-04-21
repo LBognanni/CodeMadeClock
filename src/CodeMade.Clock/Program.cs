@@ -50,6 +50,10 @@ namespace CodeMade.Clock
                 typeof(MinutesLayer),
                 typeof(SecondsLayer),
                 typeof(NumbersLayer),
+                typeof(HourText),
+                typeof(MinuteText),
+                typeof(SecondText),
+                typeof(BlinkLayer),
             };
 
             var settings = Settings.Load(Path.Combine(settingsPath, "settings.json"));

@@ -20,11 +20,11 @@ namespace CodeMade.Clock
             _hasSmoothSeconds = new Lazy<bool>(() => _layers.OfType<SecondsLayer>().Any(x => x.Smooth));
         }
 
-        private IEnumerable<Layer> FindLayers(IEnumerable<Layer> layers)
+        private static IEnumerable<Layer> FindLayers(IEnumerable<Layer> layers)
         {
             foreach(var layer in layers)
             {
-                foreach (var subLayer in FindLayers(layer.Shapes.Where(x => x.GetType().IsAssignableTo(typeof(Layer))).Cast<Layer>()))
+                foreach (var subLayer in FindLayers(layer.Shapes.OfType<Layer>()))
                 {
                     yield return subLayer;
                 }
@@ -39,9 +39,9 @@ namespace CodeMade.Clock
         public void Update()
         {
             var time = _timer.GetTime();
-            foreach (var layer in _layers)
+            foreach (var layer in _layers.OfType<TimedLayer>())
             {
-                LayerExtensions.UpdateLayer(layer, time);
+                layer.Update(time);
             }
         }
 
@@ -55,7 +55,11 @@ namespace CodeMade.Clock
             var grouper = new LayerSlicer(
                 typeof(HoursLayer),
                 typeof(MinutesLayer),
-                typeof(SecondsLayer)
+                typeof(SecondsLayer),
+                typeof(HourText),
+                typeof(MinuteText),
+                typeof(SecondText),
+                typeof(BlinkLayer)
             );
 
             var newCanvas = new Canvas(_canvas.Width, _canvas.Height, "#0000");

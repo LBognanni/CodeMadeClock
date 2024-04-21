@@ -103,7 +103,6 @@ namespace CodeMade.Clock
         public string FontFile { get; set; }
 
         private Lazy<TextShapeWithRotation[]> _textShapes;
-        private Graphics _graphics;
         private readonly IFileReader _fileReader;
 
         public NumbersLayer(IFileReader fileReader)
@@ -159,8 +158,6 @@ namespace CodeMade.Clock
 
         protected override void RenderShapes(Graphics g, float scaleFactor)
         {
-            _graphics = g;
-
             foreach (var shape in _textShapes.Value)
             {
                 shape.Render(g, scaleFactor);

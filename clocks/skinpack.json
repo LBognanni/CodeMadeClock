@@ -1,5 +1,5 @@
 {
-	"Version": "1.1.1",
+	"Version": "1.2.0",
 	"Name": "Default Pack",
 	"Description": "Default Clock pack",
 	"Skins": [
@@ -42,6 +42,16 @@
 			"Name": "Flat",
 			"Description": "",
 			"Definition": "flat.json"
+		},
+		{
+			"Name": "Digital",
+			"Description": "",
+			"Definition": "digital.json"
+		},
+		{
+			"Name": "Digital Dark",
+			"Description": "...will it explode?",
+			"Definition": "digital2.json"
 		}		
 	]
 }

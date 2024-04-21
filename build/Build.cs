@@ -220,10 +220,14 @@ class Build : NukeBuild
         var classes = members.Where(x => x.Type == "T").ToList();
         var allProps = members.Where(x => x.Type == "P").ToList();
 
+        var ignoredClasses = new[] { "T:CodeMade.Clock.TimedLayer", "T:CodeMade.Clock.TimedText" };
+
         foreach (var cls in classes)
         {
-            if (cls.Name == "T:CodeMade.Clock.TimedLayer")
+            if (ignoredClasses.Contains(cls.Name))
+            {
                 continue;
+            }
 
             Console.WriteLine(cls.Name);
 
@@ -231,6 +235,17 @@ class Build : NukeBuild
             md.AppendLine($"# {cls.ClassName}");
             md.AppendLine();
             md.AppendLine(cls.SanitizedSummary);
+
+            if (cls.See != null)
+            {
+                var references = cls.See.Select(see =>
+                {
+                    var reference = members.First(x => x.Name == see.To);
+                    return $"[{reference.ClassName}]({reference.ClassName}.md)";
+                });
+
+                md.AppendLine($"See {string.Join(", ", references)}");
+            }
 
             WriteProperties(members, allProps, cls, md);
 

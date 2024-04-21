@@ -12,6 +12,20 @@ Text to print
 
 
 
+### FontName
+
+Name of the font. It should be a font that is installed in the system.
+
+If `FontFile` is specified, this will be ignored.
+
+
+
+### Position
+
+Location of the text, in canvas units
+
+
+
 ### Color
 
 Color of the text. It should be a simple color, gradients are not supported.
@@ -27,8 +41,7 @@ See [Colors](Colors.md)
 
 ### Font
 
-Name of the font. It should be a font that is installed in the system
-If `FontFile` is specified, this will be ignored.
+Alias of FontName
 
 
 
@@ -54,8 +67,8 @@ If using this, the `Font` property is ignored
 {
     "$type": "TextShape",
     "Text": "codemade.net",
-    "FontName": "Tahoma",
-    "FontSizePx": 6,
+    "Font": "Tahoma",
+    "FontSize": 6,
     "Color": "#cefc",
     "Centered": true,
     "Position": {
