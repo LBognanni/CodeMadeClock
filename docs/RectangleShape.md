@@ -42,6 +42,13 @@ True to enable anti-aliasing on this rectangle. Set this to `true` if the rectan
 
 
 
+### CornerRadius
+
+The radius of the corners of the rectangle. If set to 0, the rectangle will have sharp corners.
+If set to a value greater than 0, the rectangle will have rounded corners, and the "Smooth" option will also implicitly be true.
+
+
+
 
 ---
 

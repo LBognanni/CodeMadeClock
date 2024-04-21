@@ -20,6 +20,12 @@ If `FontFile` is specified, this will be ignored.
 
 
 
+### Position
+
+Location of the text, in canvas units
+
+
+
 ### Color
 
 Color of the text. It should be a simple color, gradients are not supported.
