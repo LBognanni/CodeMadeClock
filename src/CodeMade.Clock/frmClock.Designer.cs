@@ -36,12 +36,13 @@
             smallerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             largerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            tsmAbout = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             tsmClose = new System.Windows.Forms.ToolStripMenuItem();
             il16 = new System.Windows.Forms.ImageList(components);
             il24 = new System.Windows.Forms.ImageList(components);
             il32 = new System.Windows.Forms.ImageList(components);
-            tsmAbout = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            nfiApp = new System.Windows.Forms.NotifyIcon(components);
             contextMenu.SuspendLayout();
             SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             contextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmSettings, sizeToolStripMenuItem, toolStripMenuItem1, tsmAbout, toolStripSeparator1, tsmClose });
             contextMenu.Name = "contextMenu";
-            contextMenu.Size = new System.Drawing.Size(211, 126);
+            contextMenu.Size = new System.Drawing.Size(211, 104);
             // 
             // tsmSettings
             // 
@@ -85,6 +86,18 @@
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new System.Drawing.Size(207, 6);
             // 
+            // tsmAbout
+            // 
+            tsmAbout.Name = "tsmAbout";
+            tsmAbout.Size = new System.Drawing.Size(210, 22);
+            tsmAbout.Text = "About CodeMade Clock...";
+            tsmAbout.Click += tsmAbout_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(207, 6);
+            // 
             // tsmClose
             // 
             tsmClose.Name = "tsmClose";
@@ -113,17 +126,13 @@
             il32.TransparentColor = System.Drawing.Color.Transparent;
             il32.Images.SetKeyName(0, "close");
             // 
-            // tsmAbout
+            // nfiApp
             // 
-            tsmAbout.Name = "tsmAbout";
-            tsmAbout.Size = new System.Drawing.Size(210, 22);
-            tsmAbout.Text = "About CodeMade Clock...";
-            tsmAbout.Click += tsmAbout_Click;
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(207, 6);
+            nfiApp.ContextMenuStrip = contextMenu;
+            nfiApp.Icon = (System.Drawing.Icon)resources.GetObject("nfiApp.Icon");
+            nfiApp.Text = "CodeMade Clock";
+            nfiApp.Visible = true;
+            nfiApp.MouseDown += nfiApp_MouseDown;
             // 
             // frmClock
             // 
@@ -153,6 +162,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmSettings;
         private System.Windows.Forms.ToolStripMenuItem tsmAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.NotifyIcon nfiApp;
     }
 }
 

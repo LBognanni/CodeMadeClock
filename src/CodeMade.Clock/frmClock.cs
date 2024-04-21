@@ -131,5 +131,13 @@ namespace CodeMade.Clock
             form.TopMost = this.TopMost;
             form.ShowDialog();
         }
+
+        private void nfiApp_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                BringToFront();
+            }
+        }
     }
 }
