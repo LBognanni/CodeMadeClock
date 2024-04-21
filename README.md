@@ -1,5 +1,5 @@
 # 🕑 CodeMade Clock
-A simple, beautiful analog clock for Windows. More screenshot and a FAQ [on the official page](https://codemade.net/clock/)
+A simple, beautiful analog & digital clock for Windows 10+. More screenshots and a FAQ [on the official page](https://codemade.net/clock/)
 
 ![CodeMade Clock screenshot](https://codemade.net/images/hero-clocks.png)
 

@@ -1,0 +1,126 @@
+{
+    "Width": 80,
+    "Height": 35,
+    "Layers": [
+        {
+            "$type": "GaussianBlurLayer",
+            "BlurRadius": 2,
+            "Shapes": [
+                {
+                    "$type": "RectangleShape",
+                    "Left": 5,
+                    "Width": 63,
+                    "Top": 5,
+                    "Height": 26,
+                    "Color": "#000"
+                }
+            ]
+        },
+        {
+            "$type": "Layer",
+            "Shapes": [
+                {
+                    "$type": "RectangleShape",
+                    "Left": 5,
+                    "Width": 63,
+                    "Top": 5,
+                    "Height": 26,
+                    "Color": "90-#ddd-#777",
+                    "CornerRadius": 3
+                },
+                {
+                    "$type": "RectangleShape",
+                    "Left": 8,
+                    "Width": 57,
+                    "Top": 8,
+                    "Height": 20,
+                    "Color": "#9bae49",
+                    "CornerRadius": 2
+                },
+                {
+                    "$type": "RectangleShape",
+                    "Left": 8,
+                    "Width": 57,
+                    "Top": 8,
+                    "Height": 2.5,
+                    "Color": "90-#535e26-#fff0",
+                    "CornerRadius": 2
+                },
+                {
+                    "$type": "RectangleShape",
+                    "Left": 8,
+                    "Width": 2,
+                    "Top": 8,
+                    "Height": 20,
+                    "Color": "#535e26-#9a40",
+                    "CornerRadius": 2
+                },
+                {
+                    "$type": "GaussianBlurLayer",
+                    "BlurRadius": 1,
+                    "Shapes": [
+                        {
+                            "$type": "TextShape",
+                            "Position": {
+                                "X": 12,
+                                "Y": 13
+                            },
+                            "FontSize": 10,
+                            "Text": "88 : 88",
+                            "Color": "#2221",
+                            "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
+                        }
+                    ]
+                },
+                {
+                    "$type": "TextShape",
+                    "Position": {
+                        "X": 8,
+                        "Y": 12
+                    },
+                    "FontSize": 10,
+                    "Text": "88 : 88",
+                    "Color": "#2222",
+                    "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
+                },
+
+                {
+                    "$type": "HourText",
+                    "Position": {
+                        "X": 8,
+                        "Y": 12
+                    },
+                    "FontSize": 10,
+                    "Color": "#222",
+                    "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
+                },
+                {
+                    "$type": "MinuteText",
+                    "Position": {
+                        "X": 38.7,
+                        "Y": 12
+                    },
+                    "FontSize": 10,
+                    "Color": "#222",
+                    "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
+                },
+                {
+                    "$type": "BlinkLayer",
+                    "Shapes": [
+                        {
+                            "$type": "TextShape",
+                            "Position": {
+                                "X": 33.2,
+                                "Y": 12
+                            },
+                            "FontSize": 10,
+                            "Text": ":",
+                            "Color": "#222",
+                            "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
