@@ -65,7 +65,7 @@
                                 "X": 12,
                                 "Y": 13
                             },
-                            "FontSize": 10,
+                            "FontSize": 13.6,
                             "Text": "88 : 88",
                             "Color": "#2221",
                             "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
@@ -78,7 +78,7 @@
                         "X": 8,
                         "Y": 12
                     },
-                    "FontSize": 10,
+                    "FontSize": 13.6,
                     "Text": "88 : 88",
                     "Color": "#2222",
                     "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
@@ -90,17 +90,17 @@
                         "X": 8,
                         "Y": 12
                     },
-                    "FontSize": 10,
+                    "FontSize": 13.6,
                     "Color": "#222",
                     "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
                 },
                 {
                     "$type": "MinuteText",
                     "Position": {
-                        "X": 38.7,
+                        "X": 39.1,
                         "Y": 12
                     },
-                    "FontSize": 10,
+                    "FontSize": 13.6,
                     "Color": "#222",
                     "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
                 },
@@ -110,10 +110,10 @@
                         {
                             "$type": "TextShape",
                             "Position": {
-                                "X": 33.2,
+                                "X": 33.5,
                                 "Y": 12
                             },
-                            "FontSize": 10,
+                            "FontSize": 13.6,
                             "Text": ":",
                             "Color": "#222",
                             "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"

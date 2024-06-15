@@ -127,7 +127,7 @@ namespace CodeMade.ScriptedGraphics
                 _fontCollection.AddFontFile(_fileReader.GetFontFile(FontFile));
             }
 
-            return new Font(_fontCollection.Families.First(), FontSize * scaleFactor);
+            return new Font(_fontCollection.Families.First(), FontSize * scaleFactor, GraphicsUnit.Pixel);
         }
 
         protected Font GetInstalledFont(float scaleFactor)

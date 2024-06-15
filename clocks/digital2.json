@@ -47,7 +47,7 @@
                                 "X": 12,
                                 "Y": 13
                             },
-                            "FontSize": 10,
+                            "FontSize": 13,
                             "Text": "88 : 88",
                             "Color": "#2221",
                             "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
@@ -60,7 +60,7 @@
                         "X": 8,
                         "Y": 12
                     },
-                    "FontSize": 10,
+                    "FontSize": 13,
                     "Text": "88 : 88 : 88",
                     "Color": "#f002",
                     "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
@@ -72,17 +72,17 @@
                         "X": 8,
                         "Y": 12
                     },
-                    "FontSize": 10,                    
+                    "FontSize": 13,                    
                     "Color": "#f00c",
                     "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
                 },
                 {
                     "$type": "MinuteText",
                     "Position": {
-                        "X": 38.7,
+                        "X": 38,
                         "Y": 12
                     },
-                    "FontSize": 10,
+                    "FontSize": 13,
                     "Color": "#f00c",
                     "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
                 },
@@ -92,10 +92,10 @@
                         {
                             "$type": "TextShape",
                             "Position": {
-                                "X": 33.2,
+                                "X": 32.5,
                                 "Y": 12
                             },
-                            "FontSize": 10,
+                            "FontSize": 13,
                             "Text": ":",
                             "Color": "#f00c",
                             "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
@@ -103,10 +103,10 @@
                         {
                             "$type": "TextShape",
                             "Position": {
-                                "X": 64,
+                                "X": 62.4,
                                 "Y": 12
                             },
-                            "FontSize": 10,
+                            "FontSize": 13,
                             "Text": ":",
                             "Color": "#f00c",
                             "FontFile": "DSEG7ClassicMini-BoldItalic.ttf"
@@ -116,10 +116,10 @@
                 {
                     "$type": "SecondText",
                     "Position": {
-                        "X": 69.2,
+                        "X": 67.8,
                         "Y":12
                     },
-                    "FontSize": 10,
+                    "FontSize": 13,
                     "Color": "#f00c",
                     "FontFile": "DSEG7ClassicMini-BoldItalic.ttf",
                 }
