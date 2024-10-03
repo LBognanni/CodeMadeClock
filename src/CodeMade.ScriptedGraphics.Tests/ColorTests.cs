@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using System;
 using System.Drawing;
+using System.Globalization;
+using System.Threading;
 
 namespace CodeMade.ScriptedGraphics.Tests
 {
@@ -38,6 +40,18 @@ namespace CodeMade.ScriptedGraphics.Tests
 
             Assert.AreEqual(Color.Blue.ToArgb(), "#0000ffff".ToColor().ToArgb());
             Assert.AreEqual(Color.Green.ToArgb(), "#008000ff".ToColor().ToArgb());
+        }
+
+        [TestCase("en-US")]
+        [TestCase("it-IT")]
+        [TestCase("fr-FR")]
+        public void Parse_Gradients(string threadCulture)
+        {
+            var culture = new CultureInfo(threadCulture);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            var  color = Colors.Colors.ParseBrush("(0.5,0.5)-red-green-blue", new RectangleF(0, 0, 100, 100));
         }
     }
 }
