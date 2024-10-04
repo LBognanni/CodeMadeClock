@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -45,6 +46,7 @@ namespace CodeMade.ScriptedGraphics
             }
         }
 
+        private static CultureInfo _cultureInfo = new CultureInfo("en-US");
 
         public static IEnumerable<Vertex> VertexArrayFromString(string path)
         {
@@ -56,11 +58,11 @@ namespace CodeMade.ScriptedGraphics
             {
                 if (i % 2 == 0)
                 {
-                    v = new Vertex() { X = float.Parse(numbers[i]) };
+                    v = new Vertex() { X = float.Parse(numbers[i], _cultureInfo) };
                 }
                 else
                 {
-                    v.Y = float.Parse(numbers[i]);
+                    v.Y = float.Parse(numbers[i], _cultureInfo);
                     yield return v;
                 }
             }

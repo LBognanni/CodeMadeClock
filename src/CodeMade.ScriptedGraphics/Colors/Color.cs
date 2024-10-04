@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -54,6 +55,8 @@ namespace CodeMade.ScriptedGraphics.Colors
     /// </summary>
     public static class Colors
     {
+        private static CultureInfo _cultureInfo = new CultureInfo("en-US");
+
         public static IEnumerable<BrushOrColoredRegion> ParseBrush(this string s, RectangleF rect)
         {
             if (string.IsNullOrEmpty(s))
@@ -89,12 +92,12 @@ namespace CodeMade.ScriptedGraphics.Colors
                 throw new FormatException($"Invalid radial gradient format: `{s}`");
             }
             var coords = matches.Groups[1].Value.Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            var x = float.Parse(coords[0]);
-            var y = float.Parse(coords[1]);
+            var x = float.Parse(coords[0], _cultureInfo);
+            var y = float.Parse(coords[1], _cultureInfo);
             var sz = 1.0f;
             if(coords.Length == 3)
             {
-                sz = float.Parse(coords[2]);
+                sz = float.Parse(coords[2], _cultureInfo);
             }
             var colors = matches.Groups[2].Value.Split("-".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
@@ -115,13 +118,13 @@ namespace CodeMade.ScriptedGraphics.Colors
             }
             else if (parts.Length == 3)
             {
-                angle = float.Parse(parts[0]);
+                angle = float.Parse(parts[0], _cultureInfo);
                 color1 = parts[1].ToColor();
                 color2 = parts[2].ToColor();
             }
             else
             {
-                angle = float.Parse(parts[0]);
+                angle = float.Parse(parts[0], _cultureInfo);
                 var colors = parts.Skip(1).Select(x => x.ToColor()).ToArray();
                 var multiColorBrush = new LinearGradientBrush(rect, Color.DeepPink, Color.DeepPink, angle)
                 {
@@ -153,8 +156,8 @@ namespace CodeMade.ScriptedGraphics.Colors
                     var parts = split.Split(", ()".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length == 2)
                     {
-                        cx = float.Parse(parts[0]);
-                        cy = float.Parse(parts[1]);
+                        cx = float.Parse(parts[0], _cultureInfo);
+                        cy = float.Parse(parts[1], _cultureInfo);
                     }
                     continue;
                 }
